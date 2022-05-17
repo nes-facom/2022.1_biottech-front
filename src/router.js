@@ -1,176 +1,276 @@
+import { h, resolveComponent } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router';
 import App from './App.vue';
 
 const routes = [
     {
-        path: '/',
-        name: 'app',
-        component: App,
-        children: [
+      path: '/',
+      name: 'app',
+      component: App,
+      children: [
+        {
+          path: '',
+          name: 'Configurações',
+          component: () => import('./pages/CrudDemo.vue'),
+        },
+        {
+          path: '/pesquisador',
+          name: 'Pesquisador',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
             {
-                path: '',
-                name: 'dashboard',
-                component: () => import('./components/Dashboard.vue')
+              path: '',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/formlayout',
-                name: 'formlayout',
-                component: () => import('./components/FormLayoutDemo.vue')
+              path: '/pesquisador/desativado',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/pedido',
+          name: 'Pedido',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/input',
-                name: 'input',
-                component: () => import('./components/InputDemo.vue')
+              path: '/pedido/desativado',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/previsao',
+          name: 'Previsão',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/floatlabel',
-                name: 'floatlabel',
-                component: () => import('./components/FloatLabelDemo.vue')
+              path: '/previsao/desativado',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/saida',
+          name: 'Saída',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/invalidstate',
-                name: 'invalidstate',
-                component: () => import('./components/InvalidStateDemo.vue')
+              path: '/saida/desativado',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/caixa',
+          name: 'Caixa',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/button',
-                name: 'button',
-                component: () => import('./components/ButtonDemo.vue')
+              path: '/caixa/desativado',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/tempumi',
+          name: 'Temperatura e Umidade',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '',
+              name: 'Menu temperatura e umidade',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/table',
-                name: 'table',
-                component: () => import('./components/TableDemo.vue')
+              path: '/tempumi/desativado',
+              name: 'Temperatura e umidade arquivadas',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/cxmatriz',
+          name: 'Caixa Matriz',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '',
+              name: 'Menu caixa matriz',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/list',
-                name: 'list',
-                component: () => import('./components/ListDemo.vue')
+              path: '/cxmatriz/desativado',
+              name: 'Caixas matrizes arquivadas',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/parto',
+          name: 'Parto',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '',
+              name: 'Menu parto',
+              component: () => import('./pages/CrudDemo.vue'),
             },
             {
-                path: '/tree',
-                name: 'tree',
-                component: () => import('./components/TreeDemo.vue')
+              path: '/parto/desativado',
+              name: 'Partos arquivados',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/exp',
+          name: 'Experimentação',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '/exp/pedido',
+              name: 'Pedido',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/panel',
-                name: 'panel',
-                component: () => import('./components/PanelsDemo.vue')
+              path: '/exp/pesquisadores',
+              name: 'Pesquisadores',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/overlay',
-                name: 'overlay',
-                component: () => import('./components/OverlayDemo.vue')
+              path: '/exp/previsao',
+              name: 'Previsão',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/media',
-                name: 'media',
-                component: () => import('./components/MediaDemo.vue')
+              path: '/exp/resultado',
+              name: 'Resultado',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/criacao',
+          name: 'Criação',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '/criacao/dados',
+              name: 'Entrada Dados',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/menu',
-                component: () => import('./components/MenuDemo.vue'),
-                children: [
-                    {
-                        path: '',
-                        component: () => import('./components/menu/PersonalDemo.vue')
-                    },
-                    {
-                        path: '/menu/seat',
-                        component: () => import('./components/menu/SeatDemo.vue')
-                    },
-                    {
-                        path: '/menu/payment',
-                        component: () => import('./components/menu/PaymentDemo.vue')
-                    },
-                    {
-                        path: '/menu/confirmation',
-                        component: () => import('./components/menu/ConfirmationDemo.vue')
-                    },
-                ],
+              path: '/criacao/saidas',
+              name: 'Saídas',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/messages',
-                name: 'messages',
-                component: () => import('./components/MessagesDemo.vue')
+              path: '/criacao/tempumi',
+              name: 'Temperatura e Umidade',
+              component: () => import('./components/TableDemo.vue'),
+            },
+          ],
+        },
+        {
+          path: '/repro',
+          name: 'Reprodução',
+          component: {
+            render() {
+              return h(resolveComponent('router-view'))
+            },
+          },
+          children: [
+            {
+              path: '/repro/nascdesma',
+              name: 'Nascimento e Desmame',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/file',
-                name: 'file',
-                component: () => import('./components/FileDemo.vue')
+              path: '/repro/matrizes',
+              name: 'Matrizes',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/chart',
-                name: 'chart',
-                component: () => import('./components/ChartDemo.vue')
+              path: '/repro/progacasal',
+              name: 'Programação Acasalamento',
+              component: () => import('./components/TableDemo.vue'),
             },
             {
-                path: '/misc',
-                name: 'misc',
-                component: () => import('./components/MiscDemo.vue')
+              path: '/repro/controlerepro',
+              name: 'Controle Reprodutivo',
+              component: () => import('./components/TableDemo.vue'),
             },
-            {
-                path: '/crud',
-                name: 'crud',
-                component: () => import('./pages/CrudDemo.vue')
-            },
-            {
-                path: '/timeline',
-                name: 'timeline',
-                component: () => import('./pages/TimelineDemo.vue')
-            },
-            {
-                path: '/empty',
-                name: 'empty',
-                component: () => import('./components/EmptyPage.vue')
-            },
-            {
-                path: '/documentation',
-                name: 'documentation',
-                component: () => import('./components/Documentation.vue')
-            },
-            {
-                path: '/blocks',
-                name: 'blocks',
-                component: () => import('./components/BlocksDemo.vue')
-            },
-            {
-                path: '/icons',
-                name: 'icons',
-                component: () => import('./components/IconsDemo.vue')
-            }
-        ]
+          ],
+        },
+      ],
     },
     {
-        path: '/login',
-        name: 'login',
-        component: () => import('./pages/Login.vue')
+      path: '/login',
+      name: 'Login',
+      component: () => import('./pages/Login.vue'),
     },
-    {
-        path: '/landing',
-        name: 'landing',
-        component: () => import('./pages/LandingDemo.vue')
-    },
-    {
-        path: '/error',
-        name: 'error',
-        component: () => import('./pages/Error.vue')
-    },
-    {
-        path: '/notfound',
-        name: 'notfound',
-        component: () => import('./pages/NotFound.vue')
-    },
-    {
-        path: '/access',
-        name: 'access',
-        component: () => import('./pages/Access.vue')
-    }
-];
-
-const router = createRouter({
+  ]
+  
+  const router = createRouter({
     history: createWebHashHistory(),
     routes,
 });
-
-export default router;
+  
+  export default router
