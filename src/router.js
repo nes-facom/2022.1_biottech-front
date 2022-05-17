@@ -34,7 +34,7 @@ const routes = [
         },
         {
           path: '/pedido',
-          name: 'Pedido',
+          name: 'pedido',
           component: {
             render() {
               return h(resolveComponent('router-view'))
@@ -53,7 +53,7 @@ const routes = [
         },
         {
           path: '/previsao',
-          name: 'Previsão',
+          name: 'Previsao',
           component: {
             render() {
               return h(resolveComponent('router-view'))
@@ -110,7 +110,7 @@ const routes = [
         },
         {
           path: '/tempumi',
-          name: 'Temperatura e Umidade',
+          name: 'TemperaturaUmidade',
           component: {
             render() {
               return h(resolveComponent('router-view'))
@@ -268,9 +268,9 @@ const routes = [
     },
   ]
   
-  const router = createRouter({
+const router = createRouter({
     history: createWebHashHistory(),
     routes,
 });
   
-  export default router
+export default router
