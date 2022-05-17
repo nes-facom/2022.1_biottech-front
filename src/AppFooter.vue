@@ -1,8 +1,7 @@
 <template>
 	<div class="layout-footer">
 		<img alt="Logo" :src="footerImage()" height="20" class="mr-2" />
-		by
-		<span class="font-medium ml-2">PrimeVue</span>
+		<span class="font-medium ml-2">Biot Tech</span>
 	</div>
 </template>
 
@@ -11,7 +10,7 @@
 		name: "AppFooter",
 		methods: {
 			footerImage() {
-				return this.$appState.darkTheme ? 'images/logo-white.svg' : 'images/logo-dark.svg';
+				return 'images/logo-ufms.png';
 			}
 		},
 		computed: {
