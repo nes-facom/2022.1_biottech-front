@@ -73,7 +73,8 @@
                 v-model="slotProps.data.telefones"
                 :autoResize="true"
                 rows="2"
-                cols="15" />
+                cols="15"
+                disabled />
             </template>
           </Column>
           <Column headerStyle="min-width:10rem;">
