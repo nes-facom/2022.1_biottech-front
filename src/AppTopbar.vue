@@ -1,15 +1,13 @@
 <template>
   <div class="layout-topbar">
-    <router-link to="/" class="layout-topbar-logo">
-      <img alt="Logo" :src="topbarImage()" />
-      <span>Biot Tech</span>
-    </router-link>
     <button
       class="p-link layout-menu-button layout-topbar-button"
-      @click="onMenuToggle"
-    >
-      <i class="pi pi-bars"></i>
+      @click="onMenuToggle">
+      <i class="pi pi-bars" />
     </button>
+    <router-link to="/" class="layout-topbar-logo">
+      <img alt="Logo" :src="topbarImage()" />
+    </router-link>
 
     <button
       class="p-link layout-topbar-menu-button layout-topbar-button"
@@ -20,8 +18,7 @@
         leaveToClass: 'hidden',
         leaveActiveClass: 'fadeout',
         hideOnOutsideClick: true
-      }"
-    >
+      }">
       <i class="pi pi-ellipsis-v"></i>
     </button>
     <ul class="layout-topbar-menu hidden lg:flex origin-top">
@@ -43,8 +40,7 @@
       v-model:visible="visible"
       :modal="true"
       :breakpoints="{ '960px': '50vw', '640px': '100vw' }"
-      :style="{ width: '30vw' }"
-    >
+      :style="{ width: '30vw' }">
       <template #header>
         <h3>Alterar senha</h3>
       </template>
@@ -65,13 +61,11 @@
           <Button
             @click="this.visible = false"
             label="Cancelar"
-            class="p-button-danger p-button-outlined"
-          />
+            class="p-button-danger p-button-outlined" />
           <Button
             @click="changePassword()"
             label="Salvar"
-            class="p-button-success"
-          />
+            class="p-button-success" />
         </div>
       </template>
     </Dialog>
@@ -95,7 +89,7 @@ export default {
       this.$emit('topbar-menu-toggle', event)
     },
     topbarImage() {
-      return 'images/logo-ufms.png'
+      return 'images/logo/png/logo-text-r.png'
     },
     showModal() {
       this.visible = true
