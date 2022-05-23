@@ -51,7 +51,7 @@
         </template>
         <template #footer>
           <div class="grid justify-content-center mb-5">
-            <Button label="Entrar" class="p-button-info w-10 text-xl"></Button>
+            <Button @click="login()" label="Entrar" class="p-button-info w-10 text-xl"></Button>
           </div>
         </template>
       </Card>
@@ -70,6 +70,11 @@ export default {
   computed: {
     logoColor() {
       return 'white'
+    }
+  },
+  methods:{
+    login(){
+      //TODO - realizar o login
     }
   }
 }

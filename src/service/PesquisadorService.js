@@ -2,7 +2,7 @@ export default class Pesquisador {
   getPesquisador() {
     return fetch('data/biot-data/pesquisador.json')
       .then((res) => res.json())
-      .then((d) => d.data)
+      .then((d) => d.pesquisador)
   }
 
   getPesquisadorHeaders() {
@@ -18,4 +18,23 @@ export default class Pesquisador {
     ]
     return columns
   }
+
+  // getPesquisador() {
+  //   return fetch(
+  //     'http://localhost/biottech-back/api/pesquisador/getPesquisadorTable.json'
+  //   )
+  //     .then((res) => res.json())
+  //     .then((d) => d.data)
+  // }
+
+  // getPesquisador(page, limit) {
+  //   return fetch(
+  //     'http://localhost/biottech-back/api/pedido/getPedidosTable.json?page=' +
+  //       page +
+  //       '&limit=' +
+  //       limit
+  //   )
+  //     .then((res) => res.json())
+  //     .then((d) => d.data)
+  // }
 }
