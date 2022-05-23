@@ -11,12 +11,6 @@
                 icon="pi pi-plus"
                 class="p-button-success mr-2"
                 @click="openNew" />
-              <Button
-                label="Delete"
-                icon="pi pi-trash"
-                class="p-button-danger"
-                @click="confirmDeleteSelected"
-                :disabled="!selected || !selected.length" />
             </div>
           </template>
 
@@ -32,7 +26,6 @@
         <DataTable
           ref="dt"
           :value="values"
-          v-model:selection="selected"
           dataKey="id"
           :rows="10"
           :filters="filters"
@@ -40,7 +33,7 @@
           showGridlines
           stripedRows
           responsiveLayout="stack"
-          breakpoint="960px">
+          breakpoint="1530px">
           <template #header>
             <div
               class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -57,24 +50,19 @@
           <template #loading> Carregando... </template>
 
           <!-- WIP: bug está selecionando todos sempre -->
-          <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-
           <Column
             v-for="col of this.headers"
             :key="col.field"
             :field="col.field"
             :header="col.header">
             <template #body="slotProps" v-if="col.field === 'telefone'">
-              <!-- WIP -->
-              <!-- <Dropdown
-                v-model="dropdownSelected"
-                :options="getArray(slotProps.data.telefones)"></Dropdown> -->
               <Textarea
-                v-model="slotProps.data.telefones"
+                :value="getString(slotProps.data.telefones)"
                 :autoResize="true"
                 rows="2"
                 cols="15"
-                disabled />
+                disabled
+                style="color: black" />
             </template>
           </Column>
           <Column headerStyle="min-width:10rem;">
@@ -85,7 +73,7 @@
                 @click="edit(slotProps.data)" />
               <Button
                 icon="pi pi-trash"
-                class="p-button-rounded p-button-warning mt-2"
+                class="p-button-rounded p-button-danger mt-2"
                 @click="confirmDeleteRecord(slotProps.data)" />
             </template>
           </Column>
@@ -114,7 +102,7 @@
           </Dialog>
 
           <!-- WIP -->
-          <!-- MODAL DE ALERTA DELEÇÃO SINGULAR -->
+          <!-- MODAL DE ALERTA DELEÇÃO -->
           <Dialog
             v-model:visible="deleteDataDialog"
             :style="{ width: '450px' }"
@@ -142,36 +130,6 @@
                 @click="deleteData" />
             </template>
           </Dialog>
-
-          <!-- WIP -->
-          <!-- MODAL DE ALERTA DELEÇÃO MÚLTIPLA -->
-          <Dialog
-            v-model:visible="deleteSelectedDialog"
-            :style="{ width: '450px' }"
-            header="Confirm"
-            :modal="true">
-            <div class="flex align-items-center justify-content-center">
-              <i
-                class="pi pi-exclamation-triangle mr-3"
-                style="font-size: 2rem" />
-              <span v-if="value"
-                >Tem certeza que deseja deletar todos os registros
-                selecionados?</span
-              >
-            </div>
-            <template #footer>
-              <Button
-                label="No"
-                icon="pi pi-times"
-                class="p-button-text"
-                @click="deleteSelectedDialog = false" />
-              <Button
-                label="Yes"
-                icon="pi pi-check"
-                class="p-button-text"
-                @click="deleteSelected" />
-            </template>
-          </Dialog>
         </DataTable>
       </div>
     </div>
@@ -188,9 +146,7 @@ export default {
       values: null,
       dataDialog: false,
       deleteDataDialog: false,
-      deleteSelectedDialog: false,
       value: {},
-      selected: null,
       filters: {},
       headers: null,
       dropdownSelected: null
@@ -249,32 +205,26 @@ export default {
       return index
     },
     exportCSV() {
-      this.$refs.dt.exportCSV()
-    },
-    confirmDeleteSelected() {
-      this.deleteSelectedDialog = true
-    },
-    deleteSelected() {
-      this.values = this.values.filter((val) => !this.selected.includes(val))
-      this.deleteSelectedDialog = false
-      this.selected = null
-      this.$toast.add({
-        severity: 'Sucesso',
-        summary: 'Sucesso',
-        detail: 'Registros deletados',
-        life: 3000
-      })
+      // this.$refs.dt.exportCSV()
+      const route = this.$route.name
+      console.log(this.$router.currentRoute.path)
     },
     initFilters() {
       this.filters = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
       }
     },
-    getArray(obj) {
+    getString(obj) {
       const arr = Object.keys(obj).map(function (key) {
         return obj[key]
       })
-      return arr
+      const str = arr.join('\r\n')
+      return str
+    },
+    getEntity() {
+      const route = this.$route.name
+      if (route == 'pesquisador') {
+      }
     }
   }
 }
