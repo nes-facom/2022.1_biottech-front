@@ -11,7 +11,45 @@ const routes = [
       {
         path: '',
         name: 'Configurações',
-        component: () => import('./pages/CrudDemo.vue')
+        component: () => import('./pages/TabMenu.vue'),
+        children: [
+          {
+            path: '/config/linhagem',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/sala',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/linhapesquisa',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/insti',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/proj',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/lab',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/nivelpesquisa',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/especie',
+            component: () => import('./components/TableDemo.vue')
+          },
+          {
+            path: '/config/finalidade',
+            component: () => import('./components/TableDemo.vue')
+          }
+        ]
       },
       {
         path: '/pesquisador',
