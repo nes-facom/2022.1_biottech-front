@@ -82,7 +82,7 @@ const routes = [
         children: [
           {
             path: '',
-            component: () => import('./components/TableCrudExtend.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/pedido/desativado',
