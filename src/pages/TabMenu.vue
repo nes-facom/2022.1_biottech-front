@@ -3,7 +3,7 @@
     <h3>Listas</h3>
     <p>Selecione a lista que deseja acessar.</p>
     <TabMenu :model="nestedRouteItems" />
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </div>
 </template>
 
