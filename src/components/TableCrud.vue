@@ -30,7 +30,6 @@
           :value="values"
           dataKey="id"
           :rows="10"
-          :filters="filters"
           :lazy="true"
           showGridlines
           stripedRows
@@ -75,7 +74,7 @@
                 style="color: black" />
             </template>
           </Column>
-          <!-- RENDERIZAÇÃO CONDICIONAL CASO A ENTIDADE POSSUA ATRIBUTO TELEFONE -->
+          <!-- RENDERIZAÇÃO CONDICIONAL CASO A ROTA SEJA REFERENTE A PEDIDO -->
           <Column
             v-if="this.title === 'Pedido'"
             header="Ver mais"
@@ -196,7 +195,6 @@ export default {
       deleteDataDialog: false,
       seeMoreDialog: false,
       value: {},
-      filters: {},
       headers: null,
       route: null,
       title: null,
@@ -207,7 +205,6 @@ export default {
   created() {
     this.route = this.$route.path
     this.getEntity()
-    this.initFilters()
   },
   mounted() {
     this.getMethod()
@@ -257,11 +254,6 @@ export default {
     },
     exportCSV() {
       this.$refs.dt.exportCSV()
-    },
-    initFilters() {
-      this.filters = {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
-      }
     },
     getTel(obj) {
       const arr = Object.keys(obj).map(function (key) {
