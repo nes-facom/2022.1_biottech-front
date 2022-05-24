@@ -1,34 +1,118 @@
 {
   "pesquisador":[
-    {
-      "nome": "Adriana Guércio",
-      "instituicao": "UFMS",
-      "setor": "FAMEZ",
-      "pos": "Ciência Animal",
-      "ramal": "3090",
-      "email": "adriana@email.com",
-      "orientador": "Alessandra Oliveira",
-      "pedido": "2019-xxx-xxx",
-      "telefones": 
-        {
-          "1":"99121334",
-          "2":"00003090"
-        }
-    },
-    {
-      "nome": "Pesquisador da Silva",
-      "instituicao": "UFMS",
-      "setor": "INBIO",
-      "pos": "Mestrado",
-      "ramal": "3090",
-      "email": "pesquisador@email.com",
-      "orientador": "Orientador da Silva",
-      "pedido": "2019-xxx-xxx",
-      "telefones": 
-        {
-          "1":"87934019",
-          "2":"11113090"
-        }
-    }
-  ]
+     {
+        "id":1,
+        "nome":"nome",
+        "instituicao":"instituicao",
+        "setor":"setor",
+        "pos":"pos",
+        "ramal":"ramal2",
+        "email":"doido@gmail.com",
+        "orientador":true,
+        "active":true,
+        "telefones":[
+           {
+              "id":31,
+              "pesquisador_id":1,
+              "telefone":"10000000"
+           },
+           {
+              "id":32,
+              "pesquisador_id":1,
+              "telefone":"20000000"
+           }
+        ]
+     },
+     {
+        "id":2,
+        "nome":"nome",
+        "instituicao":"instituicao",
+        "setor":"setor",
+        "pos":"pos",
+        "ramal":"ramal",
+        "email":"joana@gmail.com",
+        "orientador":true,
+        "active":true,
+        "telefones":[
+           {
+              "id":3,
+              "pesquisador_id":2,
+              "telefone":"30000000"
+           },
+           {
+              "id":4,
+              "pesquisador_id":2,
+              "telefone":"40000000"
+           }
+        ]
+     },
+     {
+        "id":3,
+        "nome":"nome",
+        "instituicao":"instituicao",
+        "setor":"setor",
+        "pos":"pos",
+        "ramal":"ramal",
+        "email":"ana@gmail.com",
+        "orientador":true,
+        "active":true,
+        "telefones":[
+           {
+              "id":5,
+              "pesquisador_id":3,
+              "telefone":"50000000"
+           },
+           {
+              "id":6,
+              "pesquisador_id":3,
+              "telefone":"60000000"
+           }
+        ]
+     },
+     {
+        "id":4,
+        "nome":"nome",
+        "instituicao":"instituicao",
+        "setor":"setor",
+        "pos":"pos",
+        "ramal":"ramal",
+        "email":"julia@gmail.com",
+        "orientador":true,
+        "active":true,
+        "telefones":[
+           {
+              "id":7,
+              "pesquisador_id":4,
+              "telefone":"70000000"
+           },
+           {
+              "id":8,
+              "pesquisador_id":4,
+              "telefone":"80000000"
+           }
+        ]
+     }
+  ],
+  "pagination":{
+     "count":4,
+     "current":4,
+     "perPage":8,
+     "page":1,
+     "requestedPage":1,
+     "pageCount":1,
+     "start":1,
+     "end":4,
+     "prevPage":false,
+     "nextPage":false,
+     "sort":null,
+     "direction":null,
+     "sortDefault":false,
+     "directionDefault":false,
+     "completeSort":[
+        
+     ],
+     "limit":8,
+     "scope":null,
+     "finder":"all"
+  }
 }
