@@ -1,0 +1,44 @@
+{
+  "linhagens": [
+      {
+          "id": 1,
+          "nome_linhagem": "BALB/c",
+          "active": true
+      },
+      {
+          "id": 2,
+          "nome_linhagem": "BLACK C57/BL6",
+          "active": true
+      },
+      {
+          "id": 3,
+          "nome_linhagem": "GOLDEN",
+          "active": true
+      },
+      {
+          "id": 4,
+          "nome_linhagem": "Hamster",
+          "active": true
+      },
+      {
+          "id": 5,
+          "nome_linhagem": "HRS/J",
+          "active": true
+      },
+      {
+          "id": 6,
+          "nome_linhagem": "SWISS",
+          "active": true
+      },
+      {
+          "id": 7,
+          "nome_linhagem": "WISTAR",
+          "active": true
+      },
+      {
+          "id": 8,
+          "nome_linhagem": "NOD",
+          "active": true
+      }
+  ]
+}

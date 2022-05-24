@@ -31,7 +31,7 @@
         "pos":"pos",
         "ramal":"ramal",
         "email":"joana@gmail.com",
-        "orientador":true,
+        "orientador":false,
         "active":true,
         "telefones":[
            {
