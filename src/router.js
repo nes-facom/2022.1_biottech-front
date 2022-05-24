@@ -67,7 +67,7 @@ const routes = [
           },
           {
             path: '/pesquisador/desativado',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
@@ -86,7 +86,7 @@ const routes = [
           },
           {
             path: '/pedido/desativado',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
@@ -105,7 +105,7 @@ const routes = [
           },
           {
             path: '/previsao/desativado',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
@@ -124,7 +124,7 @@ const routes = [
           },
           {
             path: '/saida/desativado',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
@@ -143,7 +143,7 @@ const routes = [
           },
           {
             path: '/caixa/desativado',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
@@ -164,7 +164,7 @@ const routes = [
           {
             path: '/tempumi/desativado',
             name: 'Temperatura e umidade arquivadas',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
@@ -185,7 +185,7 @@ const routes = [
           {
             path: '/cxmatriz/desativado',
             name: 'Caixas matrizes arquivadas',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
@@ -206,7 +206,7 @@ const routes = [
           {
             path: '/parto/desativado',
             name: 'Partos arquivados',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableArchive.vue')
           }
         ]
       },
