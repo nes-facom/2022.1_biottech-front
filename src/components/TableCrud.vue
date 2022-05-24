@@ -129,7 +129,7 @@
           <Dialog
             v-model:visible="dataDialog"
             :style="{ width: '450px' }"
-            header="Product Details"
+            header="Cadastro"
             :modal="true"
             class="p-fluid">
             <PesquisadorModal :pesquisador="value" />
