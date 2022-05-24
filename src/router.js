@@ -12,42 +12,43 @@ const routes = [
         path: '',
         name: 'Configurações',
         component: () => import('./pages/TabMenu.vue'),
+        redirect: '/config/linhagem',
         children: [
           {
             path: '/config/linhagem',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/sala',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/linhapesquisa',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/insti',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/proj',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/lab',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/nivelpesquisa',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/especie',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/config/finalidade',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -62,11 +63,11 @@ const routes = [
         children: [
           {
             path: '',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/pesquisador/desativado',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -81,11 +82,11 @@ const routes = [
         children: [
           {
             path: '',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrudExtend.vue')
           },
           {
             path: '/pedido/desativado',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -100,11 +101,11 @@ const routes = [
         children: [
           {
             path: '',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/previsao/desativado',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -119,11 +120,11 @@ const routes = [
         children: [
           {
             path: '',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/saida/desativado',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -138,11 +139,11 @@ const routes = [
         children: [
           {
             path: '',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/caixa/desativado',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -158,12 +159,12 @@ const routes = [
           {
             path: '',
             name: 'Menu temperatura e umidade',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/tempumi/desativado',
             name: 'Temperatura e umidade arquivadas',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -179,12 +180,12 @@ const routes = [
           {
             path: '',
             name: 'Menu caixa matriz',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/cxmatriz/desativado',
             name: 'Caixas matrizes arquivadas',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -200,12 +201,12 @@ const routes = [
           {
             path: '',
             name: 'Menu parto',
-            component: () => import('./pages/TableCrud.vue')
+            component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/parto/desativado',
             name: 'Partos arquivados',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -221,22 +222,22 @@ const routes = [
           {
             path: '/exp/pedido',
             name: 'Pedido',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/exp/pesquisadores',
             name: 'Pesquisadores',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/exp/previsao',
             name: 'Previsão',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/exp/resultado',
             name: 'Resultado',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -252,17 +253,17 @@ const routes = [
           {
             path: '/criacao/dados',
             name: 'Entrada Dados',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/criacao/saidas',
             name: 'Saídas',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/criacao/tempumi',
             name: 'Temperatura e Umidade',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       },
@@ -278,22 +279,22 @@ const routes = [
           {
             path: '/repro/nascdesma',
             name: 'Nascimento e Desmame',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/repro/matrizes',
             name: 'Matrizes',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/repro/progacasal',
             name: 'Programação Acasalamento',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           },
           {
             path: '/repro/controlerepro',
             name: 'Controle Reprodutivo',
-            component: () => import('./components/TableDemo.vue')
+            component: () => import('./components/SimpleTable.vue')
           }
         ]
       }
