@@ -7,24 +7,26 @@
           <template v-slot:start>
             <div class="my-2">
               <Button
-                label="New"
+                label="Novo"
                 icon="pi pi-plus"
                 class="p-button-success mr-2"
                 @click="openNew" />
             </div>
           </template>
 
-          <template v-slot:end>
+          <!-- EXPORTAR OS DADOS -> BAIXA PRIORIDADE -->
+          <!-- <template v-slot:end>
             <Button
               label="Export"
               icon="pi pi-upload"
               class="p-button-help"
               @click="exportCSV($event)" />
-          </template>
+          </template> -->
         </Toolbar>
 
         <DataTable
           ref="dt"
+          :rowHover="true"
           :value="values"
           dataKey="id"
           :rows="10"
@@ -37,12 +39,19 @@
           <template #header>
             <div
               class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-              <h5 class="m-0">TITULO</h5>
+              <h5 class="m-0">{{ this.title }}</h5>
               <span class="block mt-2 md:mt-0 p-input-icon-left">
-                <i class="pi pi-search" />
-                <InputText
-                  placeholder="Buscar..."
-                  v-model="filters['global'].value" />
+                <div class="formgroup-inline">
+                  <div class="field">
+                    <InputText
+                      placeholder="Buscar..."
+                      v-model="this.searchString" />
+                  </div>
+                  <Button
+                    icon="pi pi-search"
+                    class="p-button-help"
+                    @click="search()" />
+                </div>
               </span>
             </div>
           </template>
@@ -54,7 +63,8 @@
             :key="col.field"
             :field="col.field"
             :header="col.header"
-            headerStyle="min-width:10rem;">
+            headerStyle="width:20%; min-width:8rem;">
+            <!-- RENDERIZAÇÃO CONDICIONAL CASO A ENTIDADE POSSUA ATRIBUTO TELEFONE -->
             <template #body="slotProps" v-if="col.field === 'telefones'">
               <Textarea
                 :value="getTel(slotProps.data.telefones)"
@@ -65,18 +75,54 @@
                 style="color: black" />
             </template>
           </Column>
-          <Column headerStyle="width:2%; min-width:10rem;">
+          <!-- RENDERIZAÇÃO CONDICIONAL CASO A ENTIDADE POSSUA ATRIBUTO TELEFONE -->
+          <Column
+            v-if="this.title === 'Pedido'"
+            header="Ver mais"
+            headerStyle="min-width:8rem;">
             <template #body="slotProps">
-              <Button
-                icon="pi pi-pencil"
-                class="p-button-rounded p-button-success mr-2"
-                @click="edit(slotProps.data)" />
-              <Button
-                icon="pi pi-trash"
-                class="p-button-rounded p-button-danger mt-2"
-                @click="confirmDeleteRecord(slotProps.data)" />
+              <div class="flex justify-content-center">
+                <Button
+                  icon="pi pi-eye"
+                  class="p-button-rounded p-button-secondary mr-2"
+                  @click="seeMore(slotProps.data)" />
+              </div>
             </template>
           </Column>
+          <Column headerStyle="min-width:10rem;">
+            <template #body="slotProps">
+              <div class="flex justify-content-center gap-2">
+                <Button
+                  icon="pi pi-pencil"
+                  class="p-button-rounded p-button-success"
+                  @click="edit(slotProps.data)" />
+                <Button
+                  icon="pi pi-trash"
+                  class="p-button-rounded p-button-danger"
+                  @click="confirmDeleteRecord(slotProps.data)" />
+              </div>
+            </template>
+          </Column>
+
+          <!-- WIP -->
+          <!-- MODAL PARA VER A ENTIDADE COMPLETA -->
+          <Dialog
+            v-model:visible="seeMoreDialog"
+            :style="{ width: '450px' }"
+            :header="this.title"
+            :modal="true"
+            class="p-fluid">
+            <div class="col-12 md:col-4">
+              <p>TODO: add infos</p>
+            </div>
+            <template #footer>
+              <Button
+                label="Cancelar"
+                icon="pi pi-times"
+                class="p-button-text"
+                @click="seeMoreDialog = false" />
+            </template>
+          </Dialog>
 
           <!-- WIP -->
           <!-- MODAL PARA CADASTRO -->
@@ -86,7 +132,7 @@
             header="Product Details"
             :modal="true"
             class="p-fluid">
-            <p>TODO: ADD FORM</p>
+            <PesquisadorModal :pesquisador="value" />
             <template #footer>
               <Button
                 label="Cancel"
@@ -138,8 +184,9 @@
 
 <script>
 import { FilterMatchMode } from 'primevue/api'
-import { useRouter } from 'vue-router'
 import Pesquisador from '../service/PesquisadorService'
+import Pedido from '../service/PedidoService'
+import PesquisadorModal from './Modals/PesquisadorModal.vue'
 
 export default {
   data() {
@@ -147,11 +194,13 @@ export default {
       values: null,
       dataDialog: false,
       deleteDataDialog: false,
+      seeMoreDialog: false,
       value: {},
       filters: {},
       headers: null,
-      dropdownSelected: null,
-      route: null
+      route: null,
+      title: null,
+      searchString: null
     }
   },
   entityService: null,
@@ -228,9 +277,17 @@ export default {
       })
       return str
     },
+    search() {
+      //TODO: add método de busca
+      this.searchString = ''
+    },
     getEntity() {
       if (this.route == '/pesquisador') {
         this.entityService = new Pesquisador()
+        this.title = 'Pesquisador'
+      } else if (this.route == '/pedido') {
+        this.entityService = new Pedido()
+        this.title = 'Pedido'
       } else if (this.route == '/previsao') {
         console.log('previsao')
       } else if (this.route == '/saida') {
@@ -249,6 +306,9 @@ export default {
       if (this.route == '/pesquisador') {
         this.entityService.getPesquisador().then((data) => (this.values = data))
         this.headers = this.entityService.getPesquisadorHeaders()
+      } else if (this.route == '/pedido') {
+        this.entityService.getPedido().then((data) => (this.values = data))
+        this.headers = this.entityService.getPedidoHeaders()
       } else if (this.route == '/previsao') {
         console.log('previsao')
       } else if (this.route == '/saida') {
@@ -262,7 +322,12 @@ export default {
       } else if (this.route == '/parto') {
         console.log('parto')
       }
+    },
+    seeMore(value) {
+      this.value = value
+      this.seeMoreDialog = true
     }
-  }
+  },
+  components: { PesquisadorModal }
 }
 </script>
