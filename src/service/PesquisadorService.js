@@ -10,11 +10,10 @@ export default class Pesquisador {
       { field: 'nome', header: 'Nome' },
       { field: 'instituicao', header: 'Instituição' },
       { field: 'setor', header: 'Setor' },
+      { field: 'pos', header: 'Pos' },
       { field: 'ramal', header: 'Ramal' },
       { field: 'email', header: 'Email' },
-      { field: 'orientador', header: 'Orientador' },
-      { field: 'pedido', header: 'Pedido' },
-      { field: 'telefone', header: 'Telefone' }
+      { field: 'telefones', header: 'Telefone' }
     ]
     return columns
   }
@@ -29,7 +28,7 @@ export default class Pesquisador {
 
   // getPesquisador(page, limit) {
   //   return fetch(
-  //     'http://localhost/biottech-back/api/pedido/getPedidosTable.json?page=' +
+  //     'http://localhost/biottech-back/api/pedido/getPesquisadorTable.json?page=' +
   //       page +
   //       '&limit=' +
   //       limit
