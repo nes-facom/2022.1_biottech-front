@@ -86,7 +86,7 @@
             header="Product Details"
             :modal="true"
             class="p-fluid">
-            <p>TODO: ADD FORM</p>
+            <ListsModal :listObj="value" />
             <template #footer>
               <Button
                 label="Cancel"
@@ -139,6 +139,7 @@
 <script>
 import { FilterMatchMode } from 'primevue/api'
 import Linhagem from '../service/LinhagemService'
+import ListsModal from './Modals/ListsModal.vue'
 
 export default {
   data() {
@@ -328,7 +329,8 @@ export default {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS }
       }
     }
-  }
+  },
+  components: { ListsModal }
 }
 </script>
 

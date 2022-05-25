@@ -130,8 +130,35 @@
             :style="{ width: '450px' }"
             header="Cadastro"
             :modal="true"
-            class="p-fluid">
-            <PesquisadorModal :pesquisador="value" />
+            class="p-fluid"
+            :closeOnEscape="false"
+            :closable="false">
+            <div v-if="title === 'Pesquisador'">
+              <NewPesquisadorModal v-if="newDataDialog" :pesquisador="value" />
+              <PesquisadorModal v-else :pesquisador="value" />
+            </div>
+            <div v-else-if="title === 'Pedido'">
+              <p v-if="newDataDialog">Modais de cadastro de pedido</p>
+              <PedidoModal v-else :pedido="value" />
+            </div>
+            <div v-else-if="title === 'Previsão'">
+              <p>Modais de previsão</p>
+            </div>
+            <div v-else-if="title === 'Saída'">
+              <p>Modais de saída</p>
+            </div>
+            <div v-else-if="title === 'Caixa'">
+              <p>Modais de caixa</p>
+            </div>
+            <div v-else-if="title === 'Temperatura & Umidade'">
+              <p>Modais de tempumi</p>
+            </div>
+            <div v-else-if="title === 'Caixa Matriz'">
+              <p>Modais de caixa matriz</p>
+            </div>
+            <div v-else>
+              <p>Modais de parto</p>
+            </div>
             <template #footer>
               <Button
                 label="Cancel"
@@ -146,8 +173,6 @@
             </template>
           </Dialog>
 
-          <!-- WIP -->
-          <!-- MODAL DE ALERTA DELEÇÃO -->
           <Dialog
             v-model:visible="deleteDataDialog"
             :style="{ width: '450px' }"
@@ -182,16 +207,18 @@
 </template>
 
 <script>
-import { FilterMatchMode } from 'primevue/api'
 import Pesquisador from '../service/PesquisadorService'
 import Pedido from '../service/PedidoService'
 import PesquisadorModal from './Modals/PesquisadorModal.vue'
+import NewPesquisadorModal from './Modals/NewPesquisadorModal.vue'
+import PedidoModal from './Modals/PedidoModal.vue'
 
 export default {
   data() {
     return {
       values: null,
       dataDialog: false,
+      newDataDialog: false,
       deleteDataDialog: false,
       seeMoreDialog: false,
       value: {},
@@ -213,9 +240,11 @@ export default {
     openNew() {
       this.value = {}
       // this.submitted = false
+      this.newDataDialog = true
       this.dataDialog = true
     },
     hideDialog() {
+      this.newDataDialog = false
       this.dataDialog = false
       // this.submitted = false
     },
@@ -281,16 +310,22 @@ export default {
         this.entityService = new Pedido()
         this.title = 'Pedido'
       } else if (this.route == '/previsao') {
+        this.title = 'Previsão'
         console.log('previsao')
       } else if (this.route == '/saida') {
+        this.title = 'Saída'
         console.log('saida')
       } else if (this.route == '/caixa') {
+        this.title = 'Caixa'
         console.log('caixa')
       } else if (this.route == '/tempumi') {
+        this.title = 'Temperatura & Umidade'
         console.log('tempumi')
       } else if (this.route == '/cxmatriz') {
+        this.title = 'Caixa Matriz'
         console.log('cxmatriz')
       } else if (this.route == '/parto') {
+        this.title = 'Parto'
         console.log('parto')
       }
     },
@@ -320,6 +355,6 @@ export default {
       this.seeMoreDialog = true
     }
   },
-  components: { PesquisadorModal }
+  components: { PesquisadorModal, NewPesquisadorModal, PedidoModal }
 }
 </script>

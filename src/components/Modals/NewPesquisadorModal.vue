@@ -64,18 +64,6 @@
         </div>
       </div>
 
-      <!-- WIP: MOSTRAR TODOS OS TELEFONES E DAR OPÇÃO PARA ADICIONAR E DELETAR -->
-      <div class="field col-12">
-        <label for="telefone">Telefones</label>
-        <div class="flex gap-3">
-          <InputText
-            v-for="tel in getArr(pesquisador.telefones)"
-            :key="tel.id"
-            id="telefone"
-            type="text"
-            v-model="tel.telefone" />
-        </div>
-      </div>
       <div class="field col-12">
         <label for="newTel">Novo Telefone</label>
         <div class="flex card-container blue-container overflow-hidden">
@@ -96,23 +84,24 @@
 export default {
   data() {
     return {
-      newTel: null
+      newTel: null,
+      newPesquisador: {
+        id: null,
+        nome: '',
+        instituicao: '',
+        setor: '',
+        pos: '',
+        ramal: '',
+        email: '',
+        orientador: false,
+        active: true,
+        telefones: []
+      }
     }
   },
   props: {
     pesquisador: Object
   },
-  methods: {
-    getArr(obj) {
-      const arr = Object.keys(obj).map(function (key) {
-        return obj[key]
-      })
-      console.log(arr)
-      return arr
-    },
-    addTel(arr) {
-      //todo: add novo telefone
-    }
-  }
+  methods: {}
 }
 </script>
