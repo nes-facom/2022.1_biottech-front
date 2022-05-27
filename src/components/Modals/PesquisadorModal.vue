@@ -1,3 +1,4 @@
+b
 <template>
   <div class="col-12">
     <div class="p-fluid formgrid grid">
@@ -65,7 +66,7 @@
       </div>
 
       <!-- WIP: MOSTRAR TODOS OS TELEFONES E DAR OPÇÃO PARA ADICIONAR E DELETAR -->
-      <div class="field col-12">
+      <div v-if="!newDataDialog" class="field col-12">
         <label for="telefone">Telefones</label>
         <div class="flex gap-3">
           <InputText
@@ -100,14 +101,14 @@ export default {
     }
   },
   props: {
-    pesquisador: Object
+    pesquisador: Object,
+    newDataDialog: Boolean
   },
   methods: {
     getArr(obj) {
       const arr = Object.keys(obj).map(function (key) {
         return obj[key]
       })
-      console.log(arr)
       return arr
     },
     addTel(arr) {
