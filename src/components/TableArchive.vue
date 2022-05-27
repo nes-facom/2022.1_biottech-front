@@ -13,7 +13,8 @@
           :loading="loading"
           stripedRows
           responsiveLayout="stack"
-          breakpoint="1530px"
+          breakpoint="1000px"
+          resizableColumns
           filterDisplay="menu"
           class="p-datatable-gridlines">
           <template #header>

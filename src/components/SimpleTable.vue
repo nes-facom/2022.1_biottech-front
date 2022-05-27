@@ -14,7 +14,8 @@
           :loading="loading"
           stripedRows
           responsiveLayout="stack"
-          breakpoint="1530px"
+          breakpoint="1000px"
+          resizableColumns
           v-model:filters="filters"
           filterDisplay="menu"
           class="p-datatable-gridlines">
@@ -83,18 +84,19 @@
           <Dialog
             v-model:visible="dataDialog"
             :style="{ width: '450px' }"
-            header="Product Details"
+            header="Cadastro"
             :modal="true"
-            class="p-fluid">
+            class="p-fluid"
+            :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
             <ListsModal :listObj="value" />
             <template #footer>
               <Button
-                label="Cancel"
+                label="Cancelar"
                 icon="pi pi-times"
                 class="p-button-text"
                 @click="hideDialog" />
               <Button
-                label="Save"
+                label="Salvar"
                 icon="pi pi-check"
                 class="p-button-text"
                 @click="saveNew" />
@@ -119,12 +121,12 @@
             </div>
             <template #footer>
               <Button
-                label="No"
+                label="Não"
                 icon="pi pi-times"
                 class="p-button-text"
                 @click="deleteDataDialog = false" />
               <Button
-                label="Yes"
+                label="Sim"
                 icon="pi pi-check"
                 class="p-button-text"
                 @click="deleteData" />
