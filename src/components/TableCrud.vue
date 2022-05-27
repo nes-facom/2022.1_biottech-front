@@ -34,7 +34,8 @@
           showGridlines
           stripedRows
           responsiveLayout="stack"
-          breakpoint="1530px">
+          breakpoint="1000px"
+          resizableColumns>
           <template #header>
             <div
               class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -110,10 +111,9 @@
             :style="{ width: '450px' }"
             :header="this.title"
             :modal="true"
-            class="p-fluid">
-            <div class="col-12 md:col-4">
-              <p>TODO: add infos</p>
-            </div>
+            class="p-fluid"
+            :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
+            <PedidoModal :pedido="value" :disabled="true" />
             <template #footer>
               <Button
                 label="Cancelar"
@@ -132,14 +132,15 @@
             :modal="true"
             class="p-fluid"
             :closeOnEscape="false"
-            :closable="false">
+            :closable="false"
+            :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
             <div v-if="title === 'Pesquisador'">
-              <NewPesquisadorModal v-if="newDataDialog" :pesquisador="value" />
-              <PesquisadorModal v-else :pesquisador="value" />
+              <PesquisadorModal
+                :pesquisador="value"
+                :newDataDialog="newDataDialog" />
             </div>
             <div v-else-if="title === 'Pedido'">
-              <p v-if="newDataDialog">Modais de cadastro de pedido</p>
-              <PedidoModal v-else :pedido="value" />
+              <PedidoModal :pedido="value" :disabled="false" />
             </div>
             <div v-else-if="title === 'Previsão'">
               <p>Modais de previsão</p>
@@ -161,11 +162,12 @@
             </div>
             <template #footer>
               <Button
-                label="Cancel"
+                label="Cancelar"
                 icon="pi pi-times"
-                class="p-button-text"
+                class="p-button-text p-button-danger"
                 @click="hideDialog" />
               <Button
+                v-if="title != 'Pedido'"
                 label="Save"
                 icon="pi pi-check"
                 class="p-button-text"
@@ -189,12 +191,12 @@
             </div>
             <template #footer>
               <Button
-                label="No"
+                label="Não"
                 icon="pi pi-times"
                 class="p-button-text"
                 @click="deleteDataDialog = false" />
               <Button
-                label="Yes"
+                label="Sim"
                 icon="pi pi-check"
                 class="p-button-text"
                 @click="deleteData" />
@@ -210,7 +212,6 @@
 import Pesquisador from '../service/PesquisadorService'
 import Pedido from '../service/PedidoService'
 import PesquisadorModal from './Modals/PesquisadorModal.vue'
-import NewPesquisadorModal from './Modals/NewPesquisadorModal.vue'
 import PedidoModal from './Modals/PedidoModal.vue'
 
 export default {
@@ -355,6 +356,6 @@ export default {
       this.seeMoreDialog = true
     }
   },
-  components: { PesquisadorModal, NewPesquisadorModal, PedidoModal }
+  components: { PesquisadorModal, PedidoModal }
 }
 </script>
