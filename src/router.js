@@ -245,7 +245,7 @@ const routes = [
           },
           {
             path: '/exp/previsao',
-            name: 'Previsão',
+            name: 'Previsões',
             component: () => import('./components/TableCrud.vue'),
             props: { viewOnly: true }
           }
