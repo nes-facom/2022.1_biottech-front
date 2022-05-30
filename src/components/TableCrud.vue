@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <Toast />
-        <Toolbar class="mb-4">
+        <Toolbar v-if="!this.viewOnly" class="mb-4">
           <template v-slot:start>
             <div class="my-2">
               <Button
@@ -89,7 +89,7 @@
               </div>
             </template>
           </Column>
-          <Column headerStyle="min-width:10rem;">
+          <Column v-if="!this.viewOnly" headerStyle="min-width:10rem;">
             <template #body="slotProps">
               <div class="flex justify-content-center gap-2">
                 <Button
@@ -104,7 +104,6 @@
             </template>
           </Column>
 
-          <!-- WIP -->
           <!-- MODAL PARA VER A ENTIDADE COMPLETA -->
           <Dialog
             v-model:visible="seeMoreDialog"
@@ -113,7 +112,9 @@
             :modal="true"
             class="p-fluid"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
+            <!-- SE FOR A TABELA PEDIDO -->
             <PedidoModal :pedido="value" :disabled="true" />
+
             <template #footer>
               <Button
                 label="Cancelar"
@@ -134,6 +135,7 @@
             :closeOnEscape="false"
             :closable="false"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
+            <!-- DEFINE O FORMULÁRIO QUE SERÁ RENDERIZADO BASEADO NA ROTA ATUAL -->
             <div v-if="title === 'Pesquisador'">
               <PesquisadorModal
                 :pesquisador="value"
@@ -175,6 +177,7 @@
             </template>
           </Dialog>
 
+          <!-- MODAL DE ALERTA DE DELEÇÃO -->
           <Dialog
             v-model:visible="deleteDataDialog"
             :style="{ width: '450px' }"
@@ -229,9 +232,18 @@ export default {
       searchString: null
     }
   },
+  props: {
+    viewOnly: { type: Boolean }
+  },
   entityService: null,
+  computed: {
+    currentRouteName() {
+      return this.$route.name
+    }
+  },
   created() {
     this.route = this.$route.path
+    this.title = this.$route.name
     this.getEntity()
   },
   mounted() {
@@ -283,7 +295,8 @@ export default {
       return index
     },
     exportCSV() {
-      this.$refs.dt.exportCSV()
+      // this.$refs.dt.exportCSV()
+      // console.log(this.route.name)
     },
     getTel(obj) {
       const arr = Object.keys(obj).map(function (key) {
@@ -304,41 +317,74 @@ export default {
       this.searchString = ''
     },
     getEntity() {
-      if (this.route == '/pesquisador') {
-        console.log('kljsndfkjsdfg')
+      if (
+        this.route.startsWith('/pesquisador') ||
+        this.route == '/exp/pesquisadores'
+      ) {
         this.entityService = new Pesquisador()
-        this.title = 'Pesquisador'
-        console.log(this.archive)
-      } else if (this.route == '/pedido') {
+      } else if (
+        this.route.startsWith('/pedido') ||
+        this.route == '/exp/pedido'
+      ) {
         this.entityService = new Pedido()
-        this.title = 'Pedido'
-      } else if (this.route == '/previsao') {
-        this.title = 'Previsão'
-      } else if (this.route == '/saida') {
-        this.title = 'Saída'
-      } else if (this.route == '/caixa') {
-        this.title = 'Caixa'
-      } else if (this.route == '/tempumi') {
-        this.title = 'Temperatura & Umidade'
-      } else if (this.route == '/cxmatriz') {
-        this.title = 'Caixa Matriz'
-      } else if (this.route == '/parto') {
-        this.title = 'Parto'
+      } else if (
+        this.route.startsWith('/previsao') ||
+        this.route == '/exp/previsao'
+      ) {
+        // this.entityService = new Previsao()
+      } else if (
+        this.route.startsWith('/saida') ||
+        this.route == '/criacao/saida'
+      ) {
+        // this.entityService = new Saida()
+      } else if (
+        this.route.startsWith('/caixa') ||
+        this.route == '/criacao/dados'
+      ) {
+        // this.entityService = new Caixa()
+      } else if (
+        this.route.startsWith('/tempumi') ||
+        this.route == '/criacao/tempumi'
+      ) {
+        // this.entityService = new TemperaturaUmidade()
+      } else if (
+        this.route.startsWith('/cxmatriz') ||
+        this.route == '/repro/matrizes'
+      ) {
+        // this.entityService = new CaixaMatriz()
+      } else if (
+        this.route.startsWith('/parto') ||
+        this.route == '/repro/nascdesma' ||
+        this.route == '/repro/progacasal' ||
+        this.route == '/repro/controlerepro'
+      ) {
+        // this.entityService = new Parto()
       }
     },
     getMethod() {
-      if (this.route == '/pesquisador') {
-        this.entityService.getPesquisador().then((data) => (this.values = data))
-        this.headers = this.entityService.getPesquisadorHeaders()
-      } else if (this.route == '/pedido') {
-        this.entityService.getPedido().then((data) => (this.values = data))
-        this.headers = this.entityService.getPedidoHeaders()
-      } else if (this.route == '/previsao') {
-      } else if (this.route == '/saida') {
-      } else if (this.route == '/caixa') {
-      } else if (this.route == '/tempumi') {
-      } else if (this.route == '/cxmatriz') {
-      } else if (this.route == '/parto') {
+      if (this.route.startsWith('/pesquisador')) {
+        if (!this.viewOnly) {
+          this.entityService
+            .getPesquisador()
+            .then((data) => (this.values = data))
+          this.headers = this.entityService.getPesquisadorHeaders()
+        } else {
+          this.entityService
+            .getPesquisadorInactive()
+            .then((data) => (this.values = data))
+          this.headers = this.entityService.getPesquisadorHeaders()
+        }
+      } else if (this.route.startsWith('/pedido')) {
+        if (!this.viewOnly) {
+          this.entityService.getPedido().then((data) => (this.values = data))
+          this.headers = this.entityService.getPedidoHeaders()
+        }
+      } else if (this.route.startsWith('/previsao')) {
+      } else if (this.route.startsWith('/saida')) {
+      } else if (this.route.startsWith('/caixa')) {
+      } else if (this.route.startsWith('/tempumi')) {
+      } else if (this.route.startsWith('/cxmatriz')) {
+      } else if (this.route.startsWith('/parto')) {
       }
     },
     seeMore(value) {
