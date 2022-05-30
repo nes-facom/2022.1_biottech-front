@@ -7,7 +7,7 @@
 
     <div class="layout-main-container">
       <div class="layout-main">
-        <router-view />
+        <router-view :key="$route.fullPath" />
       </div>
       <AppFooter />
     </div>
@@ -16,373 +16,367 @@
     <transition name="layout-mask">
       <div
         class="layout-mask p-component-overlay"
-        v-if="mobileMenuActive"
-      ></div>
+        v-if="mobileMenuActive"></div>
     </transition>
   </div>
 </template>
 
 <script>
-import AppTopBar from "./AppTopbar.vue";
-import AppMenu from "./AppMenu.vue";
-import AppConfig from "./AppConfig.vue";
-import AppFooter from "./AppFooter.vue";
+import AppTopBar from './AppTopbar.vue'
+import AppMenu from './AppMenu.vue'
+import AppConfig from './AppConfig.vue'
+import AppFooter from './AppFooter.vue'
 
 export default {
-  emits: ["change-theme"],
+  emits: ['change-theme'],
   data() {
     return {
-      layoutMode: "static",
+      layoutMode: 'static',
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
       menu: [
         {
-          label: "Listas",
+          label: 'Listas',
           items: [
             {
-              label: "Configurações",
-              icon: "pi pi-fw pi-list",
-              to: "/",
-            },
-          ],
+              label: 'Configurações',
+              icon: 'pi pi-fw pi-list',
+              to: '/'
+            }
+          ]
         },
         {
-          label: "Experimentação",
+          label: 'Experimentação',
           items: [
             {
-              label: "Pesquisador",
-              icon: "pi pi-fw pi-id-card",
+              label: 'Pesquisador',
+              icon: 'pi pi-fw pi-id-card',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/pesquisador",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/pesquisador'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/pesquisador/desativado",
-                },
-              ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/pesquisador/desativado'
+                }
+              ]
             },
             {
-              label: "Pedido",
-              icon: "pi pi-fw pi-envelope",
+              label: 'Pedido',
+              icon: 'pi pi-fw pi-envelope',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/pedido",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/pedido'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/pedido/desativado",
-                },
-              ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/pedido/desativado'
+                }
+              ]
             },
             {
-              label: "Previsão",
-              icon: "pi pi-fw pi-calendar",
+              label: 'Previsão',
+              icon: 'pi pi-fw pi-calendar',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/previsao",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/previsao'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/previsao/desativado",
-                },
-              ],
-            },
-          ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/previsao/desativado'
+                }
+              ]
+            }
+          ]
         },
         {
-          label: "Criação",
+          label: 'Criação',
           items: [
             {
-              label: "Saída",
-              icon: "pi pi-fw pi-sign-out",
+              label: 'Saída',
+              icon: 'pi pi-fw pi-sign-out',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/saida",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/saida'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/saida/desativado",
-                },
-              ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/saida/desativado'
+                }
+              ]
             },
             {
-              label: "Caixa",
-              icon: "pi pi-fw pi-box",
+              label: 'Caixa',
+              icon: 'pi pi-fw pi-box',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/caixa",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/caixa'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/caixa/desativado",
-                },
-              ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/caixa/desativado'
+                }
+              ]
             },
             {
-              label: "Temperatura & Umidade",
-              icon: "pi pi-fw pi-sun",
+              label: 'Temperatura & Umidade',
+              icon: 'pi pi-fw pi-sun',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/tempumi",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/tempumi'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/tempumi/desativado",
-                },
-              ],
-            },
-          ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/tempumi/desativado'
+                }
+              ]
+            }
+          ]
         },
         {
-          label: "Reprodução",
+          label: 'Reprodução',
           items: [
             {
-              label: "Caixa Matriz",
-              icon: "pi pi-fw pi-box",
+              label: 'Caixa Matriz',
+              icon: 'pi pi-fw pi-box',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/cxmatriz",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/cxmatriz'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/cxmatriz/desativado",
-                },
-              ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/cxmatriz/desativado'
+                }
+              ]
             },
             {
-              label: "Parto",
-              icon: "pi pi-fw pi-inbox",
+              label: 'Parto',
+              icon: 'pi pi-fw pi-inbox',
               items: [
                 {
-                  label: "Menu",
-                  icon: "pi pi-fw pi-pencil",
-                  to: "/parto",
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/parto'
                 },
                 {
-                  label: "Arquivados",
-                  icon: "pi pi-fw pi-folder",
-                  to: "/parto/desativado",
-                },
-              ],
-            },
-          ],
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/parto/desativado'
+                }
+              ]
+            }
+          ]
         },
         {
-          label: "Tabelas",
-          icon: "pi pi-fw pi-chart-line",
+          label: 'Tabelas',
+          icon: 'pi pi-fw pi-chart-line',
           items: [
             {
-              label: "Experimentação",
-              icon: "pi pi-fw pi-circle-fill",
+              label: 'Experimentação',
+              icon: 'pi pi-fw pi-circle-fill',
               items: [
                 {
-                  label: "Pedidos",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/exp/pedido",
+                  label: 'Pedidos',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/exp/pedido'
                 },
                 {
-                  label: "Cadastro Pesquisadores",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/exp/pesquisadores",
+                  label: 'Cadastro Pesquisadores',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/exp/pesquisadores'
                 },
                 {
-                  label: "Previsão",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/exp/previsao",
-                },
-                {
-                  label: "Resultado",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/exp/resultado",
-                },
-              ],
+                  label: 'Previsão',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/exp/previsao'
+                }
+              ]
             },
             {
-              label: "Criação",
-              icon: "pi pi-fw pi-circle-fill",
+              label: 'Criação',
+              icon: 'pi pi-fw pi-circle-fill',
               items: [
                 {
-                  label: "Entrada Dados",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/criacao/dados",
+                  label: 'Entrada Dados',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/criacao/dados'
                 },
                 {
-                  label: "Saídas",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/criacao/saidas",
+                  label: 'Saídas',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/criacao/saidas'
                 },
                 {
-                  label: "Temperatura e Umidade",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/criacao/tempumi",
-                },
-              ],
+                  label: 'Temperatura e Umidade',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/criacao/tempumi'
+                }
+              ]
             },
             {
-              label: "Reprodução",
-              icon: "pi pi-fw pi-circle-fill",
+              label: 'Reprodução',
+              icon: 'pi pi-fw pi-circle-fill',
               items: [
                 {
-                  label: "Nascimento e Desmame",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/repro/nascdesma",
+                  label: 'Nascimento e Desmame',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/repro/nascdesma'
                 },
                 {
-                  label: "Matrizes",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/repro/matrizes",
+                  label: 'Matrizes',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/repro/matrizes'
                 },
                 {
-                  label: "Programação Acasalamento",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/repro/progacasal",
+                  label: 'Programação Acasalamento',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/repro/progacasal'
                 },
                 {
-                  label: "Controle Reprodutivo",
-                  icon: "pi pi-fw pi-circle",
-                  to: "/repro/controlerepro",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
+                  label: 'Controle Reprodutivo',
+                  icon: 'pi pi-fw pi-circle',
+                  to: '/repro/controlerepro'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   },
   watch: {
     $route() {
-      this.menuActive = false;
-      this.$toast.removeAllGroups();
-    },
+      this.menuActive = false
+      this.$toast.removeAllGroups()
+    }
   },
   methods: {
     onWrapperClick() {
       if (!this.menuClick) {
-        this.overlayMenuActive = false;
-        this.mobileMenuActive = false;
+        this.overlayMenuActive = false
+        this.mobileMenuActive = false
       }
 
-      this.menuClick = false;
+      this.menuClick = false
     },
     onMenuToggle() {
-      this.menuClick = true;
+      this.menuClick = true
 
       if (this.isDesktop()) {
-        if (this.layoutMode === "overlay") {
+        if (this.layoutMode === 'overlay') {
           if (this.mobileMenuActive === true) {
-            this.overlayMenuActive = true;
+            this.overlayMenuActive = true
           }
 
-          this.overlayMenuActive = !this.overlayMenuActive;
-          this.mobileMenuActive = false;
-        } else if (this.layoutMode === "static") {
-          this.staticMenuInactive = !this.staticMenuInactive;
+          this.overlayMenuActive = !this.overlayMenuActive
+          this.mobileMenuActive = false
+        } else if (this.layoutMode === 'static') {
+          this.staticMenuInactive = !this.staticMenuInactive
         }
       } else {
-        this.mobileMenuActive = !this.mobileMenuActive;
+        this.mobileMenuActive = !this.mobileMenuActive
       }
 
-      event.preventDefault();
+      event.preventDefault()
     },
     onSidebarClick() {
-      this.menuClick = true;
+      this.menuClick = true
     },
     onMenuItemClick(event) {
       if (event.item && !event.item.items) {
-        this.overlayMenuActive = false;
-        this.mobileMenuActive = false;
+        this.overlayMenuActive = false
+        this.mobileMenuActive = false
       }
     },
     onLayoutChange(layoutMode) {
-      this.layoutMode = layoutMode;
+      this.layoutMode = layoutMode
     },
     addClass(element, className) {
-      if (element.classList) element.classList.add(className);
-      else element.className += " " + className;
+      if (element.classList) element.classList.add(className)
+      else element.className += ' ' + className
     },
     removeClass(element, className) {
-      if (element.classList) element.classList.remove(className);
+      if (element.classList) element.classList.remove(className)
       else
         element.className = element.className.replace(
           new RegExp(
-            "(^|\\b)" + className.split(" ").join("|") + "(\\b|$)",
-            "gi"
+            '(^|\\b)' + className.split(' ').join('|') + '(\\b|$)',
+            'gi'
           ),
-          " "
-        );
+          ' '
+        )
     },
     isDesktop() {
-      return window.innerWidth >= 992;
+      return window.innerWidth >= 992
     },
     isSidebarVisible() {
       if (this.isDesktop()) {
-        if (this.layoutMode === "static") return !this.staticMenuInactive;
-        else if (this.layoutMode === "overlay") return this.overlayMenuActive;
+        if (this.layoutMode === 'static') return !this.staticMenuInactive
+        else if (this.layoutMode === 'overlay') return this.overlayMenuActive
       }
 
-      return true;
-    },
+      return true
+    }
   },
   computed: {
     containerClass() {
       return [
-        "layout-wrapper",
+        'layout-wrapper',
         {
-          "layout-overlay": this.layoutMode === "overlay",
-          "layout-static": this.layoutMode === "static",
-          "layout-static-sidebar-inactive":
-            this.staticMenuInactive && this.layoutMode === "static",
-          "layout-overlay-sidebar-active":
-            this.overlayMenuActive && this.layoutMode === "overlay",
-          "layout-mobile-sidebar-active": this.mobileMenuActive,
-          "p-input-filled": this.$primevue.config.inputStyle === "filled",
-          "p-ripple-disabled": this.$primevue.config.ripple === false,
-        },
-      ];
+          'layout-overlay': this.layoutMode === 'overlay',
+          'layout-static': this.layoutMode === 'static',
+          'layout-static-sidebar-inactive':
+            this.staticMenuInactive && this.layoutMode === 'static',
+          'layout-overlay-sidebar-active':
+            this.overlayMenuActive && this.layoutMode === 'overlay',
+          'layout-mobile-sidebar-active': this.mobileMenuActive,
+          'p-input-filled': this.$primevue.config.inputStyle === 'filled',
+          'p-ripple-disabled': this.$primevue.config.ripple === false
+        }
+      ]
     },
     logo() {
       return this.$appState.darkTheme
-        ? "images/logo-white.svg"
-        : "images/logo.svg";
-    },
+        ? 'images/logo-white.svg'
+        : 'images/logo.svg'
+    }
   },
   beforeUpdate() {
     if (this.mobileMenuActive)
-      this.addClass(document.body, "body-overflow-hidden");
-    else this.removeClass(document.body, "body-overflow-hidden");
+      this.addClass(document.body, 'body-overflow-hidden')
+    else this.removeClass(document.body, 'body-overflow-hidden')
   },
   components: {
     AppTopBar: AppTopBar,
     AppMenu: AppMenu,
     AppConfig: AppConfig,
-    AppFooter: AppFooter,
-  },
-};
+    AppFooter: AppFooter
+  }
+}
 </script>
 
 <style lang="scss">
-@import "./App.scss";
+@import './App.scss';
 </style>
