@@ -420,6 +420,7 @@
             () => ((disable_2 = false), (disable_3 = true), (activeTab = 2))
           "></Button>
         <Button
+          v-if="!disabled"
           label="Salvar"
           class="p-button-success"
           @click="salvar"></Button>

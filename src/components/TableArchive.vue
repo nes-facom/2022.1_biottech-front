@@ -53,6 +53,7 @@
 
 <script>
 import { FilterMatchMode } from 'primevue/api'
+import Pesquisador from '../service/PesquisadorService'
 
 export default {
   data() {
@@ -127,6 +128,8 @@ export default {
     },
     getEntity() {
       if (this.route == '/pesquisador/desativado') {
+        this.entityService = new Pesquisador()
+        this.title = 'Pesquisador'
       } else if (this.route == '/pedido/desativado') {
       } else if (this.route == '/previsao/desativado') {
       } else if (this.route == '/saida/desativado') {
@@ -138,6 +141,10 @@ export default {
     },
     getMethod() {
       if (this.route == '/pesquisador/desativado') {
+        this.entityService
+          .getPesquisadorInactive()
+          .then((data) => (this.values = data))
+        this.headers = this.entityService.getPesquisadorHeaders()
       } else if (this.route == '/pedido/desativado') {
       } else if (this.route == '/previsao/desativado') {
       } else if (this.route == '/saida/desativado') {
@@ -155,13 +162,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-::v-deep(.p-datatable-frozen-tbody) {
-  font-weight: bold;
-}
-
-::v-deep(.p-datatable-scrollable .p-frozen-column) {
-  font-weight: bold;
-}
-</style>

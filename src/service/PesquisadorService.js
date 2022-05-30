@@ -1,8 +1,14 @@
 export default class Pesquisador {
-  getPesquisador() {
-    return fetch('data/biot-data/pesquisador.json')
-      .then((res) => res.json())
-      .then((d) => d.pesquisador)
+  async getPesquisador() {
+    const res = await fetch('data/biot-data/pesquisador.json')
+    const data = await res.json()
+    return data.pesquisador
+  }
+
+  async getPesquisadorInactive() {
+    const res = await fetch('data/biot-data/pesquisadorInactive.json')
+    const data = await res.json()
+    return data.pesquisador
   }
 
   getPesquisadorHeaders() {

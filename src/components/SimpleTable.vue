@@ -79,12 +79,11 @@
             </template>
           </Column>
 
-          <!-- WIP -->
           <!-- MODAL PARA CADASTRO -->
           <Dialog
             v-model:visible="dataDialog"
             :style="{ width: '450px' }"
-            header="Cadastro"
+            :header="'Cadastro: ' + title"
             :modal="true"
             class="p-fluid"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
@@ -103,7 +102,6 @@
             </template>
           </Dialog>
 
-          <!-- WIP -->
           <!-- MODAL DE ALERTA DELEÇÃO -->
           <Dialog
             v-model:visible="deleteDataDialog"
@@ -222,65 +220,65 @@ export default {
         this.title = 'Linhagem'
         this.config = true
       } else if (this.route == '/config/sala') {
-        console.log('Sala')
+        ;('Sala')
         this.title = 'Sala'
         this.config = true
       } else if (this.route == '/config/linhapesquisa') {
-        console.log('Linha Pesquisa')
+        ;('Linha Pesquisa')
         this.title = 'Linha de Pesquisa'
         this.config = true
       } else if (this.route == '/config/insti') {
-        console.log('Instituição')
+        ;('Instituição')
         this.title = 'Vínculo Institucional'
         this.config = true
       } else if (this.route == '/config/proj') {
-        console.log('Projeto')
+        ;('Projeto')
         this.title = 'Nível de Projeto'
         this.config = true
       } else if (this.route == '/config/lab') {
-        console.log('Laboratório')
+        ;('Laboratório')
         this.title = 'Laboratório'
         this.config = true
       } else if (this.route == '/config/especie') {
-        console.log('Espécie')
+        ;('Espécie')
         this.title = 'Espécie'
         this.config = true
       } else if (this.route == '/config/finalidade') {
-        console.log('Finalidade')
+        ;('Finalidade')
         this.title = 'Finalidade'
         this.config = true
       } else if (this.route == '/exp/pedido') {
-        console.log('exp/pedido')
+        ;('exp/pedido')
         this.title = 'Pedido'
       } else if (this.route == '/exp/pesquisadores') {
-        console.log('Pesquisadores')
+        ;('Pesquisadores')
         this.title = 'Pesquisadores'
       } else if (this.route == '/exp/previsao') {
-        console.log('Previsao')
+        ;('Previsao')
         this.title = 'Previsão'
       } else if (this.route == '/exp/resultado') {
-        console.log('resultado')
+        ;('resultado')
         this.title = 'Resultado'
       } else if (this.route == '/criacao/dados') {
-        console.log('Entrada dados')
+        ;('Entrada dados')
         this.title = 'Entrada Dados'
       } else if (this.route == '/criacao/saidas') {
-        console.log('Saidas')
+        ;('Saidas')
         this.title = 'Saídas'
       } else if (this.route == '/criacao/tempumi') {
-        console.log('Temperatura Umidade')
+        ;('Temperatura Umidade')
         this.title = 'Temperatura & Umidade'
       } else if (this.route == '/repro/nascdesma') {
-        console.log('Nascimento e Desmame')
+        ;('Nascimento e Desmame')
         this.title = 'Nascimento e Desmame'
       } else if (this.route == '/repro/matrizes') {
-        console.log('Matrizes')
+        ;('Matrizes')
         this.title = 'Matrizes'
       } else if (this.route == '/repro/progacasal') {
-        console.log('Programação e acasalamento')
+        ;('Programação e acasalamento')
         this.title = 'Programação e acasalamento'
       } else if (this.route == '/repro/controlerepro') {
-        console.log('Controle Reprodutivo')
+        ;('Controle Reprodutivo')
         this.title = 'Controle Reprodutivo'
       }
     },
@@ -289,41 +287,23 @@ export default {
         this.entityService.getLinhagem().then((data) => (this.values = data))
         this.headers = this.entityService.getLinhagemHeaders()
       } else if (this.route == '/config/sala') {
-        console.log('Sala')
       } else if (this.route == '/config/linhapesquisa') {
-        console.log('Linha Pesquisa')
       } else if (this.route == '/config/insti') {
-        console.log('Instituição')
       } else if (this.route == '/config/proj') {
-        console.log('Projeto')
       } else if (this.route == '/config/lab') {
-        console.log('Laboratório')
       } else if (this.route == '/config/especie') {
-        console.log('Espécie')
       } else if (this.route == '/config/finalidade') {
-        console.log('Finalidade')
       } else if (this.route == '/exp/pedido') {
-        console.log('exp/pedido')
       } else if (this.route == '/exp/pesquisadores') {
-        console.log('Pesquisadores')
       } else if (this.route == '/exp/previsao') {
-        console.log('Previsao')
       } else if (this.route == '/exp/resultado') {
-        console.log('resultado')
       } else if (this.route == '/criacao/dados') {
-        console.log('Entrada dados')
       } else if (this.route == '/criacao/saidas') {
-        console.log('Saidas')
       } else if (this.route == '/criacao/tempumi') {
-        console.log('Temperatura Umidade')
       } else if (this.route == '/repro/nascdesma') {
-        console.log('Nascimento e Desmame')
       } else if (this.route == '/repro/matrizes') {
-        console.log('Matrizes')
       } else if (this.route == '/repro/progacasal') {
-        console.log('Programação e acasalamento')
       } else if (this.route == '/repro/controlerepro') {
-        console.log('Controle Reprodutivo')
       }
     },
     initFilters() {
@@ -335,13 +315,3 @@ export default {
   components: { ListsModal }
 }
 </script>
-
-<style scoped lang="scss">
-::v-deep(.p-datatable-frozen-tbody) {
-  font-weight: bold;
-}
-
-::v-deep(.p-datatable-scrollable .p-frozen-column) {
-  font-weight: bold;
-}
-</style>

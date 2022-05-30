@@ -305,29 +305,25 @@ export default {
     },
     getEntity() {
       if (this.route == '/pesquisador') {
+        console.log('kljsndfkjsdfg')
         this.entityService = new Pesquisador()
         this.title = 'Pesquisador'
+        console.log(this.archive)
       } else if (this.route == '/pedido') {
         this.entityService = new Pedido()
         this.title = 'Pedido'
       } else if (this.route == '/previsao') {
         this.title = 'Previsão'
-        console.log('previsao')
       } else if (this.route == '/saida') {
         this.title = 'Saída'
-        console.log('saida')
       } else if (this.route == '/caixa') {
         this.title = 'Caixa'
-        console.log('caixa')
       } else if (this.route == '/tempumi') {
         this.title = 'Temperatura & Umidade'
-        console.log('tempumi')
       } else if (this.route == '/cxmatriz') {
         this.title = 'Caixa Matriz'
-        console.log('cxmatriz')
       } else if (this.route == '/parto') {
         this.title = 'Parto'
-        console.log('parto')
       }
     },
     getMethod() {
@@ -338,17 +334,11 @@ export default {
         this.entityService.getPedido().then((data) => (this.values = data))
         this.headers = this.entityService.getPedidoHeaders()
       } else if (this.route == '/previsao') {
-        console.log('previsao')
       } else if (this.route == '/saida') {
-        console.log('saida')
       } else if (this.route == '/caixa') {
-        console.log('caixa')
       } else if (this.route == '/tempumi') {
-        console.log('tempumi')
       } else if (this.route == '/cxmatriz') {
-        console.log('cxmatriz')
       } else if (this.route == '/parto') {
-        console.log('parto')
       }
     },
     seeMore(value) {
