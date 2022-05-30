@@ -1,8 +1,8 @@
 export default class Pedido {
-  getPedido() {
-    return fetch('data/biot-data/pedido.json')
-      .then((res) => res.json())
-      .then((d) => d.pedidos)
+  async getPedido() {
+    const res = await fetch('data/biot-data/pedido.json')
+    const data = await res.json()
+    return data.pedidos
   }
 
   getPedidoHeaders() {

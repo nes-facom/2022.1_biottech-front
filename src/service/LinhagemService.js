@@ -1,8 +1,8 @@
 export default class Linhagem {
-  getLinhagem() {
-    return fetch('data/biot-data/linhagem.json')
-      .then((res) => res.json())
-      .then((d) => d.linhagens)
+  async getLinhagem() {
+    const res = await fetch('data/biot-data/linhagem.json')
+    const d = await res.json()
+    return d.linhagens
   }
 
   getLinhagemHeaders() {
