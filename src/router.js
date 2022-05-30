@@ -54,7 +54,6 @@ const routes = [
       },
       {
         path: '/pesquisador',
-        name: 'Pesquisador',
         component: {
           render() {
             return h(resolveComponent('router-view'))
@@ -63,17 +62,19 @@ const routes = [
         children: [
           {
             path: '',
+            name: 'Pesquisador',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/pesquisador/desativado',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Pesquisadores Arquivados',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
       {
         path: '/pedido',
-        name: 'pedido',
         component: {
           render() {
             return h(resolveComponent('router-view'))
@@ -82,17 +83,19 @@ const routes = [
         children: [
           {
             path: '',
+            name: 'Pedido',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/pedido/desativado',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Pedidos Arquivados',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
       {
         path: '/previsao',
-        name: 'Previsao',
         component: {
           render() {
             return h(resolveComponent('router-view'))
@@ -101,17 +104,19 @@ const routes = [
         children: [
           {
             path: '',
+            name: 'Previsão',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/previsao/desativado',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Previsões Arquivadas',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
       {
         path: '/saida',
-        name: 'Saída',
         component: {
           render() {
             return h(resolveComponent('router-view'))
@@ -120,11 +125,14 @@ const routes = [
         children: [
           {
             path: '',
+            name: 'Saída',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/saida/desativado',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Saídas Arquivadas',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
@@ -139,17 +147,19 @@ const routes = [
         children: [
           {
             path: '',
+            name: 'Caixa',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/caixa/desativado',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Caixas Arquivadas',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
       {
         path: '/tempumi',
-        name: 'TemperaturaUmidade',
         component: {
           render() {
             return h(resolveComponent('router-view'))
@@ -158,19 +168,19 @@ const routes = [
         children: [
           {
             path: '',
-            name: 'Menu temperatura e umidade',
+            name: 'Temperatura e umidade',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/tempumi/desativado',
-            name: 'Temperatura e umidade arquivadas',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Temperatura e umidade Arquivadas',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
       {
         path: '/cxmatriz',
-        name: 'Caixa Matriz',
         component: {
           render() {
             return h(resolveComponent('router-view'))
@@ -179,13 +189,14 @@ const routes = [
         children: [
           {
             path: '',
-            name: 'Menu caixa matriz',
+            name: 'Caixa Matriz',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/cxmatriz/desativado',
-            name: 'Caixas matrizes arquivadas',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Caixas Matrizes Arquivadas',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
@@ -200,13 +211,14 @@ const routes = [
         children: [
           {
             path: '',
-            name: 'Menu parto',
+            name: 'Parto',
             component: () => import('./components/TableCrud.vue')
           },
           {
             path: '/parto/desativado',
-            name: 'Partos arquivados',
-            component: () => import('./components/TableArchive.vue')
+            name: 'Partos Arquivados',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
@@ -221,23 +233,21 @@ const routes = [
         children: [
           {
             path: '/exp/pedido',
-            name: 'Pedido',
-            component: () => import('./components/SimpleTable.vue')
+            name: 'Pedidos',
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           },
           {
             path: '/exp/pesquisadores',
             name: 'Pesquisadores',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           },
           {
             path: '/exp/previsao',
             name: 'Previsão',
-            component: () => import('./components/SimpleTable.vue')
-          },
-          {
-            path: '/exp/resultado',
-            name: 'Resultado',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
@@ -253,17 +263,20 @@ const routes = [
           {
             path: '/criacao/dados',
             name: 'Entrada Dados',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           },
           {
             path: '/criacao/saidas',
             name: 'Saídas',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           },
           {
             path: '/criacao/tempumi',
             name: 'Temperatura e Umidade',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       },
@@ -279,22 +292,26 @@ const routes = [
           {
             path: '/repro/nascdesma',
             name: 'Nascimento e Desmame',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           },
           {
             path: '/repro/matrizes',
             name: 'Matrizes',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           },
           {
             path: '/repro/progacasal',
             name: 'Programação Acasalamento',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           },
           {
             path: '/repro/controlerepro',
             name: 'Controle Reprodutivo',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/TableCrud.vue'),
+            props: { viewOnly: true }
           }
         ]
       }
