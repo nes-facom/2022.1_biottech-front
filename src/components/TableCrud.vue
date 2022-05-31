@@ -206,6 +206,19 @@
             </template>
           </Dialog>
         </DataTable>
+        <div class="flex justify-content-between">
+          <Button
+            label="Anterior"
+            icon="pi pi-arrow-left"
+            class="p-button-primary mt-2"
+            @click="prev" />
+          <Button
+            label="Próximo"
+            iconPos="right"
+            icon="pi pi-arrow-right"
+            class="p-button-primary mt-2"
+            @click="next" />
+        </div>
       </div>
     </div>
   </div>
@@ -250,6 +263,14 @@ export default {
     this.getMethod()
   },
   methods: {
+    prev() {
+      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
+      // renderizar botão apenas se n for a primeira pag
+    },
+    next() {
+      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
+      // renderizar botão apenas se n for a última pag
+    },
     openNew() {
       this.value = {}
       // this.submitted = false
