@@ -37,11 +37,11 @@ export default {
       mobileMenuActive: false,
       menu: [
         {
-          label: 'Listas',
+          label: 'Início',
           items: [
             {
-              label: 'Configurações',
-              icon: 'pi pi-fw pi-list',
+              label: 'Dashboard',
+              icon: 'pi pi-fw pi-chart-line',
               to: '/'
             }
           ]
@@ -260,6 +260,16 @@ export default {
                   to: '/repro/controlerepro'
                 }
               ]
+            }
+          ]
+        },
+        {
+          label: 'Listas',
+          items: [
+            {
+              label: 'Configurações',
+              icon: 'pi pi-fw pi-list',
+              to: '/config'
             }
           ]
         }

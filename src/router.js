@@ -10,6 +10,11 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'Dashboard',
+        component: () => import('./components/Dashboard.vue')
+      },
+      {
+        path: '/config',
         name: 'Configurações',
         component: () => import('./pages/TabMenu.vue'),
         redirect: '/config/linhagem',
