@@ -129,7 +129,7 @@
           <Dialog
             v-model:visible="dataDialog"
             :style="{ width: '450px' }"
-            header="Cadastro"
+            :header="'Cadastro: ' + title"
             :modal="true"
             class="p-fluid"
             :closeOnEscape="false"
@@ -145,7 +145,7 @@
               <PedidoModal :pedido="value" :disabled="false" />
             </div>
             <div v-else-if="title === 'Previsão'">
-              <p>Modais de previsão</p>
+              <PrevisaoModal :previsao="value" />
             </div>
             <div v-else-if="title === 'Saída'">
               <p>Modais de saída</p>
@@ -229,6 +229,7 @@ import Pesquisador from '../service/PesquisadorService'
 import Pedido from '../service/PedidoService'
 import PesquisadorModal from './Modals/PesquisadorModal.vue'
 import PedidoModal from './Modals/PedidoModal.vue'
+import PrevisaoModal from './Modals/PrevisaoModal.vue'
 
 export default {
   data() {
@@ -413,6 +414,6 @@ export default {
       this.seeMoreDialog = true
     }
   },
-  components: { PesquisadorModal, PedidoModal }
+  components: { PesquisadorModal, PedidoModal, PrevisaoModal }
 }
 </script>
