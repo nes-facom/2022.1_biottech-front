@@ -62,7 +62,7 @@
             :key="col.field"
             :field="col.field"
             :header="col.header"
-            headerStyle="min-width:50rem">
+            headerStyle="min-width:30rem">
           </Column>
           <Column>
             <template #body="slotProps">
@@ -87,7 +87,7 @@
             :modal="true"
             class="p-fluid"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
-            <ListsModal :listObj="value" />
+            <ListsModal :listObj="value" :title="title" />
             <template #footer>
               <Button
                 label="Cancelar"
@@ -173,6 +173,7 @@ export default {
   entityService: null,
   created() {
     this.route = this.$route.path
+    this.title = this.$route.name
     this.getEntity()
     this.initFilters()
   },
@@ -238,69 +239,21 @@ export default {
     getEntity() {
       if (this.route == '/config/linhagem') {
         this.entityService = new Linhagem()
-        this.title = 'Linhagem'
         this.config = true
       } else if (this.route == '/config/sala') {
-        ;('Sala')
-        this.title = 'Sala'
         this.config = true
       } else if (this.route == '/config/linhapesquisa') {
-        ;('Linha Pesquisa')
-        this.title = 'Linha de Pesquisa'
         this.config = true
       } else if (this.route == '/config/insti') {
-        ;('Instituição')
-        this.title = 'Vínculo Institucional'
         this.config = true
       } else if (this.route == '/config/proj') {
-        ;('Projeto')
-        this.title = 'Nível de Projeto'
         this.config = true
       } else if (this.route == '/config/lab') {
-        ;('Laboratório')
-        this.title = 'Laboratório'
         this.config = true
       } else if (this.route == '/config/especie') {
-        ;('Espécie')
-        this.title = 'Espécie'
         this.config = true
       } else if (this.route == '/config/finalidade') {
-        ;('Finalidade')
-        this.title = 'Finalidade'
         this.config = true
-      } else if (this.route == '/exp/pedido') {
-        ;('exp/pedido')
-        this.title = 'Pedido'
-      } else if (this.route == '/exp/pesquisadores') {
-        ;('Pesquisadores')
-        this.title = 'Pesquisadores'
-      } else if (this.route == '/exp/previsao') {
-        ;('Previsao')
-        this.title = 'Previsão'
-      } else if (this.route == '/exp/resultado') {
-        ;('resultado')
-        this.title = 'Resultado'
-      } else if (this.route == '/criacao/dados') {
-        ;('Entrada dados')
-        this.title = 'Entrada Dados'
-      } else if (this.route == '/criacao/saidas') {
-        ;('Saidas')
-        this.title = 'Saídas'
-      } else if (this.route == '/criacao/tempumi') {
-        ;('Temperatura Umidade')
-        this.title = 'Temperatura & Umidade'
-      } else if (this.route == '/repro/nascdesma') {
-        ;('Nascimento e Desmame')
-        this.title = 'Nascimento e Desmame'
-      } else if (this.route == '/repro/matrizes') {
-        ;('Matrizes')
-        this.title = 'Matrizes'
-      } else if (this.route == '/repro/progacasal') {
-        ;('Programação e acasalamento')
-        this.title = 'Programação e acasalamento'
-      } else if (this.route == '/repro/controlerepro') {
-        ;('Controle Reprodutivo')
-        this.title = 'Controle Reprodutivo'
       }
     },
     getMethod() {
@@ -314,17 +267,6 @@ export default {
       } else if (this.route == '/config/lab') {
       } else if (this.route == '/config/especie') {
       } else if (this.route == '/config/finalidade') {
-      } else if (this.route == '/exp/pedido') {
-      } else if (this.route == '/exp/pesquisadores') {
-      } else if (this.route == '/exp/previsao') {
-      } else if (this.route == '/exp/resultado') {
-      } else if (this.route == '/criacao/dados') {
-      } else if (this.route == '/criacao/saidas') {
-      } else if (this.route == '/criacao/tempumi') {
-      } else if (this.route == '/repro/nascdesma') {
-      } else if (this.route == '/repro/matrizes') {
-      } else if (this.route == '/repro/progacasal') {
-      } else if (this.route == '/repro/controlerepro') {
       }
     },
     initFilters() {
