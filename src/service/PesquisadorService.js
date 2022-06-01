@@ -3,13 +3,23 @@ import axios from "axios";
 import { API_ENDPOINT } from "../constants";
 
 
-export default class Pesquisador {
-  async getPesquisador() {
-    return axios.get(`${API_ENDPOINT}/pesquisador/getPesquisadorTable.json?page=1&limit=10&active=true&search=`, this.buildAuthHeader())
+class Pesquisador {
+  async #getPesquisador(search, page) {
+    return axios.get(`${API_ENDPOINT}/pesquisador/getPesquisadores.json?page=${page}&limit=10&active=true&search=${search}`, this.buildAuthHeader())
   }
 
-  async getPesquisadorInactive() {
-    return axios.get(`${API_ENDPOINT}/pesquisador/getPesquisadorTable.json?page=1&limit=10&active=false&search=`, this.buildAuthHeader())
+  async #getPesquisadorInactive(search, page) {
+    return axios.get(`${API_ENDPOINT}/pesquisador/getPesquisadores.json?page=${page}&limit=10&active=false&search=${search}`, this.buildAuthHeader())
+  }
+
+  getPesquisadores(disable, page, search, onFetch) {
+    if (disable) {
+      this.#getPesquisadorInactive(search, page)
+        .then(response => onFetch(response.data.pesquisador))
+    } else {
+      this.#getPesquisador(search, page)
+        .then(response => onFetch(response.data.pesquisador))
+    }
   }
 
   getPesquisadorHeaders() {
@@ -25,25 +35,6 @@ export default class Pesquisador {
     return columns
   }
 
-  // getPesquisador() {
-  //   return fetch(
-  //     'http://localhost/biottech-back/api/pesquisador/getPesquisadorTable.json'
-  //   )
-  //     .then((res) => res.json())
-  //     .then((d) => d.data)
-  // }
-
-  // getPesquisador(page, limit) {
-  //   return fetch(
-  //     'http://localhost/biottech-back/api/pedido/getPesquisadorTable.json?page=' +
-  //       page +
-  //       '&limit=' +
-  //       limit
-  //   )
-  //     .then((res) => res.json())
-  //     .then((d) => d.data)
-  // }
-
 
   buildAuthHeader() {
     return {
@@ -53,3 +44,6 @@ export default class Pesquisador {
     }
   }
 }
+
+
+export default new Pesquisador();

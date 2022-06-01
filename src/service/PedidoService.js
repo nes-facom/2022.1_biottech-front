@@ -1,8 +1,25 @@
-export default class Pedido {
-  async getPedido() {
-    const res = await fetch('data/biot-data/pedido.json')
-    const data = await res.json()
-    return data.pedidos
+import AuthService from "./AuthService";
+import axios from "axios";
+import { API_ENDPOINT } from "../constants";
+
+
+class Pedido {
+  async #getPedido(search, page, year) {
+    return axios.get(`${API_ENDPOINT}/pedido/getPedidos.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`, this.buildAuthHeader())
+  }
+
+  async #getPedidoInactive(search, page, year) {
+    return axios.get(`${API_ENDPOINT}/pedido/getPedidos.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`, this.buildAuthHeader())
+  }
+
+  getPedidos(disable, page, search, onFetch) {
+    if (disable) {
+      this.#getPedidoInactive(search, page, new Date().getFullYear())
+        .then(response => onFetch(response.data))
+    } else {
+      this.#getPedido(search, page, new Date().getFullYear())
+        .then(response => onFetch(response.data))
+    }
   }
 
   getPedidoHeaders() {
@@ -19,6 +36,7 @@ export default class Pedido {
     ]
     return columns
   }
+
 
   // getPedido() {
   //   return fetch(
@@ -38,4 +56,14 @@ export default class Pedido {
   //     .then((res) => res.json())
   //     .then((d) => d.data)
   // }
+
+  buildAuthHeader() {
+    return {
+      headers: {
+        'Authorization': `Bearer ${AuthService.getJWTToken()}`
+      }
+    }
+  }
 }
+
+export default new Pedido()

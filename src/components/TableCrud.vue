@@ -44,6 +44,7 @@
                 <div class="formgroup-inline">
                   <div class="field">
                     <InputText
+                      @keyup.enter="search()"
                       placeholder="Buscar..."
                       v-model="this.searchString" />
                   </div>
@@ -208,11 +209,13 @@
         </DataTable>
         <div class="flex justify-content-between">
           <Button
+            :disabled="!prevPage"
             label="Anterior"
             icon="pi pi-arrow-left"
             class="p-button-primary mt-2"
             @click="prev" />
           <Button
+            :disabled="!nextPage"
             label="Próximo"
             iconPos="right"
             icon="pi pi-arrow-right"
@@ -225,11 +228,12 @@
 </template>
 
 <script>
-import Pesquisador from '../service/PesquisadorService'
-import Pedido from '../service/PedidoService'
+import PesquisadorService from '../service/PesquisadorService'
+import PedidoService from '../service/PedidoService'
 import PesquisadorModal from './Modals/PesquisadorModal.vue'
 import PedidoModal from './Modals/PedidoModal.vue'
 import PrevisaoModal from './Modals/PrevisaoModal.vue'
+import Util from '../util/Util'
 
 export default {
   data() {
@@ -243,7 +247,10 @@ export default {
       headers: null,
       route: null,
       title: null,
-      searchString: null
+      searchString: '',
+      page: null,
+      prevPage: false,
+      nextPage: false
     }
   },
   props: {
@@ -258,19 +265,19 @@ export default {
   created() {
     this.route = this.$route.path
     this.title = this.$route.name
-    this.getEntity()
   },
   mounted() {
+    this.page = 1
     this.getMethod()
   },
   methods: {
     prev() {
-      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
-      // renderizar botão apenas se n for a primeira pag
+      this.page = this.page - 1
+      this.getMethod()
     },
     next() {
-      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
-      // renderizar botão apenas se n for a última pag
+      this.page = this.page + 1
+      this.getMethod()
     },
     openNew() {
       this.value = {}
@@ -321,103 +328,35 @@ export default {
       // console.log(this.route.name)
     },
     getTel(obj) {
-      const arr = Object.keys(obj).map(function (key) {
-        return obj[key]
-      })
-      let str = ''
-      arr.forEach((element) => {
-        if (str == '') {
-          str += element.telefone
-        } else {
-          str += '\n' + element.telefone
-        }
-      })
-      return str
+      return Util.formatPhones(obj)
     },
     search() {
-      //TODO: add método de busca
-      this.searchString = ''
-    },
-    getEntity() {
-      if (
-        this.route.startsWith('/pesquisador') ||
-        this.route == '/exp/pesquisadores'
-      ) {
-        this.entityService = new Pesquisador()
-      } else if (
-        this.route.startsWith('/pedido') ||
-        this.route == '/exp/pedido'
-      ) {
-        this.entityService = new Pedido()
-      } else if (
-        this.route.startsWith('/previsao') ||
-        this.route == '/exp/previsao'
-      ) {
-        // this.entityService = new Previsao()
-      } else if (
-        this.route.startsWith('/saida') ||
-        this.route == '/criacao/saida'
-      ) {
-        // this.entityService = new Saida()
-      } else if (
-        this.route.startsWith('/caixa') ||
-        this.route == '/criacao/dados'
-      ) {
-        // this.entityService = new Caixa()
-      } else if (
-        this.route.startsWith('/tempumi') ||
-        this.route == '/criacao/tempumi'
-      ) {
-        // this.entityService = new TemperaturaUmidade()
-      } else if (
-        this.route.startsWith('/cxmatriz') ||
-        this.route == '/repro/matrizes'
-      ) {
-        // this.entityService = new CaixaMatriz()
-      } else if (
-        this.route.startsWith('/parto') ||
-        this.route == '/repro/nascdesma' ||
-        this.route == '/repro/progacasal' ||
-        this.route == '/repro/controlerepro'
-      ) {
-        // this.entityService = new Parto()
-      }
+      this.getMethod()
     },
     getMethod() {
       if (this.route.startsWith('/pesquisador')) {
         if (!this.viewOnly) {
-          this.entityService
-            .getPesquisador()
-            .then(
-              response => {
-                this.values = response.data.pesquisador;
-              },
-              error => {
-                this.values =
-                  (error.response && error.response.data && error.response.data.message) ||
-                  error.message ||
-                  error.toString();
-              });
-          this.headers = this.entityService.getPesquisadorHeaders()
-        } else {
-          this.entityService
-            .getPesquisadorInactive()
-            .then(
-              response => {
-                this.values = response.data.pesquisador;
-              },
-              error => {
-                this.values =
-                  (error.response && error.response.data && error.response.data.message) ||
-                  error.message ||
-                  error.toString();
-              });
-          this.headers = this.entityService.getPesquisadorHeaders()
+          this.headers = PesquisadorService.getPesquisadorHeaders()
+          PesquisadorService.getPesquisadores(
+            this.route.startsWith('/desativado'),
+            this.page,
+            this.searchString,
+            (datas) => (this.values = datas)
+          )
         }
       } else if (this.route.startsWith('/pedido')) {
         if (!this.viewOnly) {
-          this.entityService.getPedido().then((data) => (this.values = data))
-          this.headers = this.entityService.getPedidoHeaders()
+          this.headers = PedidoService.getPedidoHeaders()
+          PedidoService.getPedidos(
+            this.route.startsWith('/desativado'),
+            this.page,
+            this.searchString,
+            (datas) => (
+              (this.values = datas.pedidos),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
         }
       } else if (this.route.startsWith('/previsao')) {
       } else if (this.route.startsWith('/saida')) {
