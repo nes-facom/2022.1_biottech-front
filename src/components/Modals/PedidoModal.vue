@@ -431,8 +431,6 @@
 </template>
 
 <script>
-import Pesquisador from '../../service/PesquisadorService'
-import Linhagem from '../../service/LinhagemService'
 export default {
   data() {
     return {
@@ -457,54 +455,8 @@ export default {
     pedido: Object,
     disabled: Boolean
   },
-  pesquisadorService: null,
-  // previsaoService: null,
-  // intituicaoService: null,
-  // projetoService: null,
-  // pesquisaService: null,
-  // nivelService: null,
-  // laboratorioService: null,
-  // finalidadeService: null,
-  // especieService: null,
-  linhagemService: null,
-  created() {
-    this.pesquisadorService = new Pesquisador()
-    // this.previsaoService = new Previsao()
-    // this.projetoService = new Projeto()
-    // this.pesquisaService = new Pesquisa()
-    // this.nivelService = new Nivel()
-    // this.laboratorioService = new Laboratorio()
-    // this.finalidadeService = new Finalidade()
-    // this.especieService = new Especie()
-    this.linhagemService = new Linhagem()
-  },
   mounted() {
     this.freeTab()
-    this.pesquisadorService
-      .getPesquisador()
-      .then((data) => (this.pesquisadores = data))
-    // this.previsaoService
-    //   .getPrevisa()
-    //   .then((data) => (this.previsoes = data))
-    // this.projetoService
-    //   .getProjeto()
-    //   .then((data) => (this.projetos = data))
-    // this.pesquisaService
-    //   .getPesquisa()
-    //   .then((data) => (this.pesquisas = data))
-    // this.nivelService
-    //   .getNivel()
-    //   .then((data) => (this.niveis = data))
-    // this.laboratorioService
-    //   .getLaboratorio()
-    //   .then((data) => (this.laboratorios = data))
-    // this.finalidadeService
-    //   .getFinalidade()
-    //   .then((data) => (this.finalidades = data))
-    // this.especieService
-    //   .getEspecie()
-    //   .then((data) => (this.especies = data))
-    this.linhagemService.getLinhagem().then((data) => (this.linhagens = data))
   },
   methods: {
     salvar() {
