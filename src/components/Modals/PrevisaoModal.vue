@@ -56,34 +56,46 @@
           </template>
         </Dropdown>
       </div>
+      <div class="field col-12">
+        <label for="status">Status</label>
+        <Dropdown
+          id="status"
+          v-model="previsao.status"
+          :options="statuses"
+          placeholder="Selecione um status">
+          <template #value="slotProps">
+            <div v-if="slotProps.value">
+              <div>{{ slotProps.value.value }}</div>
+            </div>
+            <span v-else>
+              {{ slotProps.placeholder }}
+            </span>
+          </template>
+          <template #option="slotProps">
+            <div>{{ slotProps.option.label }}</div>
+          </template>
+        </Dropdown>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// import Pedido from '../../service/PedidoService'
 export default {
   data() {
     return {
-      pedidos: null
+      pedidos: null,
+      statuses: [
+        { label: 'Aberto', value: 'Aberto' },
+        { label: 'Fechado', value: 'Fechado' }
+      ]
     }
   },
   props: {
     previsao: Object
   },
-  pedidoService: null,
-  created() {
-    // this.pedidoService = new Pedido()
-  },
   mounted() {
-    // this.pedidoService.getPedido().then((data) => (this.pedidos = data))
-  },
-  methods: {
-    salvar() {
-      //TODO: SALVAR O PEDIDO
-    }
+    // TODO: Recuperar pedidos possíveis a serem selecionados para uma previsão
   }
 }
 </script>
-
-<style></style>
