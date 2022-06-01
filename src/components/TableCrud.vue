@@ -156,7 +156,7 @@
               <PrevisaoModal :previsao="value" />
             </div>
             <div v-else-if="title === 'Saída'">
-              <p>Modais de saída</p>
+              <SaidaModal :saida="value" />
             </div>
             <div v-else-if="title === 'Caixa'">
               <p>Modais de caixa</p>
@@ -180,7 +180,7 @@
                 v-if="title != 'Pedido'"
                 label="Save"
                 icon="pi pi-check"
-                class="p-button-text"
+                class="p-button-text p-button-success"
                 @click="saveNew" />
             </template>
           </Dialog>
@@ -241,6 +241,7 @@ import PesquisadorModal from './Modals/PesquisadorModal.vue'
 import PedidoModal from './Modals/PedidoModal.vue'
 import PrevisaoModal from './Modals/PrevisaoModal.vue'
 import Util from '../util/Util'
+import SaidaModal from './Modals/SaidaModal.vue'
 
 export default {
   data() {
@@ -403,6 +404,6 @@ export default {
       this.seeMoreDialog = true
     }
   },
-  components: { PesquisadorModal, PedidoModal, PrevisaoModal }
+  components: { PesquisadorModal, PedidoModal, PrevisaoModal, SaidaModal }
 }
 </script>
