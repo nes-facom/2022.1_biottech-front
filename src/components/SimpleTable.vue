@@ -92,12 +92,12 @@
               <Button
                 label="Cancelar"
                 icon="pi pi-times"
-                class="p-button-text"
+                class="p-button-text p-button-danger"
                 @click="hideDialog" />
               <Button
                 label="Salvar"
                 icon="pi pi-check"
-                class="p-button-text"
+                class="p-button-text p-button-success"
                 @click="saveNew" />
             </template>
           </Dialog>
