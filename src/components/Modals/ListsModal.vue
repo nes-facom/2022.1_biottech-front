@@ -31,13 +31,11 @@
           </template>
         </MultiSelect>
       </div>
-      <Button @click="show"> </Button>
     </div>
   </div>
 </template>
 
 <script>
-import Linhagem from '../../service/LinhagemService'
 export default {
   data() {
     return {
@@ -48,22 +46,10 @@ export default {
     listObj: Object,
     title: String
   },
-  linhagemService: null,
-  created() {
-    if (this.title == 'Sala') {
-      this.linhagemService = new Linhagem()
-    }
-  },
   mounted() {
     if (this.title == 'Sala') {
-      this.linhagemService
-        .getLinhagem()
-        .then((data) => (this.linhagens = Object.values(data)))
-    }
-  },
-  methods: {
-    show() {
-      console.log(this.linhagens)
+      //TODO: recuperar as linhagens possíveis
+      //de serem selecionadas se a lista sendo editada/cadastrada for 'Sala'
     }
   }
 }

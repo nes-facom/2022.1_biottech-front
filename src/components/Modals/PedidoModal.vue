@@ -457,6 +457,18 @@ export default {
   },
   mounted() {
     this.freeTab()
+    //TODO: Recuperar as seguintes entidades para que essas possam ser selecionadas
+    //cadastrar/editar um pedido
+    //pesquisadores
+    // previsoes
+    // instituicoes
+    // projetos
+    // pesquisas
+    // niveis
+    // laboratorios
+    // finalidades
+    // especies
+    // linhagens
   },
   methods: {
     salvar() {

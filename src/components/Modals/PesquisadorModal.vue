@@ -85,7 +85,10 @@ b
             <InputText id="newTel" type="text" v-model="newTel"></InputText>
           </div>
           <div class="flex-none flex align-items-center justify-content-center">
-            <Button icon="pi pi-plus" class="p-button-success mr-2"></Button>
+            <Button
+              icon="pi pi-plus"
+              class="p-button-success mr-2"
+              @click="addTel(getArr(pesquisador.telefones))"></Button>
           </div>
         </div>
       </div>
@@ -112,7 +115,7 @@ export default {
       return arr
     },
     addTel(arr) {
-      //todo: add novo telefone
+      //TODO: add novo telefone
     }
   }
 }
