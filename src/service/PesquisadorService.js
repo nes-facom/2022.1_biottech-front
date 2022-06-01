@@ -1,14 +1,15 @@
+import AuthService from "./AuthService";
+import axios from "axios";
+import { API_ENDPOINT } from "../constants";
+
+
 export default class Pesquisador {
   async getPesquisador() {
-    const res = await fetch('data/biot-data/pesquisador.json')
-    const data = await res.json()
-    return data.pesquisador
+    return axios.get(`${API_ENDPOINT}/pesquisador/getPesquisadorTable.json?page=1&limit=10&active=true&search=`, this.buildAuthHeader())
   }
 
   async getPesquisadorInactive() {
-    const res = await fetch('data/biot-data/pesquisadorInactive.json')
-    const data = await res.json()
-    return data.pesquisador
+    return axios.get(`${API_ENDPOINT}/pesquisador/getPesquisadorTable.json?page=1&limit=10&active=false&search=`, this.buildAuthHeader())
   }
 
   getPesquisadorHeaders() {
@@ -42,4 +43,13 @@ export default class Pesquisador {
   //     .then((res) => res.json())
   //     .then((d) => d.data)
   // }
+
+
+  buildAuthHeader() {
+    return {
+      headers: {
+        'Authorization': `Bearer ${AuthService.getJWTToken()}`
+      }
+    }
+  }
 }

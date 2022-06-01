@@ -388,12 +388,30 @@ export default {
         if (!this.viewOnly) {
           this.entityService
             .getPesquisador()
-            .then((data) => (this.values = data))
+            .then(
+              response => {
+                this.values = response.data.pesquisador;
+              },
+              error => {
+                this.values =
+                  (error.response && error.response.data && error.response.data.message) ||
+                  error.message ||
+                  error.toString();
+              });
           this.headers = this.entityService.getPesquisadorHeaders()
         } else {
           this.entityService
             .getPesquisadorInactive()
-            .then((data) => (this.values = data))
+            .then(
+              response => {
+                this.values = response.data.pesquisador;
+              },
+              error => {
+                this.values =
+                  (error.response && error.response.data && error.response.data.message) ||
+                  error.message ||
+                  error.toString();
+              });
           this.headers = this.entityService.getPesquisadorHeaders()
         }
       } else if (this.route.startsWith('/pedido')) {
