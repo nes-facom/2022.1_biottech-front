@@ -25,6 +25,7 @@
                 Email
               </label>
               <InputText
+                @keyup.enter="login()"
                 id="email"
                 v-model="email"
                 type="text"
@@ -38,6 +39,7 @@
                 Senha
               </label>
               <Password
+                @keyup.enter="login()"
                 id="senha"
                 v-model="senha"
                 placeholder="senha"
@@ -60,6 +62,8 @@
 </template>
 
 <script>
+import ApiService from '../service/AuthService';
+
 export default {
   data() {
     return {
@@ -74,7 +78,7 @@ export default {
   },
   methods:{
     login(){
-      //TODO - realizar o login
+      ApiService.login(this.email, this.senha);
     }
   }
 }

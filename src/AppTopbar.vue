@@ -96,8 +96,8 @@ export default {
       console.log(this.visible)
     },
     logOut() {
-      console.log('Log out')
-      //TODO: inserir método de logout
+      sessionStorage.clear();
+      this.$router.push('/login')
     },
     changePassword() {
       console.log('Change password')
