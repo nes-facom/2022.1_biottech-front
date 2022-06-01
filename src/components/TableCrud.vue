@@ -9,7 +9,7 @@
               <Button
                 label="Novo"
                 icon="pi pi-plus"
-                class="p-button-success"
+                class="p-button-success px-2"
                 @click="openNew" />
             </div>
             <div class="col-12 md:col-4">
@@ -19,30 +19,8 @@
                 placeholder="Selecione um ano"
                 v-on:change="selectYear" />
             </div>
-            <!-- <Calendar
-              id="icon"
-              :showIcon="true"
-              :date-select="selectDate()"
-              v-model="this.date"
-              class="p-inputtext-sm mt-2 md:mt-0" /> -->
           </div>
         </div>
-
-        <!-- <Toolbar v-if="!this.viewOnly" class="mb-4">
-          <template #start> </template>
-          <template #end>
-            <div></div>
-          </template>
-
-          EXPORTAR OS DADOS -> BAIXA PRIORIDADE
-          <template v-slot:end>
-            <Button
-              label="Export"
-              icon="pi pi-upload"
-              class="p-button-help"
-              @click="exportCSV($event)" />
-          </template>
-        </Toolbar> -->
 
         <DataTable
           ref="dt"
