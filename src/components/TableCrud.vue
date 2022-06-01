@@ -3,26 +3,46 @@
     <div class="col-12">
       <div class="card">
         <Toast />
-        <Toolbar v-if="!this.viewOnly" class="mb-4">
-          <template v-slot:start>
-            <div class="my-2">
+        <div class="card col-12">
+          <div class="p-fluid grid justify-content-between">
+            <div class="col-12 md:col-2">
               <Button
                 label="Novo"
                 icon="pi pi-plus"
-                class="p-button-success mr-2"
+                class="p-button-success"
                 @click="openNew" />
             </div>
+            <div class="col-12 md:col-4">
+              <Dropdown
+                v-model="yearSelected"
+                :options="years"
+                placeholder="Selecione um ano"
+                v-on:change="selectYear" />
+            </div>
+            <!-- <Calendar
+              id="icon"
+              :showIcon="true"
+              :date-select="selectDate()"
+              v-model="this.date"
+              class="p-inputtext-sm mt-2 md:mt-0" /> -->
+          </div>
+        </div>
+
+        <!-- <Toolbar v-if="!this.viewOnly" class="mb-4">
+          <template #start> </template>
+          <template #end>
+            <div></div>
           </template>
 
-          <!-- EXPORTAR OS DADOS -> BAIXA PRIORIDADE -->
-          <!-- <template v-slot:end>
+          EXPORTAR OS DADOS -> BAIXA PRIORIDADE
+          <template v-slot:end>
             <Button
               label="Export"
               icon="pi pi-upload"
               class="p-button-help"
               @click="exportCSV($event)" />
-          </template> -->
-        </Toolbar>
+          </template>
+        </Toolbar> -->
 
         <DataTable
           ref="dt"
@@ -40,17 +60,26 @@
             <div
               class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
               <h5 class="m-0">{{ this.title }}</h5>
-              <span class="block mt-2 md:mt-0 p-input-icon-left">
-                <div class="formgroup-inline">
-                  <div class="field">
-                    <InputText
-                      @keyup.enter="search()"
-                      placeholder="Buscar..."
-                      v-model="this.searchString" />
-                  </div>
+              <Calendar
+                id="icon"
+                :showIcon="true"
+                :date-select="selectDate()"
+                v-model="this.date"
+                class="p-inputtext-sm mt-2 md:mt-0" />
+              <span class="block mt-2 md:mt-0">
+                <div class="p-fluid flex align-items-center">
+                  <InputText
+                    @keyup.enter="search()"
+                    placeholder="Buscar..."
+                    v-model="this.searchString" />
+                  <Button
+                    v-if="this.searchString"
+                    icon="pi pi-times"
+                    class="p-button-text p-button-rounded p-button-danger"
+                    @click="clearSearch" />
                   <Button
                     icon="pi pi-search"
-                    class="p-button-help"
+                    class="p-button-text p-button-rounded p-button-help"
                     @click="search()" />
                 </div>
               </span>
@@ -250,7 +279,10 @@ export default {
       searchString: '',
       page: null,
       prevPage: false,
-      nextPage: false
+      nextPage: false,
+      date: null,
+      yearSelected: null,
+      years: null
     }
   },
   props: {
@@ -265,6 +297,10 @@ export default {
   created() {
     this.route = this.$route.path
     this.title = this.$route.name
+
+    this.years = Util.getListYears()
+    const date = new Date()
+    this.yearSelected = date.getFullYear()
   },
   mounted() {
     this.page = 1
@@ -280,6 +316,18 @@ export default {
       this.page = this.page + 1
       this.getMethod()
       window.scrollTo(0, 0)
+    },
+    selectYear() {
+      //TODO: função que lida com o ano após selecionado
+    },
+    selectDate() {
+      if (this.date) {
+        //TODO: função que lida com a data depois de selecionada
+      }
+    },
+    clearSearch() {
+      this.searchString = ''
+      //TODO: limpar a busca e voltar a trazer todos os resultados
     },
     openNew() {
       this.value = {}
