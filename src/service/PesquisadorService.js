@@ -15,10 +15,10 @@ class Pesquisador {
   getPesquisadores(disable, page, search, onFetch) {
     if (disable) {
       this.#getPesquisadorInactive(search, page)
-        .then(response => onFetch(response.data.pesquisador))
+        .then(response => onFetch(response.data))
     } else {
       this.#getPesquisador(search, page)
-        .then(response => onFetch(response.data.pesquisador))
+        .then(response => onFetch(response.data))
     }
   }
 

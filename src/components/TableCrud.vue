@@ -274,10 +274,12 @@ export default {
     prev() {
       this.page = this.page - 1
       this.getMethod()
+      window.scrollTo(0, 0)
     },
     next() {
       this.page = this.page + 1
       this.getMethod()
+      window.scrollTo(0, 0)
     },
     openNew() {
       this.value = {}
@@ -341,7 +343,11 @@ export default {
             this.route.startsWith('/desativado'),
             this.page,
             this.searchString,
-            (datas) => (this.values = datas)
+            (datas) => (
+              (this.values = datas.pesquisador),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
           )
         }
       } else if (this.route.startsWith('/pedido')) {
