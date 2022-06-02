@@ -1,6 +1,7 @@
 import AuthService from "./AuthService";
 import axios from "axios";
 import { API_ENDPOINT } from "../constants";
+import Util from "../util/Util";
 
 
 class Pedido {
@@ -12,14 +13,24 @@ class Pedido {
     return axios.get(`${API_ENDPOINT}/pedido/getPedidos.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`, this.buildAuthHeader())
   }
 
-  getPedidos(disable, page, search, onFetch) {
+  getPedidos(disable, page, search, year, onFetch) {
     if (disable) {
-      this.#getPedidoInactive(search, page, new Date().getFullYear())
-        .then(response => onFetch(response.data))
+      this.#getPedidoInactive(search, page, year)
+        .then(response => onFetch(this.formatDate(response.data)))
     } else {
-      this.#getPedido(search, page, new Date().getFullYear())
-        .then(response => onFetch(response.data))
+      this.#getPedido(search, page, year)
+        .then(response => onFetch(this.formatDate(response.data)))
     }
+  }
+
+  formatDate(data) {
+    data.pedidos.map(
+      pedido => {
+        pedido.data_solicitacao = Util.formatDateTable(pedido.data_solicitacao),
+          pedido.vigencia_ceua = Util.formatDateTable(pedido.vigencia_ceua)
+      }
+    )
+    return data
   }
 
   getPedidoHeaders() {

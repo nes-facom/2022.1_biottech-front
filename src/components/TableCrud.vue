@@ -38,18 +38,19 @@
             <div
               class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
               <h5 class="m-0">{{ this.title }}</h5>
-              <Calendar
-                id="icon"
-                :showIcon="true"
-                :date-select="selectDate()"
-                v-model="this.date"
-                class="p-inputtext-sm mt-2 md:mt-0" />
+
               <span class="block mt-2 md:mt-0">
                 <div class="p-fluid flex align-items-center">
                   <InputText
                     @keyup.enter="search()"
                     placeholder="Buscar..."
                     v-model="this.searchString" />
+                  <Calendar
+                    id="icon"
+                    :showIcon="true"
+                    v-on:date-select="selectDate()"
+                    v-model="this.date"
+                    class="p-inputtext-sm mt-2 md:mt-0" />
                   <Button
                     v-if="this.searchString"
                     icon="pi pi-times"
@@ -283,6 +284,7 @@ export default {
   },
   mounted() {
     this.page = 1
+    document.getElementById('icon').style.display = 'none'
     this.getMethod()
   },
   methods: {
@@ -297,16 +299,17 @@ export default {
       window.scrollTo(0, 0)
     },
     selectYear() {
-      //TODO: função que lida com o ano após selecionado
+      this.getMethod()
     },
     selectDate() {
       if (this.date) {
-        //TODO: função que lida com a data depois de selecionada
+        this.searchString = Util.formatDate(this.date)
+        this.getMethod()
       }
     },
     clearSearch() {
       this.searchString = ''
-      //TODO: limpar a busca e voltar a trazer todos os resultados
+      this.getMethod()
     },
     openNew() {
       this.value = {}
@@ -384,6 +387,7 @@ export default {
             this.route.startsWith('/desativado'),
             this.page,
             this.searchString,
+            this.yearSelected,
             (datas) => (
               (this.values = datas.pedidos),
               (this.prevPage = datas.pagination.prevPage),

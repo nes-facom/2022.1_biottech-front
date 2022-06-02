@@ -12,7 +12,7 @@
       <AppFooter />
     </div>
 
-    <AppConfig :layoutMode="layoutMode" @layout-change="onLayoutChange" />
+    <!--<AppConfig :layoutMode="layoutMode" @layout-change="onLayoutChange" />-->
     <transition name="layout-mask">
       <div
         class="layout-mask p-component-overlay"
