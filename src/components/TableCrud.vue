@@ -238,6 +238,7 @@
 <script>
 import PesquisadorService from '../service/PesquisadorService'
 import PedidoService from '../service/PedidoService'
+import CaixaService from '../service/CaixaService'
 import PesquisadorModal from './Modals/PesquisadorModal.vue'
 import PedidoModal from './Modals/PedidoModal.vue'
 import PrevisaoModal from './Modals/PrevisaoModal.vue'
@@ -398,6 +399,20 @@ export default {
       } else if (this.route.startsWith('/previsao')) {
       } else if (this.route.startsWith('/saida')) {
       } else if (this.route.startsWith('/caixa')) {
+        if (!this.viewOnly) {
+          this.headers = CaixaService.getCaixaHeaders()
+          CaixaService.getCaixas(
+            this.route.startsWith('/desativado'),
+            this.page,
+            this.searchString,
+            this.yearSelected,
+            (datas) => (
+              (this.values = datas.caixas),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
+        }
       } else if (this.route.startsWith('/tempumi')) {
       } else if (this.route.startsWith('/cxmatriz')) {
       } else if (this.route.startsWith('/parto')) {

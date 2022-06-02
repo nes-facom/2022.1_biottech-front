@@ -16,14 +16,14 @@ class Pedido {
   getPedidos(disable, page, search, year, onFetch) {
     if (disable) {
       this.#getPedidoInactive(search, page, year)
-        .then(response => onFetch(this.formatDate(response.data)))
+        .then(response => onFetch(this.#formatDate(response.data)))
     } else {
       this.#getPedido(search, page, year)
-        .then(response => onFetch(this.formatDate(response.data)))
+        .then(response => onFetch(this.#formatDate(response.data)))
     }
   }
 
-  formatDate(data) {
+  #formatDate(data) {
     data.pedidos.map(
       pedido => {
         pedido.data_solicitacao = Util.formatDateTable(pedido.data_solicitacao),
@@ -47,26 +47,6 @@ class Pedido {
     ]
     return columns
   }
-
-
-  // getPedido() {
-  //   return fetch(
-  //     'http://localhost/biottech-back/api/pedido/getPedidoTable.json'
-  //   )
-  //     .then((res) => res.json())
-  //     .then((d) => d.data)
-  // }
-
-  // getPedido(page, limit) {
-  //   return fetch(
-  //     'http://localhost/biottech-back/api/pedido/getPedidosTable.json?page=' +
-  //       page +
-  //       '&limit=' +
-  //       limit
-  //   )
-  //     .then((res) => res.json())
-  //     .then((d) => d.data)
-  // }
 
   buildAuthHeader() {
     return {
