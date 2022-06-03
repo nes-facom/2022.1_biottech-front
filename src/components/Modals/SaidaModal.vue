@@ -123,7 +123,7 @@
             type="text"
             v-model="saida.observacoes"
             :autoResize="true"
-            rows="3" />
+            rows="1" />
         </div>
       </div>
     </div>
