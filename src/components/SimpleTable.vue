@@ -112,10 +112,7 @@
               <i
                 class="pi pi-exclamation-triangle mr-3"
                 style="font-size: 2rem" />
-              <span v-if="value"
-                >Tem certeza que deseja deletar <b>{{ value.nome }}</b
-                >?</span
-              >
+              <span v-if="value"> Tem certeza que deseja deletar ? </span>
             </div>
             <template #footer>
               <Button
@@ -131,8 +128,13 @@
             </template>
           </Dialog>
         </DataTable>
-        <div class="flex justify-content-between">
+        <div
+          class="flex"
+          v-bind:class="
+            page == 1 ? 'justify-content-end' : 'justify-content-between'
+          ">
           <Button
+            v-if="page != 1"
             label="Anterior"
             icon="pi pi-arrow-left"
             class="p-button-primary mt-2"
@@ -167,7 +169,8 @@ export default {
       filters: null,
       loading: true,
       config: false,
-      searchString: null
+      searchString: null,
+      page: 1
     }
   },
   entityService: null,
