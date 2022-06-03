@@ -2,13 +2,8 @@
   <div class="col-12">
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
-        <label for="nome">Nome</label>
-        <InputText
-          v-model="listObj.nome"
-          id="nome"
-          type="text"
-          autofocus
-          required />
+        <label for="nome">{{ label }}</label>
+        <InputText v-model="value" id="nome" type="text" autofocus required />
       </div>
       <div v-if="title == 'Sala'" class="field col-12">
         <label for="nome">Linhagens</label>
@@ -39,7 +34,9 @@
 export default {
   data() {
     return {
-      linhagens: null
+      linhagens: null,
+      label: 'Nome',
+      value: null
     }
   },
   props: {
@@ -47,9 +44,34 @@ export default {
     title: String
   },
   mounted() {
+    this.getNome()
     if (this.title == 'Sala') {
+      this.label = 'Número da Sala'
       //TODO: recuperar as linhagens possíveis
       //de serem selecionadas se a lista sendo editada/cadastrada for 'Sala'
+    }
+  },
+  methods: {
+    getNome() {
+      if (this.title == 'Linhagem') {
+        this.value = this.listObj.nome_linhagem
+      } else if (this.title == 'Sala') {
+        this.value = this.listObj.num_sala
+      } else if (this.title == 'Linha de Pesquisa') {
+        this.value = this.listObj.nome_linha_pesquisa
+      } else if (this.title == 'Vínculo Institucional') {
+        this.value = this.listObj.nome_vinculo_institucional
+      } else if (this.title == 'Projeto') {
+        this.value = this.listObj.nome_projeto
+      } else if (this.title == 'Laboratório') {
+        this.value = this.listObj.nome_laboratorio
+      } else if (this.title == 'Nível de Pesquisa') {
+        this.value = this.listObj.nome_nivel_projeto
+      } else if (this.title == 'Espécie') {
+        this.value = this.listObj.nome_especie
+      } else if (this.title == 'Finalidade') {
+        this.value = this.listObj.nome_finalidade
+      }
     }
   }
 }
