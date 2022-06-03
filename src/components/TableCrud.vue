@@ -7,16 +7,18 @@
           <div class="p-fluid grid justify-content-between">
             <div class="col-12 md:col-2">
               <Button
+                v-if="!viewOnly"
                 label="Novo"
                 icon="pi pi-plus"
                 class="p-button-success px-2"
                 @click="openNew" />
             </div>
-            <div class="col-12 md:col-4">
+            <div class="col-12 md:col-2">
               <Dropdown
+                id="year"
                 v-model="yearSelected"
                 :options="years"
-                placeholder="Selecione um ano"
+                placeholder="Ano..."
                 v-on:change="selectYear" />
             </div>
           </div>
@@ -160,16 +162,16 @@
               <SaidaModal :saida="value" />
             </div>
             <div v-else-if="title === 'Caixa'">
-              <p>Modais de caixa</p>
+              <CaixaModal :caixa="value" />
             </div>
-            <div v-else-if="title === 'Temperatura & Umidade'">
-              <p>Modais de tempumi</p>
+            <div v-else-if="title === 'Temperatura e umidade'">
+              <TempUmiModal :tempumi="value" />
             </div>
             <div v-else-if="title === 'Caixa Matriz'">
-              <p>Modais de caixa matriz</p>
+              <CaixaMatrixModal :caixa_matriz="value" />
             </div>
             <div v-else>
-              <p>Modais de parto</p>
+              <PartoModal :parto="value" />
             </div>
             <template #footer>
               <Button
@@ -215,8 +217,13 @@
             </template>
           </Dialog>
         </DataTable>
-        <div class="flex justify-content-between">
+        <div
+          class="flex"
+          v-bind:class="
+            page == 1 ? 'justify-content-end' : 'justify-content-between'
+          ">
           <Button
+            v-if="page != 1"
             :disabled="!prevPage"
             label="Anterior"
             icon="pi pi-arrow-left"
@@ -244,6 +251,10 @@ import PedidoModal from './Modals/PedidoModal.vue'
 import PrevisaoModal from './Modals/PrevisaoModal.vue'
 import Util from '../util/Util'
 import SaidaModal from './Modals/SaidaModal.vue'
+import CaixaModal from './Modals/CaixaModal.vue'
+import TempUmiModal from './Modals/TempUmiModal.vue'
+import CaixaMatrixModal from './Modals/CaixaMatrixModal.vue'
+import PartoModal from './Modals/PartoModal.vue'
 
 export default {
   data() {
@@ -356,10 +367,6 @@ export default {
       }
       return index
     },
-    exportCSV() {
-      // this.$refs.dt.exportCSV()
-      // console.log(this.route.name)
-    },
     getTel(obj) {
       return Util.formatPhones(obj)
     },
@@ -423,6 +430,15 @@ export default {
       this.seeMoreDialog = true
     }
   },
-  components: { PesquisadorModal, PedidoModal, PrevisaoModal, SaidaModal }
+  components: {
+    PesquisadorModal,
+    PedidoModal,
+    PrevisaoModal,
+    SaidaModal,
+    CaixaModal,
+    TempUmiModal,
+    CaixaMatrixModal,
+    PartoModal
+  }
 }
 </script>
