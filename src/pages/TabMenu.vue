@@ -37,6 +37,10 @@ export default {
           to: '/config/lab'
         },
         {
+          label: 'Nível',
+          to: '/config/nivelpesquisa'
+        },
+        {
           label: 'Espécie',
           to: '/config/especie'
         },
