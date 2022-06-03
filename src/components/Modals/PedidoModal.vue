@@ -302,7 +302,7 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label for="adendo_1">Idade</label>
+            <label for="idade">Idade</label>
             <InputText id="idade" v-model="pedido.idade" :disabled="disabled" />
           </div>
           <div class="field col-12 md:col-6">
@@ -404,11 +404,14 @@
               :disabled="disabled" />
           </div>
           <div class="field col-12">
-            <label for="exper">Exper</label>
+            <label for="exper">Laboratório de Experimentação</label>
             <InputText
               id="exper"
               type="text"
               v-model="pedido.exper"
+              v-tooltip.top.focus="
+                'Laboraório em que os animais estão alocados'
+              "
               :disabled="disabled" />
           </div>
         </div>
