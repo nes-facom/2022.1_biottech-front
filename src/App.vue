@@ -272,6 +272,16 @@ export default {
               to: '/config'
             }
           ]
+        },
+        {
+          label: 'Administração',
+          items: [
+            {
+              label: 'Usuários',
+              icon: 'pi pi-fw pi-users',
+              to: '/users'
+            }
+          ]
         }
       ]
     }
