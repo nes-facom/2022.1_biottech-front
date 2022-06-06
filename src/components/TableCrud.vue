@@ -135,7 +135,6 @@
             </template>
           </Dialog>
 
-          <!-- WIP -->
           <!-- MODAL PARA CADASTRO -->
           <Dialog
             v-model:visible="dataDialog"
@@ -170,8 +169,11 @@
             <div v-else-if="title === 'Caixa Matriz'">
               <CaixaMatrixModal :caixa_matriz="value" />
             </div>
-            <div v-else>
+            <div v-else-if="title === 'Parto'">
               <PartoModal :parto="value" />
+            </div>
+            <div v-else>
+              <UsuarioModal :usuario="value" />
             </div>
             <template #footer>
               <Button
@@ -255,6 +257,7 @@ import CaixaModal from './Modals/CaixaModal.vue'
 import TempUmiModal from './Modals/TempUmiModal.vue'
 import CaixaMatrixModal from './Modals/CaixaMatrixModal.vue'
 import PartoModal from './Modals/PartoModal.vue'
+import UsuarioModal from './Modals/UsuarioModal.vue'
 
 export default {
   data() {
@@ -438,7 +441,8 @@ export default {
     CaixaModal,
     TempUmiModal,
     CaixaMatrixModal,
-    PartoModal
+    PartoModal,
+    UsuarioModal
   }
 }
 </script>
