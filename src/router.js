@@ -1,7 +1,7 @@
 import { h, resolveComponent } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
-import { JWT_TOKEN_NAME } from "../src/constants"
+import { JWT_TOKEN_NAME } from '../src/constants'
 
 const routes = [
   {
@@ -13,6 +13,11 @@ const routes = [
         path: '',
         name: 'Dashboard',
         component: () => import('./components/Dashboard.vue')
+      },
+      {
+        path: '/users',
+        name: 'Usuários',
+        component: () => import('./components/TableCrud.vue')
       },
       {
         path: '/config',
@@ -347,15 +352,15 @@ const router = createRouter({
 export default router
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = sessionStorage.getItem(JWT_TOKEN_NAME);
+  const publicPages = ['/login']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = sessionStorage.getItem(JWT_TOKEN_NAME)
 
   // trying to access a restricted page + not logged in
   // redirect to login page
   if (authRequired && !loggedIn) {
-    next('/login');
+    next('/login')
   } else {
-    next();
+    next()
   }
-});
+})
