@@ -1,4 +1,3 @@
-b
 <template>
   <div class="col-12">
     <div class="p-fluid formgrid grid">

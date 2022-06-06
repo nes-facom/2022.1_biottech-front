@@ -2,28 +2,26 @@
   <div class="col-12">
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
-        <div class="field col-12">
-          <label for="caixa_matriz">Caixa Matriz</label>
-          <Dropdown
-            id="caixa_matriz"
-            v-model="parto.caixa_matriz"
-            :options="caixas_matriz"
-            optionLabel="Caixas Matriz"
-            :filter="true"
-            placeholder="Selecione uma caixa matriz">
-            <template #value="slotProps">
-              <div v-if="slotProps.value">
-                <div>{{ slotProps.value.caixa_matriz_numero }}</div>
-              </div>
-              <span v-else>
-                {{ slotProps.placeholder }}
-              </span>
-            </template>
-            <template #option="slotProps">
-              <div>{{ slotProps.option.caixa_matriz_numero }}</div>
-            </template>
-          </Dropdown>
-        </div>
+        <label for="caixa_matriz">Caixa Matriz</label>
+        <Dropdown
+          id="caixa_matriz"
+          v-model="parto.caixa_matriz"
+          :options="caixas_matriz"
+          optionLabel="Caixas Matriz"
+          :filter="true"
+          placeholder="Selecione uma caixa matriz">
+          <template #value="slotProps">
+            <div v-if="slotProps.value">
+              <div>{{ slotProps.value.caixa_matriz_numero }}</div>
+            </div>
+            <span v-else>
+              {{ slotProps.placeholder }}
+            </span>
+          </template>
+          <template #option="slotProps">
+            <div>{{ slotProps.option.caixa_matriz_numero }}</div>
+          </template>
+        </Dropdown>
       </div>
       <div class="field col-12 md:col-6">
         <label for="numero_parto">N° Parto</label>
