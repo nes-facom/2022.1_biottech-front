@@ -65,30 +65,38 @@
       </div>
 
       <!-- WIP: MOSTRAR TODOS OS TELEFONES E DAR OPÇÃO PARA ADICIONAR E DELETAR -->
-      <div v-if="!newDataDialog" class="field col-12">
-        <label for="telefone">Telefones</label>
-        <div class="flex gap-3">
-          <InputText
-            v-for="tel in getArr(pesquisador.telefones)"
-            :key="tel.id"
-            id="telefone"
-            type="text"
-            v-model="tel.telefone" />
+      <div v-if="!newDataDialog" class="col-12 grid">
+        <label
+          v-if="pesquisador.telefones.length != 0"
+          for="telefone"
+          class="col-12">
+          Telefones
+        </label>
+        <div
+          v-for="tel in getArr(pesquisador.telefones)"
+          :key="tel.id"
+          class="field col-12 md:col-6">
+          <div class="p-inputgroup">
+            <InputText
+              id="telefone"
+              type="text"
+              v-model="tel.telefone"
+              class="mt-2" />
+            <Button
+              @click="delTel(tel)"
+              icon="pi pi-times"
+              class="p-button-danger mt-2" />
+          </div>
         </div>
       </div>
       <div class="field col-12">
         <label for="newTel">Novo Telefone</label>
-        <div class="flex card-container blue-container overflow-hidden">
-          <div
-            class="flex-grow-1 flex align-items-center justify-content-center mr-2">
-            <InputText id="newTel" type="text" v-model="newTel"></InputText>
-          </div>
-          <div class="flex-none flex align-items-center justify-content-center">
-            <Button
-              icon="pi pi-plus"
-              class="p-button-success mr-2"
-              @click="addTel(getArr(pesquisador.telefones))"></Button>
-          </div>
+        <div class="p-inputgroup">
+          <InputText id="newTel" type="text" v-model="newTel" />
+          <Button
+            icon="pi pi-plus"
+            class="p-button-success"
+            @click="addTel(pesquisador.telefones)"></Button>
         </div>
       </div>
     </div>
@@ -113,8 +121,23 @@ export default {
       })
       return arr
     },
-    addTel(arr) {
-      //TODO: add novo telefone
+    addTel(obj) {
+      if (newTel != '' && !this.newDataDialog) {
+        obj.push({
+          telefone: this.newTel
+        })
+        this.newTel = ''
+        //TODO: add novo telefone
+      } else {
+        //TODO: add quando o pesquisador é novo
+      }
+    },
+    delTel(item) {
+      const index = this.pesquisador.telefones.indexOf(item)
+      if (index > -1) {
+        this.pesquisador.telefones.splice(index, 1)
+      }
+      console.log(this.pesquisador.telefones.length)
     }
   }
 }
