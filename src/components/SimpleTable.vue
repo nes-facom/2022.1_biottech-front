@@ -87,18 +87,13 @@
             :modal="true"
             class="p-fluid"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
-            <ListsModal :listObj="value" :title="title" />
+            <ListsModal :listObj="value" :title="title" :newData="newData" />
             <template #footer>
               <Button
                 label="Cancelar"
                 icon="pi pi-times"
                 class="p-button-text p-button-danger"
                 @click="hideDialog" />
-              <Button
-                label="Salvar"
-                icon="pi pi-check"
-                class="p-button-text p-button-success"
-                @click="saveNew" />
             </template>
           </Dialog>
 
@@ -163,6 +158,7 @@ export default {
       value: {},
       dataDialog: false,
       deleteDataDialog: false,
+      newData: false,
       headers: null,
       route: null,
       title: null,
@@ -196,15 +192,13 @@ export default {
     openNew() {
       this.value = {}
       // this.submitted = false
+      this.newData = true
       this.dataDialog = true
     },
     hideDialog() {
+      this.newData = false
       this.dataDialog = false
       // this.submitted = false
-    },
-    saveNew() {
-      // this.submitted = true
-      //SALVAR
     },
     confirmDeleteRecord(value) {
       this.value = value
@@ -212,6 +206,7 @@ export default {
     },
     edit(entityData) {
       this.value = { ...entityData }
+      this.newData = false
       this.dataDialog = true
     },
     deleteData() {
@@ -252,6 +247,8 @@ export default {
       } else if (this.route == '/config/proj') {
         this.config = true
       } else if (this.route == '/config/lab') {
+        this.config = true
+      } else if (this.route == '/config/nivelpesquisa') {
         this.config = true
       } else if (this.route == '/config/especie') {
         this.config = true

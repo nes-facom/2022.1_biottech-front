@@ -147,33 +147,36 @@
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
             <!-- DEFINE O FORMULÁRIO QUE SERÁ RENDERIZADO BASEADO NA ROTA ATUAL -->
             <div v-if="title === 'Pesquisador'">
-              <PesquisadorModal
-                :pesquisador="value"
-                :newDataDialog="newDataDialog" />
+              <PesquisadorModal :pesquisador="value" :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Pedido'">
-              <PedidoModal :pedido="value" :disabled="false" />
+              <PedidoModal
+                :pedido="value"
+                :disabled="false"
+                :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Previsão'">
-              <PrevisaoModal :previsao="value" />
+              <PrevisaoModal :previsao="value" :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Saída'">
-              <SaidaModal :saida="value" />
+              <SaidaModal :saida="value" :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Caixa'">
-              <CaixaModal :caixa="value" />
+              <CaixaModal :caixa="value" :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Temperatura e umidade'">
-              <TempUmiModal :tempumi="value" />
+              <TempUmiModal :tempumi="value" :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Caixa Matriz'">
-              <CaixaMatrixModal :caixa_matriz="value" />
+              <CaixaMatrixModal
+                :caixa_matriz="value"
+                :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Parto'">
-              <PartoModal :parto="value" />
+              <PartoModal :parto="value" :newData="newDataDialog" />
             </div>
             <div v-else>
-              <UsuarioModal :usuario="value" />
+              <UsuarioModal :usuario="value" :newData="newDataDialog" />
             </div>
             <template #footer>
               <Button
@@ -181,12 +184,6 @@
                 icon="pi pi-times"
                 class="p-button-text p-button-danger"
                 @click="hideDialog" />
-              <Button
-                v-if="title != 'Pedido'"
-                label="Save"
-                icon="pi pi-check"
-                class="p-button-text p-button-success"
-                @click="saveNew" />
             </template>
           </Dialog>
 
@@ -283,7 +280,6 @@ export default {
   props: {
     viewOnly: { type: Boolean }
   },
-  entityService: null,
   computed: {
     currentRouteName() {
       return this.$route.name
@@ -328,18 +324,12 @@ export default {
     },
     openNew() {
       this.value = {}
-      // this.submitted = false
       this.newDataDialog = true
       this.dataDialog = true
     },
     hideDialog() {
       this.newDataDialog = false
       this.dataDialog = false
-      // this.submitted = false
-    },
-    saveNew() {
-      // this.submitted = true
-      //SALVAR
     },
     edit(entityData) {
       this.value = { ...entityData }
