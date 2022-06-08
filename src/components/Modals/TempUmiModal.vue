@@ -66,6 +66,13 @@
           :autoResize="true"
           rows="2" />
       </div>
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
+      </div>
     </div>
   </div>
 </template>
@@ -78,10 +85,20 @@ export default {
     }
   },
   props: {
-    tempumi: Object
+    tempumi: Object,
+    newData: Boolean
   },
   mounted() {
     //TODO: Recuperar as salas possívei a serem selecionadas
+  },
+  methods: {
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
+    }
   }
 }
 </script>

@@ -116,15 +116,22 @@
             <label for="macho">Macho</label>
           </div>
         </div>
-        <div class="field col-12">
-          <label for="observacoes">Observações</label>
-          <Textarea
-            id="observacoes"
-            type="text"
-            v-model="saida.observacoes"
-            :autoResize="true"
-            rows="1" />
-        </div>
+      </div>
+      <div class="field col-12">
+        <label for="observacoes">Observações</label>
+        <Textarea
+          id="observacoes"
+          type="text"
+          v-model="saida.observacoes"
+          :autoResize="true"
+          rows="1" />
+      </div>
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
       </div>
     </div>
   </div>
@@ -146,10 +153,20 @@ export default {
     }
   },
   props: {
-    saida: Object
+    saida: Object,
+    newData: Boolean
   },
   mounted() {
     // TODO:Trazer as caixas e previsões possíveis a serem selecionadas em uma saída
+  },
+  methods: {
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
+    }
   }
 }
 </script>

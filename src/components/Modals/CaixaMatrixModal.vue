@@ -29,11 +29,18 @@
           v-model="caixa_matriz.data_obito"
           dateFormat="yy-mm-dd" />
       </div>
-      <div class="field col-12">
-        <!-- TODO: dropdown para escolher caixa de origem do macho -->
+      <!-- <div class="field col-12">
+        TODO: dropdown para escolher caixa de origem do macho
       </div>
       <div class="field col-12">
-        <!-- TODO: dropdown para escolher caixa de origem da fêmea -->
+        TODO: dropdown para escolher caixa de origem da fêmea
+      </div> -->
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
       </div>
     </div>
   </div>
@@ -47,12 +54,22 @@ export default {
     }
   },
   props: {
-    caixa_matriz: Object
+    caixa_matriz: Object,
+    newData: Boolean
   },
   mounted() {
     // TODO: trazes as caixas possíveis a serem selecionadas em
     // caixa de origem macho
     // caixa de origem femea
+  },
+  methods: {
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
+    }
   }
 }
 </script>

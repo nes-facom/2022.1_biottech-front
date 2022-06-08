@@ -3,7 +3,7 @@
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
         <label for="nome">{{ label }}</label>
-        <InputText v-model="value" id="nome" type="text" autofocus required />
+        <InputText v-model="value" id="nome" type="text" autofocus />
       </div>
       <div v-if="title == 'Sala'" class="field col-12">
         <label for="nome">Linhagens</label>
@@ -26,6 +26,13 @@
           </template>
         </MultiSelect>
       </div>
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +48,8 @@ export default {
   },
   props: {
     listObj: Object,
-    title: String
+    title: String,
+    newData: Boolean
   },
   mounted() {
     this.getNome()
@@ -71,6 +79,15 @@ export default {
         this.value = this.listObj.nome_especie
       } else if (this.title == 'Finalidade') {
         this.value = this.listObj.nome_finalidade
+      }
+    },
+    save() {
+      if (this.newData) {
+        console.log('novo')
+        //TODO: Salvar quando é um novo registro
+      } else {
+        console.log('editar')
+        // TODO: Salvar o que foi editado
       }
     }
   }

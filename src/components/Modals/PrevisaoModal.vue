@@ -76,6 +76,13 @@
           </template>
         </Dropdown>
       </div>
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
+      </div>
     </div>
   </div>
 </template>
@@ -92,10 +99,20 @@ export default {
     }
   },
   props: {
-    previsao: Object
+    previsao: Object,
+    newData: Boolean
   },
   mounted() {
     // TODO: Recuperar pedidos possíveis a serem selecionados para uma previsão
+  },
+  methods: {
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
+    }
   }
 }
 </script>

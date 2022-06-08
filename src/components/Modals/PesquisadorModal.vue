@@ -65,9 +65,9 @@
       </div>
 
       <!-- WIP: MOSTRAR TODOS OS TELEFONES E DAR OPÇÃO PARA ADICIONAR E DELETAR -->
-      <div v-if="!newDataDialog" class="col-12 grid">
+      <div v-if="!newData" class="col-12 grid">
         <label
-          v-if="pesquisador.telefones.length != 0"
+          v-if="this.pesquisador.telefones.length != 0"
           for="telefone"
           class="col-12">
           Telefones
@@ -96,8 +96,15 @@
           <Button
             icon="pi pi-plus"
             class="p-button-success"
-            @click="addTel(pesquisador.telefones)"></Button>
+            @click="addTel(pesquisador.telefones)" />
         </div>
+      </div>
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
       </div>
     </div>
   </div>
@@ -112,7 +119,7 @@ export default {
   },
   props: {
     pesquisador: Object,
-    newDataDialog: Boolean
+    newData: Boolean
   },
   methods: {
     getArr(obj) {
@@ -122,7 +129,7 @@ export default {
       return arr
     },
     addTel(obj) {
-      if (newTel != '' && !this.newDataDialog) {
+      if (newTel != '' && !this.newData) {
         obj.push({
           telefone: this.newTel
         })
@@ -137,7 +144,13 @@ export default {
       if (index > -1) {
         this.pesquisador.telefones.splice(index, 1)
       }
-      console.log(this.pesquisador.telefones.length)
+    },
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
     }
   }
 }

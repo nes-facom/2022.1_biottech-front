@@ -51,8 +51,7 @@
                   () => (
                     (disable_1 = false), (disable_0 = true), (activeTab = 1)
                   )
-                ">
-              </Button>
+                " />
             </div>
           </div>
         </div>
@@ -222,20 +221,20 @@
               </template>
             </Dropdown>
           </div>
-        </div>
-        <div class="flex field col-12 gap-4">
-          <Button
-            label="Anterior"
-            @click="
-              () => ((disable_0 = false), (disable_1 = true), (activeTab = 0))
-            ">
-          </Button>
-          <Button
-            label="Próximo"
-            @click="
-              () => ((disable_1 = true), (disable_2 = false), (activeTab = 2))
-            ">
-          </Button>
+          <div class="flex col-12 gap-4">
+            <Button
+              label="Anterior"
+              @click="
+                () => ((disable_0 = false), (disable_1 = true), (activeTab = 0))
+              ">
+            </Button>
+            <Button
+              label="Próximo"
+              @click="
+                () => ((disable_1 = true), (disable_2 = false), (activeTab = 2))
+              ">
+            </Button>
+          </div>
         </div>
       </div>
     </TabPanel>
@@ -357,7 +356,7 @@
           </div>
         </div>
       </div>
-      <div class="flex field col-12 gap-4">
+      <div class="flex col-12 gap-4">
         <Button
           label="Anterior"
           @click="
@@ -416,7 +415,7 @@
           </div>
         </div>
       </div>
-      <div class="flex field col-12 gap-4">
+      <div class="flex col-12 gap-4">
         <Button
           label="Anterior"
           @click="
@@ -426,9 +425,8 @@
           v-if="!disabled"
           label="Salvar"
           class="p-button-success"
-          @click="salvar"></Button>
+          @click="save"></Button>
       </div>
-      <div class="flex col-6"></div>
     </TabPanel>
   </TabView>
 </template>
@@ -456,7 +454,8 @@ export default {
   },
   props: {
     pedido: Object,
-    disabled: Boolean
+    disabled: Boolean,
+    newData: Boolean
   },
   mounted() {
     this.freeTab()
@@ -474,8 +473,12 @@ export default {
     // linhagens
   },
   methods: {
-    salvar() {
-      //TODO: SALVAR O PEDIDO
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
     },
     freeTab() {
       if (this.disabled) {

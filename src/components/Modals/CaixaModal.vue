@@ -51,7 +51,6 @@
           v-model="caixa.caixa_numero"
           id="caixa_numero"
           type="text"
-          autofocus
           required />
       </div>
       <div class="field col-12 md:col-6">
@@ -107,6 +106,13 @@
           :useGrouping="false"
           required />
       </div>
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
+      </div>
     </div>
   </div>
 </template>
@@ -120,10 +126,20 @@ export default {
     }
   },
   props: {
-    caixa: Object
+    caixa: Object,
+    newData: Boolean
   },
   mounted() {
     // TODO: Recuperar caixas_matriz e linhagens possíveis a serem selecionados para uma previsão
+  },
+  methods: {
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
+    }
   }
 }
 </script>

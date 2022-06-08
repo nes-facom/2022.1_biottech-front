@@ -42,8 +42,14 @@
               v-model="usuario.type" />
             <label for="comum">Comum</label>
           </div>
-          <Button @click="show"></Button>
         </div>
+      </div>
+      <div class="col-12">
+        <Button
+          label="Salvar"
+          icon="pi pi-check"
+          class="p-button-success"
+          @click="save" />
       </div>
     </div>
   </div>
@@ -52,11 +58,16 @@
 <script>
 export default {
   props: {
-    usuario: Object
+    usuario: Object,
+    newData: Boolean
   },
   methods: {
-    show() {
-      console.log(this.usuario)
+    save() {
+      if (this.newData) {
+        //TODO: Salvar quando é um novo registro
+      } else {
+        // TODO: Salvar o que foi editado
+      }
     }
   }
 }
