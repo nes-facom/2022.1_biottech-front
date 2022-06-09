@@ -89,14 +89,43 @@
           </div>
         </div>
       </div>
+
+      <div v-else class="col-12 grid">
+        <label v-if="this.telefones.length != 0" for="telefone" class="col-12">
+          Telefones
+        </label>
+        <div
+          v-for="tel in telefones"
+          :key="tel.num"
+          class="field col-12 md:col-6">
+          <div class="p-inputgroup">
+            <InputText
+              id="telefone"
+              type="text"
+              v-model="tel.num"
+              class="mt-2" />
+            <Button
+              @click="delTel(tel)"
+              icon="pi pi-times"
+              class="p-button-danger mt-2" />
+          </div>
+        </div>
+      </div>
+
       <div class="field col-12">
         <label for="newTel">Novo Telefone</label>
         <div class="p-inputgroup">
           <InputText id="newTel" type="text" v-model="newTel" />
           <Button
+            v-if="!newData"
             icon="pi pi-plus"
             class="p-button-success"
             @click="addTel(pesquisador.telefones)" />
+          <Button
+            v-else
+            icon="pi pi-plus"
+            class="p-button-success"
+            @click="addTel(telefones)" />
         </div>
       </div>
       <div class="col-12">
@@ -114,7 +143,8 @@
 export default {
   data() {
     return {
-      newTel: null
+      newTel: null,
+      telefones: [{ num: '' }]
     }
   },
   props: {
@@ -136,6 +166,10 @@ export default {
         this.newTel = ''
         //TODO: add novo telefone
       } else {
+        obj.push({
+          num: this.newTel
+        })
+        this.newTel = ''
         //TODO: add quando o pesquisador é novo
       }
     },
