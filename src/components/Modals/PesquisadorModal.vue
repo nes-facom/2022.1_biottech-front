@@ -144,7 +144,7 @@ export default {
   data() {
     return {
       newTel: null,
-      telefones: [{ num: '' }]
+      telefones: []
     }
   },
   props: {
@@ -164,19 +164,24 @@ export default {
           telefone: this.newTel
         })
         this.newTel = ''
-        //TODO: add novo telefone
       } else {
         obj.push({
           num: this.newTel
         })
         this.newTel = ''
-        //TODO: add quando o pesquisador é novo
       }
     },
     delTel(item) {
-      const index = this.pesquisador.telefones.indexOf(item)
-      if (index > -1) {
-        this.pesquisador.telefones.splice(index, 1)
+      if (!this.newData) {
+        const index = this.pesquisador.telefones.indexOf(item)
+        if (index > -1) {
+          this.pesquisador.telefones.splice(index, 1)
+        }
+      } else {
+        const index = this.telefones.indexOf(item)
+        if (index > -1) {
+          this.telefones.splice(index, 1)
+        }
       }
     },
     save() {
