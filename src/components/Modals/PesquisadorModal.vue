@@ -8,7 +8,10 @@
           id="nome"
           type="text"
           autofocus
-          required />
+          :class="{ 'p-invalid': required && !pesquisador.nome }" />
+        <small class="p-invalid" v-if="required && !pesquisador.nome">
+          É necessário inserir um Nome
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="instituicao">Instituição</label>
@@ -16,7 +19,10 @@
           v-model="pesquisador.instituicao"
           id="instituicao"
           type="text"
-          required />
+          :class="{ 'p-invalid': required && !pesquisador.instituicao }" />
+        <small class="p-invalid" v-if="required && !pesquisador.nome">
+          É necessário inserir uma Instituição
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="setor">Setor</label>
@@ -24,7 +30,10 @@
           v-model="pesquisador.setor"
           id="setor"
           type="text"
-          required />
+          :class="{ 'p-invalid': required && !pesquisador.setor }" />
+        <small class="p-invalid" v-if="required && !pesquisador.nome">
+          É necessário inserir um Setor
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="pos">Pos</label>
@@ -40,7 +49,10 @@
           v-model="pesquisador.email"
           id="email"
           type="text"
-          required />
+          :class="{ 'p-invalid': required && !pesquisador.setor }" />
+        <small class="p-invalid" v-if="required && !pesquisador.nome">
+          É necessário inserir um Email
+        </small>
       </div>
       <div class="field col-12">
         <label class="mb-3">É orientador?</label>
@@ -64,7 +76,6 @@
         </div>
       </div>
 
-      <!-- WIP: MOSTRAR TODOS OS TELEFONES E DAR OPÇÃO PARA ADICIONAR E DELETAR -->
       <div v-if="!newData" class="col-12 grid">
         <label
           v-if="this.pesquisador.telefones.length != 0"
@@ -144,7 +155,8 @@ export default {
   data() {
     return {
       newTel: null,
-      telefones: []
+      telefones: [],
+      required: false
     }
   },
   props: {
@@ -185,6 +197,7 @@ export default {
       }
     },
     save() {
+      this.required = true
       if (this.newData) {
         //TODO: Salvar quando é um novo registro
       } else {
