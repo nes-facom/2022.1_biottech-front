@@ -35,14 +35,6 @@
               dateFormat="yy-mm-dd"
               :disabled="disabled" />
           </div>
-          <div class="field col-12">
-            <label for="saldo_ceua">Saldo CEUA</label>
-            <InputText
-              id="saldo_ceua"
-              type="text"
-              v-model="pedido.saldoCEUA"
-              :disabled="disabled" />
-          </div>
           <div class="flex justify-content-end col-12">
             <div class="col-6">
               <Button

@@ -255,6 +255,9 @@ import TempUmiModal from './Modals/TempUmiModal.vue'
 import CaixaMatrixModal from './Modals/CaixaMatrixModal.vue'
 import PartoModal from './Modals/PartoModal.vue'
 import UsuarioModal from './Modals/UsuarioModal.vue'
+import PrevisaoService from '../service/PrevisaoService'
+import TemperaturaUmidade from '../service/TemperaturaUmidadeService'
+import Parto from '../service/PartoService'
 
 export default {
   data() {
@@ -397,6 +400,20 @@ export default {
           )
         }
       } else if (this.route.startsWith('/previsao')) {
+        if (!this.viewOnly) {
+          this.headers = PrevisaoService.getPrevisaoHeaders()
+          PrevisaoService.getPrevisoes(
+            this.route.startsWith('/desativado'),
+            this.page,
+            this.searchString,
+            this.yearSelected,
+            (datas) => (
+              (this.values = datas.previsao),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
+        }
       } else if (this.route.startsWith('/saida')) {
       } else if (this.route.startsWith('/caixa')) {
         if (!this.viewOnly) {
@@ -414,8 +431,36 @@ export default {
           )
         }
       } else if (this.route.startsWith('/tempumi')) {
+        if (!this.viewOnly) {
+          this.headers = TemperaturaUmidade.getTemperaturaUmidadeHeaders()
+          TemperaturaUmidade.getTemperaturaUmidade(
+            this.route.startsWith('/desativado'),
+            this.page,
+            this.searchString,
+            this.yearSelected,
+            (datas) => (
+              (this.values = datas.temperatura),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
+        }
       } else if (this.route.startsWith('/cxmatriz')) {
       } else if (this.route.startsWith('/parto')) {
+        if (!this.viewOnly) {
+          this.headers = Parto.getPartoHeaders()
+          Parto.getPartos(
+            this.route.startsWith('/desativado'),
+            this.page,
+            this.searchString,
+            this.yearSelected,
+            (datas) => (
+              (this.values = datas.partos),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
+        }
       }
     },
     seeMore(value) {
