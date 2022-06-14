@@ -23,28 +23,6 @@
           </template>
         </Dropdown>
       </div>
-      <div class="field col-12">
-        <label for="previsao_id">Previsão</label>
-        <Dropdown
-          id="previsao_id"
-          v-model="saida.previsao_id"
-          :options="previsoes"
-          optionLabel="previsoes"
-          :filter="true"
-          placeholder="Selecione uma previsão">
-          <template #value="slotProps">
-            <div v-if="slotProps.value">
-              <div>{{ slotProps.value.num_previsao }}</div>
-            </div>
-            <span v-else>
-              {{ slotProps.placeholder }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <div>{{ slotProps.option.num_previsao }}</div>
-          </template>
-        </Dropdown>
-      </div>
       <div class="field col-12 md:col-6">
         <label for="data_saida">Data da saída</label>
         <Calendar
@@ -93,6 +71,35 @@
           </template>
           <template #option="slotProps">
             <div>{{ slotProps.option }}</div>
+          </template>
+        </Dropdown>
+      </div>
+      <div class="field col-12">
+        <label for="previsao_id">Previsão</label>
+        <Dropdown
+          id="previsao_id"
+          v-model="saida.previsao_id"
+          :options="previsoes"
+          optionLabel="previsoes"
+          :filter="true"
+          :disabled="saida.tipo_saida !== 'fornecimento'"
+          :placeholder="
+            saida.tipo_saida !== 'fornecimento'
+              ? 'Previsões são apenas do tipo \'fornecimento\' '
+              : 'Selecione uma previsão'
+          "
+          emptyFilterMessage="Nenhuma opção corresponde a busca"
+          emptyMessage="Nenhuma opção disponível">
+          <template #value="slotProps">
+            <div v-if="slotProps.value">
+              <div>{{ slotProps.value.num_previsao }}</div>
+            </div>
+            <span v-else>
+              {{ slotProps.placeholder }}
+            </span>
+          </template>
+          <template #option="slotProps">
+            <div>{{ slotProps.option.num_previsao }}</div>
           </template>
         </Dropdown>
       </div>
