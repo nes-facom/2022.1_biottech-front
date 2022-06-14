@@ -9,7 +9,9 @@
           :options="salas"
           optionLabel="Salas"
           :filter="true"
-          placeholder="Selecione uma sala">
+          placeholder="Selecione uma sala"
+          emptyFilterMessage="Nenhuma opção corresponde a busca"
+          emptyMessage="Nenhuma opção disponível">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value.num_sala }}</div>

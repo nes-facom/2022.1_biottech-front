@@ -61,7 +61,9 @@
               optionLabel="nome"
               :filter="true"
               placeholder="Selecione um Pesquisador"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome }}</div>
@@ -84,7 +86,9 @@
               optionLabel="nome_previsao"
               :filter="true"
               placeholder="Selecione uma Previsão"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value }}</div>
@@ -107,7 +111,9 @@
               optionLabel="nome_projeto"
               :filter="true"
               placeholder="Selecione um projeto"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_projeto }}</div>
@@ -130,7 +136,9 @@
               optionLabel="nome_linha_pesquisa"
               :filter="true"
               placeholder="Selecione uma Linha de Pesquisa"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_linha_pesquisa }}</div>
@@ -153,7 +161,9 @@
               optionLabel="nome_nivel_projeto"
               :filter="true"
               placeholder="Selecione um Nível de projeto"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_nivel_projeto }}</div>
@@ -176,7 +186,9 @@
               optionLabel="nome_laboratorio"
               :filter="true"
               placeholder="Selecione um Laboratório"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_laboratorio }}</div>
@@ -199,7 +211,9 @@
               optionLabel="nome_finalidade"
               :filter="true"
               placeholder="Selecione uma Finalidade"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_finalidade }}</div>
@@ -309,7 +323,9 @@
               optionLabel="nome_especie"
               :filter="true"
               placeholder="Selecione uma Espécie"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_especie }}</div>
@@ -332,7 +348,9 @@
               optionLabel="nome_linhagem"
               :filter="true"
               placeholder="Selecione uma Linhagem"
-              :disabled="disabled">
+              :disabled="disabled"
+              emptyFilterMessage="Nenhuma opção corresponde a busca"
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_linhagem }}</div>

@@ -12,7 +12,8 @@
           :options="linhagens"
           optionLabel="linhagens"
           placeholder="Selecione as linhagens"
-          display="chip">
+          display="chip"
+          emptyMessage="Nenhuma opção disponível">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value.nome_linhagem }}</div>

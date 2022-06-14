@@ -42,7 +42,9 @@
           :options="pedidos"
           optionLabel="Pedido"
           :filter="true"
-          placeholder="Selecione um pedido">
+          placeholder="Selecione um pedido"
+          emptyFilterMessage="Nenhuma opção corresponde a busca"
+          emptyMessage="Nenhuma opção disponível">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value.processo_sei }}</div>

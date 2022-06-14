@@ -9,7 +9,9 @@
           :options="caixas_matriz"
           optionLabel="Caixas Matriz"
           :filter="true"
-          placeholder="Selecione uma caixa matriz">
+          placeholder="Selecione uma caixa matriz"
+          emptyFilterMessage="Nenhuma opção corresponde a busca"
+          emptyMessage="Nenhuma opção disponível">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value.caixa_matriz_numero }}</div>
