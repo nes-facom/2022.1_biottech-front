@@ -11,7 +11,8 @@
           :filter="true"
           placeholder="Selecione uma caixa matriz"
           emptyFilterMessage="Nenhuma opção corresponde a busca"
-          emptyMessage="Nenhuma opção disponível">
+          emptyMessage="Nenhuma opção disponível"
+          :class="{ 'p-invalid': required && !parto.caixa_matriz }">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value.caixa_matriz_numero }}</div>
@@ -31,14 +32,16 @@
           id="numero_parto"
           mode="decimal"
           :useGrouping="false"
-          v-model="parto.numero_parto" />
+          v-model="parto.numero_parto"
+          :class="{ 'p-invalid': required && !parto.numero_parto }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="data_parto">Data Parto</label>
         <Calendar
           id="data_parto"
           v-model="parto.data_parto"
-          dateFormat="yy-mm-dd" />
+          dateFormat="yy-mm-dd"
+          :class="{ 'p-invalid': required && !parto.data_parto }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="num_macho">N° Macho</label>
@@ -118,7 +121,8 @@
 export default {
   data() {
     return {
-      caixas_matriz: null
+      caixas_matriz: null,
+      required: false
     }
   },
   props: {
@@ -130,14 +134,25 @@ export default {
   },
   methods: {
     save() {
-      if (this.newData) {
+      this.required = true
+      const checked_fields = this.checkRequired()
+      if (this.newData && checked_fields) {
         //TODO: Salvar quando é um novo registro
-      } else {
+      } else if (checked_fields) {
         // TODO: Salvar o que foi editado
+      }
+    },
+    checkRequired() {
+      if (
+        this.parto.caixas_matriz &&
+        this.parto.numero_parto &&
+        this.parto.data_parto
+      ) {
+        return true
+      } else {
+        return false
       }
     }
   }
 }
 </script>
-
-<style></style>

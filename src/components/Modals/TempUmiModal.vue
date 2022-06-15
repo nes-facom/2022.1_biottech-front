@@ -27,7 +27,11 @@
       </div>
       <div class="field col-12">
         <label for="data">Data</label>
-        <Calendar id="data" v-model="tempumi.data" dateFormat="yy-mm-dd" />
+        <Calendar
+          id="data"
+          v-model="tempumi.data"
+          dateFormat="yy-mm-dd"
+          :class="{ 'p-invalid': required && !tempumi.data }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="temp_matutino">Temp. Matutino</label>
@@ -83,7 +87,8 @@
 export default {
   data() {
     return {
-      salas: null
+      salas: null,
+      required: false
     }
   },
   props: {
@@ -95,14 +100,21 @@ export default {
   },
   methods: {
     save() {
-      if (this.newData) {
+      this.required = true
+      const checked_fields = this.checkRequired()
+      if (this.newData && checked_fields) {
         //TODO: Salvar quando é um novo registro
-      } else {
+      } else if (checked_fields) {
         // TODO: Salvar o que foi editado
+      }
+    },
+    checkRequired() {
+      if (this.tempumi.data) {
+        return true
+      } else {
+        return false
       }
     }
   }
 }
 </script>
-
-<style></style>

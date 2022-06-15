@@ -9,9 +9,6 @@
           type="text"
           autofocus
           :class="{ 'p-invalid': required && !pesquisador.nome }" />
-        <small class="p-invalid" v-if="required && !pesquisador.nome">
-          É necessário inserir um Nome
-        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="instituicao">Instituição</label>
@@ -20,9 +17,6 @@
           id="instituicao"
           type="text"
           :class="{ 'p-invalid': required && !pesquisador.instituicao }" />
-        <small class="p-invalid" v-if="required && !pesquisador.nome">
-          É necessário inserir uma Instituição
-        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="setor">Setor</label>
@@ -31,9 +25,6 @@
           id="setor"
           type="text"
           :class="{ 'p-invalid': required && !pesquisador.setor }" />
-        <small class="p-invalid" v-if="required && !pesquisador.nome">
-          É necessário inserir um Setor
-        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="pos">Pos</label>
@@ -49,10 +40,7 @@
           v-model="pesquisador.email"
           id="email"
           type="text"
-          :class="{ 'p-invalid': required && !pesquisador.setor }" />
-        <small class="p-invalid" v-if="required && !pesquisador.nome">
-          É necessário inserir um Email
-        </small>
+          :class="{ 'p-invalid': required && !pesquisador.email }" />
       </div>
       <div class="field col-12">
         <label class="mb-3">É orientador?</label>
@@ -198,10 +186,23 @@ export default {
     },
     save() {
       this.required = true
-      if (this.newData) {
+      const checked_fields = this.checkRequired()
+      if (this.newData && checked_fields) {
         //TODO: Salvar quando é um novo registro
-      } else {
+      } else if (checked_fields) {
         // TODO: Salvar o que foi editado
+      }
+    },
+    checkRequired() {
+      if (
+        this.pesquisador.nome &&
+        this.pesquisador.instituicao &&
+        this.pesquisador.setor &&
+        this.pesquisador.email
+      ) {
+        return true
+      } else {
+        return false
       }
     }
   }

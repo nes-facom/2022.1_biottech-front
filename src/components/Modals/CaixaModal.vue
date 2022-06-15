@@ -31,7 +31,8 @@
           :options="linhagens"
           optionLabel="Linhagem"
           :filter="true"
-          placeholder="Selecione uma linhagem">
+          placeholder="Selecione uma linhagem"
+          :class="{ 'p-invalid': required && !caixa.linhagem }">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value.nome_linhagem }}</div>
@@ -51,14 +52,15 @@
           v-model="caixa.caixa_numero"
           id="caixa_numero"
           type="text"
-          required />
+          :class="{ 'p-invalid': required && !caixa.caixa_numero }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="nascimento">Data de Nascimento</label>
         <Calendar
           id="nascimento"
           v-model="caixa.nascimento"
-          dateFormat="yy-mm-dd" />
+          dateFormat="yy-mm-dd"
+          :class="{ 'p-invalid': required && !caixa.nascimento }" />
       </div>
       <div class="field col-12">
         <label class="mb-3">Sexo</label>
@@ -68,7 +70,8 @@
               id="femea"
               name="sexo"
               value="femea"
-              v-model="caixa.sexo" />
+              v-model="caixa.sexo"
+              :class="{ 'p-invalid': required && !caixa.sexo }" />
             <label for="femea">Fêmea</label>
           </div>
           <div class="field-radiobutton col-6">
@@ -76,7 +79,8 @@
               id="macho"
               name="sexo"
               value="macho"
-              v-model="caixa.sexo" />
+              v-model="caixa.sexo"
+              :class="{ 'p-invalid': required && !caixa.sexo }" />
             <label for="macho">Macho</label>
           </div>
         </div>
@@ -88,14 +92,15 @@
           v-model="caixa.num_animais"
           id="num_animais"
           :useGrouping="false"
-          required />
+          :class="{ 'p-invalid': required && !caixa.num_animais }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="ultima_saida">Última Saída</label>
         <Calendar
           id="ultima_saida"
           v-model="caixa.ultima_saida"
-          dateFormat="yy-mm-dd" />
+          dateFormat="yy-mm-dd"
+          :class="{ 'p-invalid': required && !caixa.ultima_saida }" />
       </div>
       <div class="field col-12">
         <label for="qtd_saida">Quantidade de animais retirados</label>
@@ -104,7 +109,7 @@
           v-model="caixa.qtd_saida"
           id="qtd_saida"
           :useGrouping="false"
-          required />
+          :class="{ 'p-invalid': required && !caixa.qtd_saida }" />
       </div>
       <div class="col-12">
         <Button
@@ -122,7 +127,8 @@ export default {
   data() {
     return {
       caixas_matriz: null,
-      linhagens: null
+      linhagens: null,
+      required: false
     }
   },
   props: {
@@ -134,14 +140,29 @@ export default {
   },
   methods: {
     save() {
-      if (this.newData) {
+      this.required = true
+      const checked_fields = this.checkRequired()
+      if (this.newData && checked_fields) {
         //TODO: Salvar quando é um novo registro
-      } else {
+      } else if (checked_fields) {
         // TODO: Salvar o que foi editado
+      }
+    },
+    checkRequired() {
+      if (
+        this.caixa.nome &&
+        this.caixa.caixa_numero &&
+        this.caixa.nascimento &&
+        this.caixa.sexo &&
+        this.caixa.num_animais &&
+        this.caixa.ultima_saida &&
+        this.caixa.qtd_saida
+      ) {
+        return true
+      } else {
+        return false
       }
     }
   }
 }
 </script>
-
-<style></style>

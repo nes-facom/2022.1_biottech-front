@@ -3,7 +3,11 @@
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
         <label for="nome">{{ label }}</label>
-        <InputText v-model="value" id="nome" type="text" autofocus />
+        <InputText
+          v-model="value"
+          id="nome"
+          type="text"
+          :class="{ 'p-invalid': required && !value }" />
       </div>
       <div v-if="title == 'Sala'" class="field col-12">
         <label for="nome">Linhagens</label>
@@ -13,7 +17,8 @@
           optionLabel="linhagens"
           placeholder="Selecione as linhagens"
           display="chip"
-          emptyMessage="Nenhuma opção disponível">
+          emptyMessage="Nenhuma opção disponível"
+          :class="{ 'p-invalid': required && !listObj.linhagens }">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value.nome_linhagem }}</div>
@@ -44,7 +49,8 @@ export default {
     return {
       linhagens: null,
       label: 'Nome',
-      value: null
+      value: null,
+      required: false
     }
   },
   props: {
@@ -83,12 +89,27 @@ export default {
       }
     },
     save() {
-      if (this.newData) {
-        console.log('novo')
+      this.required = true
+      const checked_fields = this.checkRequired()
+      if (this.newData && checked_fields) {
         //TODO: Salvar quando é um novo registro
-      } else {
-        console.log('editar')
+      } else if (checked_fields) {
         // TODO: Salvar o que foi editado
+      }
+    },
+    checkRequired() {
+      if (this.title == 'Sala') {
+        if (this.value && this.listObj.linhagens) {
+          return true
+        } else {
+          return false
+        }
+      } else {
+        if (this.value) {
+          return true
+        } else {
+          return false
+        }
       }
     }
   }

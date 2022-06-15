@@ -9,7 +9,8 @@
               id="processo_sei"
               type="text"
               v-model="pedido.processo_sei"
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.processo_sei }" />
           </div>
           <div class="field col-12">
             <label for="num_ceua">N°CEUA</label>
@@ -17,7 +18,8 @@
               id="num_ceua"
               type="text"
               v-model="pedido.num_ceua"
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.num_ceua }" />
           </div>
           <div class="field col-12 md:col-6">
             <label for="vigencia_ceua">Vigência CEUA</label>
@@ -25,7 +27,8 @@
               id="vigencia_ceua"
               v-model="pedido.vigencia_ceua"
               dateFormat="yy-mm-dd"
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.vigencia_ceua }" />
           </div>
           <div class="field col-12 md:col-6">
             <label for="data_solicitacao">Data da solicitação</label>
@@ -33,17 +36,14 @@
               id="data_solicitacao"
               v-model="pedido.data_solicitacao"
               dateFormat="yy-mm-dd"
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.data_solicitacao }" />
           </div>
           <div class="flex justify-content-end col-12">
             <div class="col-6">
               <Button
                 label="Próximo"
-                @click="
-                  () => (
-                    (disable_1 = false), (disable_0 = true), (activeTab = 1)
-                  )
-                " />
+                @click="disabled ? setPageDisabled(1) : nextPage(1)" />
             </div>
           </div>
         </div>
@@ -63,7 +63,8 @@
               placeholder="Selecione um Pesquisador"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :class="{ 'p-invalid': required && !pedido.pesquisador }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome }}</div>
@@ -88,7 +89,8 @@
               placeholder="Selecione uma Previsão"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :class="{ 'p-invalid': required && !pedido.previsao }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value }}</div>
@@ -113,7 +115,8 @@
               placeholder="Selecione um projeto"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :class="{ 'p-invalid': required && !pedido.projeto }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_projeto }}</div>
@@ -213,7 +216,8 @@
               placeholder="Selecione uma Finalidade"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :class="{ 'p-invalid': required && !pedido.finalidade }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_finalidade }}</div>
@@ -230,15 +234,11 @@
           <div class="flex col-12 gap-4">
             <Button
               label="Anterior"
-              @click="
-                () => ((disable_0 = false), (disable_1 = true), (activeTab = 0))
-              ">
+              @click="disabled ? setPageDisabled(0) : prevPage(0)">
             </Button>
             <Button
               label="Próximo"
-              @click="
-                () => ((disable_1 = true), (disable_2 = false), (activeTab = 2))
-              ">
+              @click="disabled ? setPageDisabled(2) : nextPage(2)">
             </Button>
           </div>
         </div>
@@ -254,7 +254,8 @@
               mode="decimal"
               :useGrouping="false"
               v-model="pedido.num_aprovado"
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.num_aprovado }" />
           </div>
           <div class="field col-12 md:col-6">
             <label for="num_solicitado">Nº Solicitado</label>
@@ -263,7 +264,8 @@
               mode="decimal"
               :useGrouping="false"
               v-model="pedido.num_solicitado"
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.num_solicitado }" />
           </div>
           <div class="field col-12 md:col-6">
             <label for="adendo_1">Adendo 1</label>
@@ -292,7 +294,8 @@
                   name="sexo"
                   value="femea"
                   v-model="pedido.sexo"
-                  :disabled="disabled" />
+                  :disabled="disabled"
+                  :class="{ 'p-invalid': required && !pedido.sexo }" />
                 <label for="femea">Fêmea</label>
               </div>
               <div class="field-radiobutton col-6">
@@ -301,7 +304,8 @@
                   name="sexo"
                   value="macho"
                   v-model="pedido.sexo"
-                  :disabled="disabled" />
+                  :disabled="disabled"
+                  :class="{ 'p-invalid': required && !pedido.sexo }" />
                 <label for="macho">Macho</label>
               </div>
             </div>
@@ -325,7 +329,8 @@
               placeholder="Selecione uma Espécie"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :class="{ 'p-invalid': required && !pedido.especie }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_especie }}</div>
@@ -350,7 +355,8 @@
               placeholder="Selecione uma Linhagem"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :class="{ 'p-invalid': required && !pedido.linhagem }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_linhagem }}</div>
@@ -369,14 +375,10 @@
       <div class="flex col-12 gap-4">
         <Button
           label="Anterior"
-          @click="
-            () => ((disable_1 = false), (disable_2 = true), (activeTab = 1))
-          "></Button>
+          @click="disabled ? setPageDisabled(1) : prevPage(1)" />
         <Button
           label="Próximo"
-          @click="
-            () => ((disable_2 = true), (disable_3 = false), (activeTab = 3))
-          "></Button>
+          @click="disabled ? setPageDisabled(3) : nextPage(3)" />
       </div>
     </TabPanel>
     <TabPanel :disabled="disable_3" header="4º passo">
@@ -390,7 +392,8 @@
               v-model="pedido.titulo"
               :autoResize="true"
               rows="3"
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.titulo }" />
           </div>
           <div class="field col-12">
             <label for="especificar">Especificar</label>
@@ -421,21 +424,20 @@
               v-tooltip.top.focus="
                 'Laboraório em que os animais estão alocados'
               "
-              :disabled="disabled" />
+              :disabled="disabled"
+              :class="{ 'p-invalid': required && !pedido.exper }" />
           </div>
         </div>
       </div>
       <div class="flex col-12 gap-4">
         <Button
           label="Anterior"
-          @click="
-            () => ((disable_2 = false), (disable_3 = true), (activeTab = 2))
-          "></Button>
+          @click="disabled ? setPageDisabled(2) : prevPage(2)" />
         <Button
           v-if="!disabled"
           label="Salvar"
           class="p-button-success"
-          @click="save"></Button>
+          @click="save" />
       </div>
     </TabPanel>
   </TabView>
@@ -459,7 +461,8 @@ export default {
       laboratorios: null,
       finalidades: null,
       especies: null,
-      linhagens: null
+      linhagens: null,
+      required: false
     }
   },
   props: {
@@ -484,10 +487,13 @@ export default {
   },
   methods: {
     save() {
-      if (this.newData) {
-        //TODO: Salvar quando é um novo registro
-      } else {
-        // TODO: Salvar o que foi editado
+      this.required = true
+      if (this.pedido.titulo && this.pedido.exper) {
+        if (this.newData) {
+          //TODO: Salvar quando é um novo registro
+        } else {
+          // TODO: Salvar o que foi editado
+        }
       }
     },
     freeTab() {
@@ -497,6 +503,77 @@ export default {
         this.disable_2 = false
         this.disable_3 = false
       }
+    },
+    nextPage(tab) {
+      if (tab === 1) {
+        if (
+          this.pedido.processo_sei &&
+          this.pedido.data_solicitacao &&
+          this.pedido.num_ceua &&
+          this.pedido.vigencia_ceua
+        ) {
+          this.disable_0 = true
+          this.disable_1 = false
+          this.activeTab = tab
+          this.required = false
+        } else {
+          this.required = true
+        }
+      } else if (tab === 2) {
+        this.disable_1 = true
+        this.disable_2 = false
+        this.activeTab = tab
+        this.required = true
+
+        // DESCOMENTAR QUANDO A RECUPERAÇÃO DE OPÇOES PARA OS CAMPOS DE DROPDOWN ESTIVER FUNCIONANDO
+
+        // if (
+        //   this.pedido.pesquisador &&
+        //   this.pedido.previsao &&
+        //   this.pedido.projeto &&
+        //   this.pedido.finalidade
+        // ) {
+        // this.disable_1 = true
+        // this.disable_2 = false
+        // this.activeTab = tab
+        //   this.required = false
+        // } else {
+        //   this.required = true
+        // }
+      } else {
+        if (
+          this.pedido.num_aprovado &&
+          this.pedido.num_solicitado &&
+          this.pedido.sexo
+          // && this.pedido.especie &&
+          // this.pedido.linhagem
+        ) {
+          this.disable_2 = true
+          this.disable_3 = false
+          this.activeTab = tab
+          this.required = false
+        } else {
+          this.required = true
+        }
+      }
+    },
+    prevPage(tab) {
+      if (tab === 0) {
+        this.disable_0 = false
+        this.disable_1 = true
+        this.activeTab = tab
+      } else if (tab === 1) {
+        this.disable_1 = false
+        this.disable_2 = true
+        this.activeTab = tab
+      } else {
+        this.disable_2 = false
+        this.disable_3 = true
+        this.activeTab = tab
+      }
+    },
+    setPageDisabled(tab) {
+      this.activeTab = tab
     }
   }
 }

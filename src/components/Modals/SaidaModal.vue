@@ -28,7 +28,11 @@
         <Calendar
           id="data_saida"
           v-model="saida.data_saida"
-          dateFormat="yy-mm-dd" />
+          dateFormat="yy-mm-dd"
+          :class="{ 'p-invalid': required && !saida.data_saida }" />
+        <small class="p-invalid" v-if="required && !saida.data_saida">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="usuario">Usuário</label>
@@ -40,7 +44,10 @@
           v-model="saida.num_animais"
           id="num_animais"
           :useGrouping="false"
-          required />
+          :class="{ 'p-invalid': required && !saida.num_animais }" />
+        <small class="p-invalid" v-if="required && !saida.num_animais">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="sobra">Sobra</label>
@@ -48,11 +55,21 @@
           v-model="saida.sobra"
           id="sobra"
           :useGrouping="false"
-          required />
+          :class="{ 'p-invalid': required && !saida.sobra }" />
+        <small class="p-invalid" v-if="required && !saida.sobra">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="saida">Saída</label>
-        <InputText v-model="saida.saida" id="saida" type="text" required />
+        <InputText
+          v-model="saida.saida"
+          id="saida"
+          type="text"
+          :class="{ 'p-invalid': required && !saida.saida }" />
+        <small class="p-invalid" v-if="required && !saida.saida">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="tipo_saida">Tipo da saída</label>
@@ -60,7 +77,8 @@
           id="tipo_saida"
           v-model="saida.tipo_saida"
           :options="types"
-          placeholder="Selecione um tipo">
+          placeholder="Selecione um tipo"
+          :class="{ 'p-invalid': required && !saida.tipo_saida }">
           <template #value="slotProps">
             <div v-if="slotProps.value">
               <div>{{ slotProps.value }}</div>
@@ -111,7 +129,8 @@
               id="femea"
               name="sexo"
               value="femea"
-              v-model="saida.sexo" />
+              v-model="saida.sexo"
+              :class="{ 'p-invalid': required && !saida.sexo }" />
             <label for="femea">Fêmea</label>
           </div>
           <div class="field-radiobutton col-6">
@@ -119,7 +138,8 @@
               id="macho"
               name="sexo"
               value="macho"
-              v-model="saida.sexo" />
+              v-model="saida.sexo"
+              :class="{ 'p-invalid': required && !saida.sexo }" />
             <label for="macho">Macho</label>
           </div>
         </div>
@@ -156,7 +176,8 @@ export default {
         'controle_sanitário'
       ],
       caixas: null,
-      previsoes: null
+      previsoes: null,
+      required: false
     }
   },
   props: {
@@ -168,10 +189,26 @@ export default {
   },
   methods: {
     save() {
-      if (this.newData) {
+      this.required = true
+      const checked_fields = this.checkRequired()
+      if (this.newData && checked_fields) {
         //TODO: Salvar quando é um novo registro
-      } else {
+      } else if (checked_fields) {
         // TODO: Salvar o que foi editado
+      }
+    },
+    checkRequired() {
+      if (
+        this.saida.data_saida &&
+        this.saida.tipo_saida &&
+        this.saida.num_animais &&
+        this.saida.saida &&
+        this.saida.sexo &&
+        this.saida.sobra
+      ) {
+        return true
+      } else {
+        return false
       }
     }
   }
