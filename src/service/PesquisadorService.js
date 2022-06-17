@@ -24,6 +24,7 @@ class Pesquisador {
 
   getPesquisadorHeaders() {
     const columns = [
+      { field: 'id', header: 'ID' },
       { field: 'nome', header: 'Nome' },
       { field: 'instituicao', header: 'Instituição' },
       { field: 'setor', header: 'Setor' },

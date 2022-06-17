@@ -343,7 +343,7 @@ export default {
       this.deleteDataDialog = true
     },
     deleteData() {
-      this.values = this.values.filter((val) => (val.id = this.value.id))
+      this.values = this.values.filter((val) => (val.id != this.value.id))
       this.deleteDataDialog = false
       this.value = {}
       this.$toast.add({
