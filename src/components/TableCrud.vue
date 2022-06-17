@@ -204,15 +204,15 @@
             </div>
             <template #footer>
               <Button
-                label="Não"
-                icon="pi pi-times"
-                class="p-button-text"
-                @click="deleteDataDialog = false" />
-              <Button
                 label="Sim"
                 icon="pi pi-check"
                 class="p-button-text"
                 @click="deleteData" />
+              <Button
+                label="Não"
+                icon="pi pi-times"
+                class="p-button-text"
+                @click="deleteDataDialog = false" />
             </template>
           </Dialog>
         </DataTable>
@@ -343,7 +343,7 @@ export default {
       this.deleteDataDialog = true
     },
     deleteData() {
-      this.values = this.values.filter((val) => (val.id != this.value.id))
+      this.values = this.values.filter((val) => val.id != this.value.id)
       this.deleteDataDialog = false
       this.value = {}
       this.$toast.add({
