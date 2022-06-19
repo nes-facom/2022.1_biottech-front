@@ -147,7 +147,7 @@
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
             <!-- DEFINE O FORMULÁRIO QUE SERÁ RENDERIZADO BASEADO NA ROTA ATUAL -->
             <div v-if="title === 'Pesquisador'">
-              <PesquisadorModal :pesquisador="value" :newData="newDataDialog" />
+              <PesquisadorModal :pesquisador="value" :newData="newDataDialog" @close="closeModalSave"/>
             </div>
             <div v-else-if="title === 'Pedido'">
               <PedidoModal
@@ -302,6 +302,11 @@ export default {
     this.getMethod()
   },
   methods: {
+    closeModalSave(variable) {
+        this.dataDialog = variable
+        this.page = 1
+        this.getMethod()
+    },
     prev() {
       this.page = this.page - 1
       this.getMethod()

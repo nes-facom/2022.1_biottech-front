@@ -5,14 +5,14 @@ import { API_ENDPOINT } from '../constants'
 class Pesquisador {
   async #getPesquisador(search, page) {
     return axios.get(
-      `${API_ENDPOINT}/pesquisador/getPesquisadores.json?page=${page}&limit=10&active=true&search=${search}`,
+      `${API_ENDPOINT}/pesquisador/getPesquisadores.json?page=${page}&limit=5&active=true&search=${search}`,
       this.buildAuthHeader()
     )
   }
 
   async #getPesquisadorInactive(search, page) {
     return axios.get(
-      `${API_ENDPOINT}/pesquisador/getPesquisadores.json?page=${page}&limit=10&active=false&search=${search}`,
+      `${API_ENDPOINT}/pesquisador/getPesquisadores.json?page=${page}&limit=5&active=false&search=${search}`,
       this.buildAuthHeader()
     )
   }
@@ -28,6 +28,19 @@ class Pesquisador {
       )
     }
   }
+
+  savePesquisador(pesquisador, phonesSave, onSave, onError) {
+    var phones = []
+    JSON.parse(JSON.stringify(phonesSave)).forEach(phone => {
+      phones.push(phone.num)
+    });
+    pesquisador.telefones = phones;
+    pesquisador = JSON.parse(JSON.stringify(pesquisador))
+    axios.post(`${API_ENDPOINT}/pesquisador/addPesquisador.json`, pesquisador, this.buildAuthHeader())
+    .then(() => onSave())
+    .catch(e => onError(e));
+  }
+
 
   getPesquisadorHeaders() {
     const columns = [

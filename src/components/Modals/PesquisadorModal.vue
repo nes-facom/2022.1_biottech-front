@@ -129,6 +129,7 @@
       </div>
       <div class="col-12">
         <Button
+          :disabled="saveButtonDisabled"
           label="Salvar"
           icon="pi pi-check"
           class="p-button-success"
@@ -139,12 +140,16 @@
 </template>
 
 <script>
+import PesquisadorService from '../../service/PesquisadorService'
+import ToastService from 'primevue/toastservice';
+
 export default {
   data() {
     return {
       newTel: null,
       telefones: [],
-      required: false
+      required: false,
+      saveButtonDisabled: false
     }
   },
   props: {
@@ -152,6 +157,10 @@ export default {
     newData: Boolean
   },
   methods: {
+    showSuccess() {
+            this.$emit('close', false)
+            this.$toast.add({severity:'success', summary: 'Cadastrado com Sucesso', detail:'Pesquisador cadastrado com sucesso', life: 3000});
+        },
     getArr(obj) {
       const arr = Object.keys(obj).map(function (key) {
         return obj[key]
@@ -165,6 +174,8 @@ export default {
         })
         this.newTel = ''
       } else {
+        console.log()
+        //this.telefones.push(this.newTel)
         obj.push({
           num: this.newTel
         })
@@ -185,9 +196,25 @@ export default {
       }
     },
     save() {
+      this.saveButtonDisabled = true 
       this.required = true
       const checked_fields = this.checkRequired()
       if (this.newData && checked_fields) {
+        PesquisadorService.savePesquisador(
+          this.pesquisador,
+          this.telefones,
+          //TODO: atualizar estado, fechar o modal e mostrar mensagem de sucesso
+          () => this.showSuccess(),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false 
+              console.log('erro')
+            } else {
+              this.saveButtonDisabled = false
+              console.log('Erro na requisição')
+            }
+          }
+        )
         //TODO: Salvar quando é um novo registro
       } else if (checked_fields) {
         // TODO: Salvar o que foi editado
