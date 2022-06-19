@@ -97,7 +97,7 @@ export default {
     },
     logOut() {
       sessionStorage.clear();
-      this.$router.push('/login')
+      location.reload()
     },
     changePassword() {
       console.log('Change password')

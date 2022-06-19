@@ -26,6 +26,7 @@ import AppTopBar from './AppTopbar.vue'
 import AppMenu from './AppMenu.vue'
 import AppConfig from './AppConfig.vue'
 import AppFooter from './AppFooter.vue'
+import AuthService from './service/AuthService'
 
 export default {
   emits: ['change-theme'],
@@ -272,7 +273,7 @@ export default {
               to: '/config'
             }
           ]
-        },
+        },(AuthService.getJWTTokenData() == 0) ?
         {
           label: 'Administração',
           items: [
@@ -282,7 +283,7 @@ export default {
               to: '/users'
             }
           ]
-        }
+        } : {}
       ]
     }
   },

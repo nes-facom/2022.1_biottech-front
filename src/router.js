@@ -2,6 +2,7 @@ import { h, resolveComponent } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import App from './App.vue'
 import { JWT_TOKEN_NAME } from '../src/constants'
+import AuthService from './service/AuthService'
 
 const routes = [
   {
@@ -14,11 +15,17 @@ const routes = [
         name: 'Dashboard',
         component: () => import('./components/Dashboard.vue')
       },
-      {
-        path: '/users',
-        name: 'Usuários',
-        component: () => import('./components/TableCrud.vue')
-      },
+      AuthService.getJWTTokenData() == 0
+        ? {
+            path: '/users',
+            name: 'Usuários',
+            component: () => import('./components/TableCrud.vue')
+          }
+        : {
+            path: '/users',
+            name: 'Usuários',
+            redirect: '/404'
+          },
       {
         path: '/config',
         name: 'Configurações',
@@ -337,10 +344,21 @@ const routes = [
       }
     ]
   },
+  AuthService.isAuthenticated() != true
+    ? {
+        path: '/login',
+        name: 'Login',
+        component: () => import('./pages/Login.vue')
+      }
+    : {
+        path: '/login',
+        name: 'Login',
+        redirect: '/'
+      },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('./pages/Login.vue')
+    path: '/404',
+    name: '404',
+    component: () => import('./pages/NotFound.vue')
   }
 ]
 
