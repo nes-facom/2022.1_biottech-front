@@ -141,7 +141,6 @@
 
 <script>
 import PesquisadorService from '../../service/PesquisadorService'
-import ToastService from 'primevue/toastservice'
 
 export default {
   data() {

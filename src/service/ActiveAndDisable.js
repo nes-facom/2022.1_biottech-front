@@ -1,16 +1,16 @@
 import PesquisadorService from '../service/PesquisadorService'
 
 class ActiveAndDisable {
-  activeAndDisable(path, id, activeBool, onDelete) {
-    if (path == 'pesquisador') {
+  activeAndDisable(id, activeBool, onDelete) {
+    if ( window.location.href.includes('/pesquisador')) {
       PesquisadorService.activeAndDisablePesquisador(id, onDelete, activeBool)
-    } else if ('pedido') {
-    } else if ('previsao') {
-    } else if ('saida') {
-    } else if ('caixa') {
-    } else if ('tempumi') {
-    } else if ('cxmatriz') {
-    } else if ('parto') {
+    } else if (window.location.href.includes('/pedido')) {
+    } else if (window.location.href.includes('/previsao')) {
+    } else if (window.location.href.includes('/saida')) {
+    } else if (window.location.href.includes('/caixa')) {
+    } else if (window.location.href.includes('/tempumi')) {
+    } else if (window.location.href.includes('/cxmatriz')) {
+    } else if (window.location.href.includes('/parto')) {
     }
   }
 }

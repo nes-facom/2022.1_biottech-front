@@ -348,28 +348,8 @@ export default {
     this.getMethod()
   },
   methods: {
-    getPath() {
-      if (this.route.startsWith('/pesquisador')) {
-        return 'pesquisador'
-      } else if (this.route.startsWith('/pedido')) {
-        return 'pedido'
-      } else if (this.route.startsWith('/previsao')) {
-        return 'previsao'
-      } else if (this.route.startsWith('/saida')) {
-        return 'saida'
-      } else if (this.route.startsWith('/caixa')) {
-        return 'caixa'
-      } else if (this.route.startsWith('/tempumi')) {
-        return 'tempumi'
-      } else if (this.route.startsWith('/cxmatriz')) {
-        return 'cxmatriz'
-      } else if (this.route.startsWith('/parto')) {
-        return 'parto'
-      }
-    },
     activeData() {
       ActiveAndDisable.activeAndDisable(
-        this.getPath(),
         this.value.id,
         true,
         (success) => {
@@ -394,8 +374,8 @@ export default {
         }
       )
     },
-    closeModalSave(variable) {
-      this.dataDialog = variable
+    closeModalSave() {
+      this.hideDialog()
       this.page = 1
       this.getMethod()
     },
@@ -445,7 +425,6 @@ export default {
     },
     deleteData() {
       ActiveAndDisable.activeAndDisable(
-        this.getPath(),
         this.value.id,
         false,
         (success) => {
