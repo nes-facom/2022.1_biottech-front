@@ -53,7 +53,11 @@
         </template>
         <template #footer>
           <div class="grid justify-content-center mb-5">
-            <Button @click="login()" label="Entrar" class="p-button-info w-10 text-xl"></Button>
+            <Button
+              :disabled="buttonDisable"
+              @click="login()"
+              label="Entrar"
+              class="p-button-info w-10 text-xl"></Button>
           </div>
         </template>
       </Card>
@@ -62,13 +66,14 @@
 </template>
 
 <script>
-import ApiService from '../service/AuthService';
+import ApiService from '../service/AuthService'
 
 export default {
   data() {
     return {
       email: '',
-      senha: ''
+      senha: '',
+      buttonDisable: false
     }
   },
   computed: {
@@ -76,9 +81,25 @@ export default {
       return 'white'
     }
   },
-  methods:{
-    login(){
-      ApiService.login(this.email, this.senha);
+  methods: {
+    showError() {
+      this.$toast.add({
+        severity: 'error',
+        summary: 'Error Message',
+        detail: 'Message Content',
+        life: 3000
+      })
+    },
+    login() {
+      this.buttonDisable = true
+      ApiService.login(this.email, this.senha, (success) => {
+        if (success) {
+          window.location.href = '/'
+        } else {
+          alert('E-mail ou Senha incorreto.')
+          this.buttonDisable = false
+        }    
+      })
     }
   }
 }

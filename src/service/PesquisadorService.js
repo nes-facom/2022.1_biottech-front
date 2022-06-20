@@ -29,18 +29,53 @@ class Pesquisador {
     }
   }
 
-  savePesquisador(pesquisador, phonesSave, onSave, onError) {
-    var phones = []
-    JSON.parse(JSON.stringify(phonesSave)).forEach(phone => {
-      phones.push(phone.num)
-    });
-    pesquisador.telefones = phones;
-    pesquisador = JSON.parse(JSON.stringify(pesquisador))
-    axios.post(`${API_ENDPOINT}/pesquisador/addPesquisador.json`, pesquisador, this.buildAuthHeader())
-    .then(() => onSave())
-    .catch(e => onError(e));
+  activeAndDisablePesquisador(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pesquisador/activeAndDisable.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
   }
 
+  savePesquisador(pesquisador, phonesSave, onSave, onError) {
+    var phones = []
+    JSON.parse(JSON.stringify(phonesSave)).forEach((phone) => {
+      phones.push(phone.num)
+    })
+    pesquisador.telefones = phones
+    pesquisador = JSON.parse(JSON.stringify(pesquisador))
+    axios
+      .post(
+        `${API_ENDPOINT}/pesquisador/addPesquisador.json`,
+        pesquisador,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editPesquisador(pesquisador, onSave, onError) {
+    var phones = []
+    JSON.parse(JSON.stringify(pesquisador.telefones)).forEach((phone) => {
+      phones.push(phone.telefone)
+    })
+    pesquisador.telefones = phones
+    pesquisador = JSON.parse(JSON.stringify(pesquisador))
+    axios
+      .put(
+        `${API_ENDPOINT}/pesquisador/editPesquisador.json?id=${pesquisador.id}`,
+        pesquisador,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
 
   getPesquisadorHeaders() {
     const columns = [

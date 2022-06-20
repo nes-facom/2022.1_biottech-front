@@ -141,7 +141,7 @@
 
 <script>
 import PesquisadorService from '../../service/PesquisadorService'
-import ToastService from 'primevue/toastservice';
+import ToastService from 'primevue/toastservice'
 
 export default {
   data() {
@@ -157,10 +157,15 @@ export default {
     newData: Boolean
   },
   methods: {
-    showSuccess() {
-            this.$emit('close', false)
-            this.$toast.add({severity:'success', summary: 'Cadastrado com Sucesso', detail:'Pesquisador cadastrado com sucesso', life: 3000});
-        },
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
     getArr(obj) {
       const arr = Object.keys(obj).map(function (key) {
         return obj[key]
@@ -174,8 +179,6 @@ export default {
         })
         this.newTel = ''
       } else {
-        console.log()
-        //this.telefones.push(this.newTel)
         obj.push({
           num: this.newTel
         })
@@ -196,18 +199,22 @@ export default {
       }
     },
     save() {
-      this.saveButtonDisabled = true 
+      this.saveButtonDisabled = true
       this.required = true
       const checked_fields = this.checkRequired()
       if (this.newData && checked_fields) {
         PesquisadorService.savePesquisador(
           this.pesquisador,
           this.telefones,
-          //TODO: atualizar estado, fechar o modal e mostrar mensagem de sucesso
-          () => this.showSuccess(),
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Pesquisador cadastrado com sucesso'
+            ),
           (error) => {
             if (error.response) {
-              this.saveButtonDisabled = false 
+              this.saveButtonDisabled = false
               console.log('erro')
             } else {
               this.saveButtonDisabled = false
@@ -215,9 +222,25 @@ export default {
             }
           }
         )
-        //TODO: Salvar quando é um novo registro
       } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+        PesquisadorService.editPesquisador(
+          this.pesquisador,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Pesquisador editado com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log('erro')
+            } else {
+              this.saveButtonDisabled = false
+              console.log('Erro na requisição')
+            }
+          }
+        )
       }
     },
     checkRequired() {

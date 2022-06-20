@@ -114,6 +114,17 @@
               </div>
             </template>
           </Column>
+          <!-- ICONE PARA ATIVAR -->
+          <Column v-if="this.viewOnly" headerStyle="min-width:10rem;">
+            <template #body="slotProps">
+              <div class="flex justify-content-center gap-2">
+                <Button
+                  icon="pi pi-plus"
+                  class="p-button-rounded p-button-success"
+                  @click="confirmActiveRecord(slotProps.data)" />
+              </div>
+            </template>
+          </Column>
 
           <!-- MODAL PARA VER A ENTIDADE COMPLETA -->
           <Dialog
@@ -147,7 +158,10 @@
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
             <!-- DEFINE O FORMULÁRIO QUE SERÁ RENDERIZADO BASEADO NA ROTA ATUAL -->
             <div v-if="title === 'Pesquisador'">
-              <PesquisadorModal :pesquisador="value" :newData="newDataDialog" @close="closeModalSave"/>
+              <PesquisadorModal
+                :pesquisador="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Pedido'">
               <PedidoModal
@@ -215,6 +229,36 @@
                 @click="deleteDataDialog = false" />
             </template>
           </Dialog>
+
+
+          <!-- MODAL DE ALERTA DE ATIVAÇÃO -->
+          <Dialog
+            v-model:visible="activeDataDialog"
+            :style="{ width: '450px' }"
+            header="Alerta"
+            :modal="true">
+            <div class="flex align-items-center justify-content-center">
+              <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem" />
+              <span v-if="value"
+                >Tem certeza que deseja ativar <b>{{ value.nome }}</b
+                >?</span
+              >
+            </div>
+            <template #footer>
+              <Button
+                label="Sim"
+                icon="pi pi-check"
+                class="p-button-text"
+                @click="activeData" />
+              <Button
+                label="Não"
+                icon="pi pi-times"
+                class="p-button-text"
+                @click="activeDataDialog = false" />
+            </template>
+          </Dialog>
         </DataTable>
         <div
           class="flex"
@@ -243,6 +287,7 @@
 
 <script>
 import PesquisadorService from '../service/PesquisadorService'
+import ActiveAndDisable from '../service/ActiveAndDisable'
 import PedidoService from '../service/PedidoService'
 import CaixaService from '../service/CaixaService'
 import PesquisadorModal from './Modals/PesquisadorModal.vue'
@@ -266,6 +311,7 @@ export default {
       dataDialog: false,
       newDataDialog: false,
       deleteDataDialog: false,
+      activeDataDialog: false,
       seeMoreDialog: false,
       value: {},
       headers: null,
@@ -302,10 +348,56 @@ export default {
     this.getMethod()
   },
   methods: {
+    getPath() {
+      if (this.route.startsWith('/pesquisador')) {
+        return 'pesquisador'
+      } else if (this.route.startsWith('/pedido')) {
+        return 'pedido'
+      } else if (this.route.startsWith('/previsao')) {
+        return 'previsao'
+      } else if (this.route.startsWith('/saida')) {
+        return 'saida'
+      } else if (this.route.startsWith('/caixa')) {
+        return 'caixa'
+      } else if (this.route.startsWith('/tempumi')) {
+        return 'tempumi'
+      } else if (this.route.startsWith('/cxmatriz')) {
+        return 'cxmatriz'
+      } else if (this.route.startsWith('/parto')) {
+        return 'parto'
+      }
+    },
+    activeData() {
+      ActiveAndDisable.activeAndDisable(
+        this.getPath(),
+        this.value.id,
+        true,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.activeDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro Ativado',
+              life: 3000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 3000
+            })
+          }
+        }
+      )
+    },
     closeModalSave(variable) {
-        this.dataDialog = variable
-        this.page = 1
-        this.getMethod()
+      this.dataDialog = variable
+      this.page = 1
+      this.getMethod()
     },
     prev() {
       this.page = this.page - 1
@@ -347,16 +439,36 @@ export default {
       this.value = value
       this.deleteDataDialog = true
     },
+    confirmActiveRecord(value) {
+      this.value = value
+      this.activeDataDialog = true
+    },
     deleteData() {
-      this.values = this.values.filter((val) => val.id != this.value.id)
-      this.deleteDataDialog = false
-      this.value = {}
-      this.$toast.add({
-        severity: 'Sucesso',
-        summary: 'Sucesso',
-        detail: 'Registro deletado',
-        life: 3000
-      })
+      ActiveAndDisable.activeAndDisable(
+        this.getPath(),
+        this.value.id,
+        false,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.deleteDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro deletado',
+              life: 3000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 3000
+            })
+          }
+        }
+      )
     },
     findIndexById(id) {
       let index = -1
@@ -376,10 +488,10 @@ export default {
     },
     getMethod() {
       if (this.route.startsWith('/pesquisador')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = PesquisadorService.getPesquisadorHeaders()
           PesquisadorService.getPesquisadores(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             (datas) => (
