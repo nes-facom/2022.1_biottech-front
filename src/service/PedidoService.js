@@ -30,6 +30,78 @@ class Pedido {
     }
   }
 
+  getVinculoInstitucional(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pedido/getVinculoInstitucionais.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getProjetos(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pedido/getProjetos.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getEspecies(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pedido/getEspecies.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getLinhaPesquisas(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pedido/getLinhaPesquisas.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getNivelProjetos(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pedido/getNivelProjetos.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getLaboratorios(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pedido/getLaboratorios.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getFinalidades(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pedido/getFinalidades.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getLinhagens(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/linhagem/getLinhagens.json?active=true&search=`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
+  getPesquisador(onFetch) {
+    axios.get(
+      `${API_ENDPOINT}/pesquisador/getPesquisador.json?active=true`,
+      this.buildAuthHeader()).then((response) =>
+        onFetch(response.data)
+      )
+  }
+
   #formatDate(data) {
     data.pedidos.map((pedido) => {
       ;(pedido.data_solicitacao = Util.formatDateTable(

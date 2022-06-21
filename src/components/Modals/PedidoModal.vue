@@ -56,7 +56,7 @@
             <label for="pesquisador">Pesquisador</label>
             <Dropdown
               id="pesquisador"
-              v-model="pedido.pesquisador"
+              v-model="pedido.pesquisador_id"
               :options="pesquisadores"
               optionLabel="nome"
               :filter="true"
@@ -64,7 +64,7 @@
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.pesquisador }">
+              :class="{ 'p-invalid': required && !pedido.pesquisador_id }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome }}</div>
@@ -79,28 +79,30 @@
             </Dropdown>
           </div>
           <div class="field col-12">
-            <label for="previsao">Previsão</label>
+            <label for="vinculo_institucional">Vínculo Institucional</label>
             <Dropdown
-              id="previsao"
-              v-model="pedido.previsao"
-              :options="previsoes"
-              optionLabel="nome_previsao"
+              id="vinculo_institucional"
+              v-model="pedido.vinculo_institucional_id"
+              :options="instituicoes"
+              optionLabel="nome_vinculo_institucional"
               :filter="true"
-              placeholder="Selecione uma Previsão"
-              :disabled="disabled"
+              placeholder="Selecione um Vínculo Institucional"
+              :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.previsao }">
+              :class="{
+                'p-invalid': required && !pedido.vinculo_institucional
+              }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
-                  <div>{{ slotProps.value }}</div>
+                  <div>{{ slotProps.value.nome_vinculo_institucional }}</div>
                 </div>
                 <span v-else>
                   {{ slotProps.placeholder }}
                 </span>
               </template>
               <template #option="slotProps">
-                <div>{{ slotProps.option }}</div>
+                <div>{{ slotProps.option.nome_vinculo_institucional }}</div>
               </template>
             </Dropdown>
           </div>
@@ -108,15 +110,17 @@
             <label for="projeto">Projeto</label>
             <Dropdown
               id="projeto"
-              v-model="pedido.projeto"
+              v-model="pedido.projeto_id"
               :options="projetos"
               optionLabel="nome_projeto"
               :filter="true"
               placeholder="Selecione um projeto"
-              :disabled="disabled"
+              :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.projeto }">
+              :class="{
+                'p-invalid': required && !pedido.projeto_id
+              }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_projeto }}</div>
@@ -134,12 +138,12 @@
             <label for="linha_pesquisa">Linha de Pesquisa</label>
             <Dropdown
               id="linha_pesquisa"
-              v-model="pedido.linha_pesquisa"
+              v-model="pedido.linha_pesquisa_id"
               :options="pesquisas"
               optionLabel="nome_linha_pesquisa"
               :filter="true"
               placeholder="Selecione uma Linha de Pesquisa"
-              :disabled="disabled"
+              :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
@@ -159,12 +163,12 @@
             <label for="nivel_projeto">Nível de projeto</label>
             <Dropdown
               id="nivel_projeto"
-              v-model="pedido.nivel_projeto"
+              v-model="pedido.nivel_projeto_id"
               :options="niveis"
               optionLabel="nome_nivel_projeto"
               :filter="true"
               placeholder="Selecione um Nível de projeto"
-              :disabled="disabled"
+              :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
@@ -184,7 +188,7 @@
             <label for="laboratotio">Laboratório</label>
             <Dropdown
               id="laboratotio"
-              v-model="pedido.laboratotio"
+              v-model="pedido.laboratorio_id"
               :options="laboratorios"
               optionLabel="nome_laboratorio"
               :filter="true"
@@ -206,18 +210,18 @@
             </Dropdown>
           </div>
           <div class="field col-12">
-            <label for="fialidade">Finalidade</label>
+            <label for="finalidade">Finalidade</label>
             <Dropdown
-              id="fialidade"
-              v-model="pedido.finalidade"
+              id="finalidade"
+              v-model="pedido.finalidade_id"
               :options="finalidades"
               optionLabel="nome_finalidade"
               :filter="true"
               placeholder="Selecione uma Finalidade"
-              :disabled="disabled"
+              :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.finalidade }">
+              :class="{ 'p-invalid': required && !pedido.finalidade_id }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_finalidade }}</div>
@@ -322,12 +326,12 @@
             <label for="especie">Espécie</label>
             <Dropdown
               id="especie"
-              v-model="pedido.especie"
+              v-model="pedido.especie_id"
               :options="especies"
               optionLabel="nome_especie"
               :filter="true"
               placeholder="Selecione uma Espécie"
-              :disabled="disabled"
+              :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
               :class="{ 'p-invalid': required && !pedido.especie }">
@@ -348,15 +352,15 @@
             <label for="linhagem">Linhagem</label>
             <Dropdown
               id="linhagem"
-              v-model="pedido.linhagem"
+              v-model="pedido.linhagem_id"
               :options="linhagens"
               optionLabel="nome_linhagem"
               :filter="true"
               placeholder="Selecione uma Linhagem"
-              :disabled="disabled"
+              :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.linhagem }">
+              :class="{ 'p-invalid': required && !pedido.linhagem_id }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_linhagem }}</div>
@@ -444,6 +448,8 @@
 </template>
 
 <script>
+import PedidoService from '../../service/PedidoService'
+
 export default {
   data() {
     return {
@@ -452,15 +458,14 @@ export default {
       disable_1: true,
       disable_2: true,
       disable_3: true,
-      pesquisadores: null,
-      previsoes: null,
       instituicoes: null,
       projetos: null,
+      especies: null,
       pesquisas: null,
       niveis: null,
       laboratorios: null,
       finalidades: null,
-      especies: null,
+      pesquisadores: null,
       linhagens: null,
       required: false
     }
@@ -474,6 +479,29 @@ export default {
     this.freeTab()
     //TODO: Recuperar as seguintes entidades para que essas possam ser selecionadas
     //cadastrar/editar um pedido
+
+    PedidoService.getVinculoInstitucional(
+      (datas) => (this.instituicoes = datas)
+    )
+
+    PedidoService.getProjetos((datas) => (this.projetos = datas))
+
+    PedidoService.getEspecies((datas) => (this.especies = datas))
+
+    PedidoService.getLinhaPesquisas((datas) => (this.pesquisas = datas))
+
+    PedidoService.getNivelProjetos((datas) => (this.niveis = datas))
+
+    PedidoService.getLaboratorios((datas) => (this.laboratorios = datas))
+
+    PedidoService.getFinalidades((datas) => (this.finalidades = datas))
+
+    PedidoService.getLinhagens((datas) => (this.linhagens = datas))
+
+    PedidoService.getLinhagens((datas) => (this.linhagens = datas))
+
+    PedidoService.getPesquisador((datas) => (this.pesquisadores = datas))
+
     //pesquisadores
     // previsoes
     // instituicoes
@@ -487,6 +515,7 @@ export default {
   },
   methods: {
     save() {
+      console.log(this.pedido)
       this.required = true
       if (this.pedido.titulo && this.pedido.exper) {
         if (this.newData) {
