@@ -251,6 +251,7 @@ export default {
       ) {
         return true
       } else {
+        this.saveButtonDisabled = false
         return false
       }
     }

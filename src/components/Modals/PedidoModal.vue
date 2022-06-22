@@ -56,7 +56,7 @@
             <label for="pesquisador">Pesquisador</label>
             <Dropdown
               id="pesquisador"
-              v-model="pedido.pesquisador_id"
+              v-model="pedido.pesquisador"
               :options="pesquisadores"
               optionLabel="nome"
               :filter="true"
@@ -64,7 +64,7 @@
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.pesquisador_id }">
+              :class="{ 'p-invalid': required && !pedido.pesquisador }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome }}</div>
@@ -82,11 +82,12 @@
             <label for="vinculo_institucional">Vínculo Institucional</label>
             <Dropdown
               id="vinculo_institucional"
-              v-model="pedido.vinculo_institucional_id"
+              v-model="pedido.vinculo_institucional"
               :options="instituicoes"
               optionLabel="nome_vinculo_institucional"
               :filter="true"
               placeholder="Selecione um Vínculo Institucional"
+              :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
@@ -110,16 +111,17 @@
             <label for="projeto">Projeto</label>
             <Dropdown
               id="projeto"
-              v-model="pedido.projeto_id"
+              v-model="pedido.projeto"
               :options="projetos"
               optionLabel="nome_projeto"
               :filter="true"
               placeholder="Selecione um projeto"
+              :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
               :class="{
-                'p-invalid': required && !pedido.projeto_id
+                'p-invalid': required && !pedido.projeto
               }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
@@ -138,11 +140,12 @@
             <label for="linha_pesquisa">Linha de Pesquisa</label>
             <Dropdown
               id="linha_pesquisa"
-              v-model="pedido.linha_pesquisa_id"
+              v-model="pedido.linha_pesquisa"
               :options="pesquisas"
               optionLabel="nome_linha_pesquisa"
               :filter="true"
               placeholder="Selecione uma Linha de Pesquisa"
+              :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível">
@@ -163,11 +166,12 @@
             <label for="nivel_projeto">Nível de projeto</label>
             <Dropdown
               id="nivel_projeto"
-              v-model="pedido.nivel_projeto_id"
+              v-model="pedido.nivel_projeto"
               :options="niveis"
               optionLabel="nome_nivel_projeto"
               :filter="true"
               placeholder="Selecione um Nível de projeto"
+              :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível">
@@ -188,7 +192,7 @@
             <label for="laboratotio">Laboratório</label>
             <Dropdown
               id="laboratotio"
-              v-model="pedido.laboratorio_id"
+              v-model="pedido.laboratorio"
               :options="laboratorios"
               optionLabel="nome_laboratorio"
               :filter="true"
@@ -213,15 +217,16 @@
             <label for="finalidade">Finalidade</label>
             <Dropdown
               id="finalidade"
-              v-model="pedido.finalidade_id"
+              v-model="pedido.finalidade"
               :options="finalidades"
               optionLabel="nome_finalidade"
               :filter="true"
               placeholder="Selecione uma Finalidade"
+              :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.finalidade_id }">
+              :class="{ 'p-invalid': required && !pedido.finalidade }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_finalidade }}</div>
@@ -316,7 +321,12 @@
           </div>
           <div class="field col-12 md:col-6">
             <label for="idade">Idade</label>
-            <InputText id="idade" v-model="pedido.idade" :disabled="disabled" />
+            <InputNumber
+              id="idade"
+              mode="decimal"
+              :useGrouping="false"
+              v-model="pedido.idade"
+              :disabled="disabled" />
           </div>
           <div class="field col-12 md:col-6">
             <label for="peso">Peso</label>
@@ -326,11 +336,12 @@
             <label for="especie">Espécie</label>
             <Dropdown
               id="especie"
-              v-model="pedido.especie_id"
+              v-model="pedido.especie"
               :options="especies"
               optionLabel="nome_especie"
               :filter="true"
               placeholder="Selecione uma Espécie"
+              :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
@@ -352,15 +363,16 @@
             <label for="linhagem">Linhagem</label>
             <Dropdown
               id="linhagem"
-              v-model="pedido.linhagem_id"
+              v-model="pedido.linhagem"
               :options="linhagens"
               optionLabel="nome_linhagem"
               :filter="true"
               placeholder="Selecione uma Linhagem"
+              :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
               emptyMessage="Nenhuma opção disponível"
-              :class="{ 'p-invalid': required && !pedido.linhagem_id }">
+              :class="{ 'p-invalid': required && !pedido.linhagem }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_linhagem }}</div>
@@ -420,6 +432,14 @@
               :disabled="disabled" />
           </div>
           <div class="field col-12">
+            <label for="equipeExecutora">Equipe Executora</label>
+            <InputText
+              id="equipeExecutora"
+              type="text"
+              v-model="pedido.equipe_executora"
+              :disabled="disabled" />
+          </div>
+          <div class="field col-12">
             <label for="exper">Laboratório de Experimentação</label>
             <InputText
               id="exper"
@@ -439,6 +459,7 @@
           @click="disabled ? setPageDisabled(2) : prevPage(2)" />
         <Button
           v-if="!disabled"
+          :disabled="saveButtonDisabled"
           label="Salvar"
           class="p-button-success"
           @click="save" />
@@ -467,7 +488,8 @@ export default {
       finalidades: null,
       pesquisadores: null,
       linhagens: null,
-      required: false
+      required: false,
+      saveButtonDisabled: false
     }
   },
   props: {
@@ -477,8 +499,6 @@ export default {
   },
   mounted() {
     this.freeTab()
-    //TODO: Recuperar as seguintes entidades para que essas possam ser selecionadas
-    //cadastrar/editar um pedido
 
     PedidoService.getVinculoInstitucional(
       (datas) => (this.instituicoes = datas)
@@ -501,28 +521,62 @@ export default {
     PedidoService.getLinhagens((datas) => (this.linhagens = datas))
 
     PedidoService.getPesquisador((datas) => (this.pesquisadores = datas))
-
-    //pesquisadores
-    // previsoes
-    // instituicoes
-    // projetos
-    // pesquisas
-    // niveis
-    // laboratorios
-    // finalidades
-    // especies
-    // linhagens
   },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
     save() {
-      console.log(this.pedido)
+      this.saveButtonDisabled = true
       this.required = true
       if (this.pedido.titulo && this.pedido.exper) {
         if (this.newData) {
-          //TODO: Salvar quando é um novo registro
+          PedidoService.savePedido(
+            this.pedido,
+            () =>
+              this.showToast(
+                'success',
+                'Cadastrado com Sucesso',
+                'Pedido cadastrado com sucesso'
+              ),
+            (error) => {
+              if (error.response) {
+                this.saveButtonDisabled = false
+                console.log(error.response)
+              } else {
+                this.saveButtonDisabled = false
+                console.log(error)
+              }
+            }
+          )
         } else {
-          // TODO: Salvar o que foi editado
+          PedidoService.editPedido(
+            this.pedido,
+            () =>
+              this.showToast(
+                'success',
+                'Editado com Sucesso',
+                'Pedido editado com sucesso'
+              ),
+            (error) => {
+              if (error.response) {
+                this.saveButtonDisabled = false
+                console.log(error.response)
+              } else {
+                this.saveButtonDisabled = false
+                console.log(error)
+              }
+            }
+          )
         }
+      } else {
+        this.saveButtonDisabled = false
       }
     },
     freeTab() {
@@ -549,33 +603,28 @@ export default {
           this.required = true
         }
       } else if (tab === 2) {
-        this.disable_1 = true
-        this.disable_2 = false
-        this.activeTab = tab
-        this.required = true
-
         // DESCOMENTAR QUANDO A RECUPERAÇÃO DE OPÇOES PARA OS CAMPOS DE DROPDOWN ESTIVER FUNCIONANDO
 
-        // if (
-        //   this.pedido.pesquisador &&
-        //   this.pedido.previsao &&
-        //   this.pedido.projeto &&
-        //   this.pedido.finalidade
-        // ) {
-        // this.disable_1 = true
-        // this.disable_2 = false
-        // this.activeTab = tab
-        //   this.required = false
-        // } else {
-        //   this.required = true
-        // }
-      } else {
+        if (
+          this.pedido.pesquisador &&
+          this.pedido.vinculo_institucional &&
+          this.pedido.projeto &&
+          this.pedido.finalidade
+        ) {
+          this.disable_1 = true
+          this.disable_2 = false
+          this.activeTab = tab
+          this.required = false
+        } else {
+          this.required = true
+        }
+      } else if (tab === 3) {
         if (
           this.pedido.num_aprovado &&
           this.pedido.num_solicitado &&
-          this.pedido.sexo
-          // && this.pedido.especie &&
-          // this.pedido.linhagem
+          this.pedido.sexo &&
+          this.pedido.especie &&
+          this.pedido.linhagem
         ) {
           this.disable_2 = true
           this.disable_3 = false

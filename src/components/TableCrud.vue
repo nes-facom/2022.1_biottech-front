@@ -167,7 +167,8 @@
               <PedidoModal
                 :pedido="value"
                 :disabled="false"
-                :newData="newDataDialog" />
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Previsão'">
               <PrevisaoModal :previsao="value" :newData="newDataDialog" />
@@ -229,7 +230,6 @@
                 @click="deleteDataDialog = false" />
             </template>
           </Dialog>
-
 
           <!-- MODAL DE ALERTA DE ATIVAÇÃO -->
           <Dialog
@@ -349,30 +349,26 @@ export default {
   },
   methods: {
     activeData() {
-      ActiveAndDisable.activeAndDisable(
-        this.value.id,
-        true,
-        (success) => {
-          if (success) {
-            this.values = this.values.filter((val) => val.id != this.value.id)
-            this.activeDataDialog = false
-            this.value = {}
-            this.$toast.add({
-              severity: 'success',
-              summary: 'Sucesso',
-              detail: 'Registro Ativado',
-              life: 3000
-            })
-          } else {
-            this.$toast.add({
-              severity: 'error',
-              summary: 'Erro',
-              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
-            })
-          }
+      ActiveAndDisable.activeAndDisable(this.value.id, true, (success) => {
+        if (success) {
+          this.values = this.values.filter((val) => val.id != this.value.id)
+          this.activeDataDialog = false
+          this.value = {}
+          this.$toast.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Registro Ativado',
+            life: 3000
+          })
+        } else {
+          this.$toast.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+            life: 3000
+          })
         }
-      )
+      })
     },
     closeModalSave() {
       this.hideDialog()
@@ -424,30 +420,26 @@ export default {
       this.activeDataDialog = true
     },
     deleteData() {
-      ActiveAndDisable.activeAndDisable(
-        this.value.id,
-        false,
-        (success) => {
-          if (success) {
-            this.values = this.values.filter((val) => val.id != this.value.id)
-            this.deleteDataDialog = false
-            this.value = {}
-            this.$toast.add({
-              severity: 'success',
-              summary: 'Sucesso',
-              detail: 'Registro deletado',
-              life: 3000
-            })
-          } else {
-            this.$toast.add({
-              severity: 'error',
-              summary: 'Erro',
-              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
-            })
-          }
+      ActiveAndDisable.activeAndDisable(this.value.id, false, (success) => {
+        if (success) {
+          this.values = this.values.filter((val) => val.id != this.value.id)
+          this.deleteDataDialog = false
+          this.value = {}
+          this.$toast.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Registro deletado',
+            life: 3000
+          })
+        } else {
+          this.$toast.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+            life: 3000
+          })
         }
-      )
+      })
     },
     findIndexById(id) {
       let index = -1
