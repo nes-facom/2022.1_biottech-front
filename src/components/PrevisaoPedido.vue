@@ -6,12 +6,6 @@
         <div class="card col-12">
           <div class="p-fluid grid justify-content-between">
             <div class="col-12 md:col-2">
-              <Button
-                v-if="!viewOnly"
-                label="Novo"
-                icon="pi pi-plus"
-                class="p-button-success px-2"
-                @click="openNew" />
             </div>
             <div class="col-12 md:col-2">
               <Dropdown
@@ -87,10 +81,7 @@
             </template>
           </Column>
           <!-- RENDERIZAÇÃO CONDICIONAL CASO A ROTA SEJA REFERENTE A PEDIDO -->
-          <Column
-            v-if="this.title === 'Pedido'"
-            header="Ver mais"
-            headerStyle="min-width:8rem;">
+          <Column header="Ver mais" headerStyle="min-width:8rem;">
             <template #body="slotProps">
               <div class="flex justify-content-center">
                 <Button
@@ -104,24 +95,9 @@
             <template #body="slotProps">
               <div class="flex justify-content-center gap-2">
                 <Button
-                  icon="pi pi-pencil"
-                  class="p-button-rounded p-button-success"
-                  @click="edit(slotProps.data)" />
-                <Button
-                  icon="pi pi-trash"
-                  class="p-button-rounded p-button-danger"
-                  @click="confirmDeleteRecord(slotProps.data)" />
-              </div>
-            </template>
-          </Column>
-          <!-- ICONE PARA ATIVAR -->
-          <Column v-if="this.viewOnly" headerStyle="min-width:10rem;">
-            <template #body="slotProps">
-              <div class="flex justify-content-center gap-2">
-                <Button
                   icon="pi pi-plus"
                   class="p-button-rounded p-button-success"
-                  @click="confirmActiveRecord(slotProps.data)" />
+                  @click="savePrev(slotProps.data)" />
               </div>
             </template>
           </Column>
@@ -157,42 +133,10 @@
             :closable="false"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
             <!-- DEFINE O FORMULÁRIO QUE SERÁ RENDERIZADO BASEADO NA ROTA ATUAL -->
-            <div v-if="title === 'Pesquisador'">
-              <PesquisadorModal
-                :pesquisador="value"
-                :newData="newDataDialog"
-                @close="closeModalSave" />
+            <div>
+              <PrevisaoModal :previsao="value" :newData="newDataDialog" @close="closeModalSave" />
             </div>
-            <div v-else-if="title === 'Pedido'">
-              <PedidoModal
-                :pedido="value"
-                :disabled="false"
-                :newData="newDataDialog"
-                @close="closeModalSave" />
-            </div>
-            <div v-else-if="title === 'Previsão'">
-              <PrevisaoModal :previsao="value" :newData="newDataDialog" />
-            </div>
-            <div v-else-if="title === 'Saída'">
-              <SaidaModal :saida="value" :newData="newDataDialog" />
-            </div>
-            <div v-else-if="title === 'Caixa'">
-              <CaixaModal :caixa="value" :newData="newDataDialog" />
-            </div>
-            <div v-else-if="title === 'Temperatura e umidade'">
-              <TempUmiModal :tempumi="value" :newData="newDataDialog" />
-            </div>
-            <div v-else-if="title === 'Caixa Matriz'">
-              <CaixaMatrixModal
-                :caixa_matriz="value"
-                :newData="newDataDialog" />
-            </div>
-            <div v-else-if="title === 'Parto'">
-              <PartoModal :parto="value" :newData="newDataDialog" />
-            </div>
-            <div v-else>
-              <UsuarioModal :usuario="value" :newData="newDataDialog" />
-            </div>
+
             <template #footer>
               <Button
                 label="Cancelar"
@@ -398,26 +342,13 @@ export default {
       this.searchString = ''
       this.getMethod()
     },
-    openNew() {
-      if (this.route.startsWith('/previsao')) {
-        this.$router.push('/previsao/pedido')
-      } else {
-        this.value = {}
-        this.newDataDialog = true
-        this.dataDialog = true
-      }
-    },
     hideDialog() {
       this.newDataDialog = false
       this.dataDialog = false
     },
-    edit(entityData) {
-      this.value = { ...entityData }
+    savePrev(entityData) {
+      this.value.pedido_id = entityData.id
       this.dataDialog = true
-    },
-    confirmDeleteRecord(value) {
-      this.value = value
-      this.deleteDataDialog = true
     },
     confirmActiveRecord(value) {
       this.value = value
@@ -462,97 +393,19 @@ export default {
       this.getMethod()
     },
     getMethod() {
-      if (this.route.startsWith('/pesquisador')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = PesquisadorService.getPesquisadorHeaders()
-          PesquisadorService.getPesquisadores(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            (datas) => (
-              (this.values = datas.pesquisador),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
+      if (!this.viewOnly) {
+        this.headers = PedidoService.getPedidoHeaders()
+        PedidoService.getPedidos(
+          this.route.startsWith('/desativado'),
+          this.page,
+          this.searchString,
+          this.yearSelected,
+          (datas) => (
+            (this.values = datas.pedidos),
+            (this.prevPage = datas.pagination.prevPage),
+            (this.nextPage = datas.pagination.nextPage)
           )
-        }
-      } else if (this.route.startsWith('/pedido')) {
-        if (!this.viewOnly) {
-          this.headers = PedidoService.getPedidoHeaders()
-          PedidoService.getPedidos(
-            this.route.startsWith('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.pedidos),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/previsao')) {
-        if (!this.viewOnly) {
-          this.headers = PrevisaoService.getPrevisaoHeaders()
-          PrevisaoService.getPrevisoes(
-            this.route.startsWith('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.previsao),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/saida')) {
-      } else if (this.route.startsWith('/caixa')) {
-        if (!this.viewOnly) {
-          this.headers = CaixaService.getCaixaHeaders()
-          CaixaService.getCaixas(
-            this.route.startsWith('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.caixas),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/tempumi')) {
-        if (!this.viewOnly) {
-          this.headers = TemperaturaUmidade.getTemperaturaUmidadeHeaders()
-          TemperaturaUmidade.getTemperaturaUmidade(
-            this.route.startsWith('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.temperatura),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/cxmatriz')) {
-      } else if (this.route.startsWith('/parto')) {
-        if (!this.viewOnly) {
-          this.headers = Parto.getPartoHeaders()
-          Parto.getPartos(
-            this.route.startsWith('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.partos),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
+        )
       }
     },
     seeMore(value) {
