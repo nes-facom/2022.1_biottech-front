@@ -13,7 +13,7 @@ class Pedido {
 
   async #getPedidoInactive(search, page, year) {
     return axios.get(
-      `${API_ENDPOINT}/pedido/getPedidos.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
+      `${API_ENDPOINT}/pedido/getPedidos.json?page=${page}&limit=8&active=false&year=${year}&search=${search}`,
       this.buildAuthHeader()
     )
   }

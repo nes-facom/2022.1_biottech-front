@@ -1,5 +1,6 @@
 import PesquisadorService from '../service/PesquisadorService'
 import PedidoService from './PedidoService'
+import PrevisaoService from './PrevisaoService'
 
 class ActiveAndDisable {
   activeAndDisable(id, activeBool, onDelete) {
@@ -8,6 +9,7 @@ class ActiveAndDisable {
     } else if (window.location.href.includes('/pedido')) {
       PedidoService.activeAndDisablePedido(id, onDelete, activeBool)
     } else if (window.location.href.includes('/previsao')) {
+      PrevisaoService.activeAndDisablePrevisao(id, onDelete, activeBool)
     } else if (window.location.href.includes('/saida')) {
     } else if (window.location.href.includes('/caixa')) {
     } else if (window.location.href.includes('/tempumi')) {

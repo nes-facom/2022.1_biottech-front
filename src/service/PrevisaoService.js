@@ -52,6 +52,20 @@ class Previsao {
       .catch((e) => onError(e))
   }
 
+  activeAndDisablePrevisao(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/previsao/activeAndDisable.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
   getPrevisaoHeaders() {
     const columns = [
       { field: 'num_previsao', header: 'Número Previsão' },

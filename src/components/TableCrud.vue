@@ -477,10 +477,10 @@ export default {
           )
         }
       } else if (this.route.startsWith('/pedido')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = PedidoService.getPedidoHeaders()
           PedidoService.getPedidos(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,
@@ -492,10 +492,10 @@ export default {
           )
         }
       } else if (this.route.startsWith('/previsao')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = PrevisaoService.getPrevisaoHeaders()
           PrevisaoService.getPrevisoes(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,
