@@ -231,7 +231,7 @@
 
 <script>
 import PesquisadorService from '../service/PesquisadorService'
-import ActiveAndDisable from '../service/ActiveAndDisable'
+import ActiveAndDisableService from '../service/ActiveAndDisableService'
 import PedidoService from '../service/PedidoService'
 import CaixaService from '../service/CaixaService'
 import PesquisadorModal from './Modals/PesquisadorModal.vue'
@@ -293,7 +293,7 @@ export default {
   },
   methods: {
     activeData() {
-      ActiveAndDisable.activeAndDisable(this.value.id, true, (success) => {
+      ActiveAndDisableService.activeAndDisable(this.value.id, true, (success) => {
         if (success) {
           this.values = this.values.filter((val) => val.id != this.value.id)
           this.activeDataDialog = false
@@ -355,7 +355,7 @@ export default {
       this.activeDataDialog = true
     },
     deleteData() {
-      ActiveAndDisable.activeAndDisable(this.value.id, false, (success) => {
+      ActiveAndDisableService.activeAndDisable(this.value.id, false, (success) => {
         if (success) {
           this.values = this.values.filter((val) => val.id != this.value.id)
           this.deleteDataDialog = false

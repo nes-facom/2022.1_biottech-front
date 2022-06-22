@@ -148,8 +148,9 @@
 
 <script>
 import { FilterMatchMode } from 'primevue/api'
-import Linhagem from '../service/LinhagemService'
+import LinhagemService from '../service/LinhagemService'
 import ListsModal from './Modals/ListsModal.vue'
+import ActiveAndDisableService from '../service/ActiveAndDisableService'
 
 export default {
   data() {
@@ -210,14 +211,25 @@ export default {
       this.dataDialog = true
     },
     deleteData() {
-      this.values = this.values.filter((val) => (val.id = this.value.id))
-      this.deleteDataDialog = false
-      this.value = {}
-      this.$toast.add({
-        severity: 'Sucesso',
-        summary: 'Sucesso',
-        detail: 'Registro deletado',
-        life: 3000
+      ActiveAndDisableService.activeAndDisable(this.value.id, false, (success) => {
+        if (success) {
+          this.values = this.values.filter((val) => val.id != this.value.id)
+          this.deleteDataDialog = false
+          this.value = {}
+          this.$toast.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Registro deletado',
+            life: 3000
+          })
+        } else {
+          this.$toast.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+            life: 3000
+          })
+        }
       })
     },
     search() {
@@ -236,7 +248,6 @@ export default {
     },
     getEntity() {
       if (this.route == '/config/linhagem') {
-        this.entityService = new Linhagem()
         this.config = true
       } else if (this.route == '/config/sala') {
         this.config = true
@@ -258,8 +269,17 @@ export default {
     },
     getMethod() {
       if (this.route == '/config/linhagem') {
-        this.entityService.getLinhagem().then((data) => (this.values = data))
-        this.headers = this.entityService.getLinhagemHeaders()
+        LinhagemService.getLinhagem(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = LinhagemService.getLinhagemHeaders()
       } else if (this.route == '/config/sala') {
       } else if (this.route == '/config/linhapesquisa') {
       } else if (this.route == '/config/insti') {
