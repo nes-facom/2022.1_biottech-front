@@ -180,7 +180,10 @@
               <CaixaModal :caixa="value" :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Temperatura e umidade'">
-              <TempUmiModal :tempumi="value" :newData="newDataDialog" />
+              <TempUmiModal
+                :tempumi="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Caixa Matriz'">
               <CaixaMatrixModal
@@ -523,10 +526,10 @@ export default {
           )
         }
       } else if (this.route.startsWith('/tempumi')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = TemperaturaUmidade.getTemperaturaUmidadeHeaders()
           TemperaturaUmidade.getTemperaturaUmidade(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,

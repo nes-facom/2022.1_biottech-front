@@ -18,7 +18,7 @@ class Pedido {
     )
   }
 
-  savePedido(pedido, onSave, onError) {
+  saveSala(pedido, onSave, onError) {
     pedido = JSON.parse(JSON.stringify(pedido))
     pedido.vinculo_institucional_id = pedido.vinculo_institucional.id
     pedido.projeto_id = pedido.projeto.id

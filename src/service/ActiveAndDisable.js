@@ -1,6 +1,7 @@
 import PesquisadorService from '../service/PesquisadorService'
 import PedidoService from './PedidoService'
 import PrevisaoService from './PrevisaoService'
+import TemperaturaUmidadeService from './TemperaturaUmidadeService'
 
 class ActiveAndDisable {
   activeAndDisable(id, activeBool, onDelete) {
@@ -13,6 +14,7 @@ class ActiveAndDisable {
     } else if (window.location.href.includes('/saida')) {
     } else if (window.location.href.includes('/caixa')) {
     } else if (window.location.href.includes('/tempumi')) {
+      TemperaturaUmidadeService.activeAndDisableTemperaturaUmidade(id, onDelete, activeBool)
     } else if (window.location.href.includes('/cxmatriz')) {
     } else if (window.location.href.includes('/parto')) {
     }

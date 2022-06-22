@@ -30,6 +30,46 @@ class TemperaturaUmidade {
     }
   }
 
+  savePedido(tempumi, onSave, onError) {
+    tempumi = JSON.parse(JSON.stringify(tempumi))
+    tempumi.data = Util.formatDate(new Date(tempumi.data))
+
+    delete tempumi.sala;
+
+    axios
+      .post(
+        `${API_ENDPOINT}/temperaturaUmidade/addTemperaturaUmidade.json`,
+        tempumi,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  activeAndDisableTemperaturaUmidade(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/temperaturaUmidade/activeAndDisable.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  getSala(search, onFetch, onError) {
+    axios
+      .get(
+        `${API_ENDPOINT}/sala/getSala.json?search=${search}&active=true`,
+        this.buildAuthHeader()
+      )
+      .then((response) => onFetch(response.data))
+      .catch((e) => onError(e))
+  }
+
   #formatDate(data) {
     data.temperatura.map((temperatura) => {
         temperatura.data = Util.formatDateTable(temperatura.data)
