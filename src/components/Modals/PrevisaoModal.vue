@@ -53,14 +53,14 @@
           :class="{ 'p-invalid': required && !previsao.status }">
           <template #value="slotProps">
             <div v-if="slotProps.value">
-              <div>{{ slotProps.value.value }}</div>
+              <div>{{ slotProps.value }}</div>
             </div>
             <span v-else>
               {{ slotProps.placeholder }}
             </span>
           </template>
           <template #option="slotProps">
-            <div>{{ slotProps.option.label }}</div>
+            <div>{{ slotProps.option }}</div>
           </template>
         </Dropdown>
       </div>
@@ -81,10 +81,7 @@ import PrevisaoService from '../../service/PrevisaoService'
 export default {
   data() {
     return {
-      statuses: [
-        { label: 'Aberto', value: 'Aberto' },
-        { label: 'Fechado', value: 'Fechado' }
-      ],
+      statuses: ['aberto', 'fechado'],
       required: false
     }
   },
@@ -111,7 +108,7 @@ export default {
         'success',
         'Cadastrado com Sucesso',
         'Pedido cadastrado com sucesso'
-      ) 
+      )
     },
     save() {
       this.required = true
