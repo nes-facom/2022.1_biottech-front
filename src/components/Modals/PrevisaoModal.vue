@@ -111,6 +111,7 @@ export default {
       )
     },
     save() {
+      console.log(this.previsao)
       this.required = true
       const checked_fields = this.checkRequired()
       PrevisaoService.savePrevisao(

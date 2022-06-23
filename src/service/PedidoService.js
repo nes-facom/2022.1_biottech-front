@@ -3,7 +3,51 @@ import axios from 'axios'
 import { API_ENDPOINT } from '../constants'
 import Util from '../util/Util'
 
-class Pedido {
+class PedidoService {
+  getLinhaPesquisaHeaders() {
+    const columns = [
+      { field: 'nome_linha_pesquisa', header: 'Nome Linha Pesquisa' }
+    ]
+    return columns
+  }
+
+  getVinculoInstitucionalHeaders() {
+    const columns = [
+      {
+        field: 'nome_vinculo_institucional',
+        header: 'Nome Vínculo Institucional'
+      }
+    ]
+    return columns
+  }
+
+  getProjetosHeaders() {
+    const columns = [{ field: 'nome_projeto', header: 'Nome Projeto' }]
+    return columns
+  }
+
+  getLaboratoriosHeaders() {
+    const columns = [{ field: 'nome_laboratorio', header: 'Nome Laboratório' }]
+    return columns
+  }
+
+  getNivelProjetoHeaders() {
+    const columns = [
+      { field: 'nome_nivel_projeto', header: 'Nome Nível Pesquisa' }
+    ]
+    return columns
+  }
+
+  getEspeciesHeaders() {
+    const columns = [{ field: 'nome_especie', header: 'Nome Espécie' }]
+    return columns
+  }
+
+  getFinalidadesHeaders() {
+    const columns = [{ field: 'nome_finalidade', header: 'Nome Finalidade' }]
+    return columns
+  }
+
   async #getPedido(search, page, year) {
     return axios.get(
       `${API_ENDPOINT}/pedido/getPedidos.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
@@ -18,7 +62,7 @@ class Pedido {
     )
   }
 
-  saveSala(pedido, onSave, onError) {
+  savePedido(pedido, onSave, onError) {
     pedido = JSON.parse(JSON.stringify(pedido))
     pedido.vinculo_institucional_id = pedido.vinculo_institucional.id
     pedido.projeto_id = pedido.projeto.id
@@ -29,15 +73,15 @@ class Pedido {
     pedido.finalidade_id = pedido.finalidade.id
     pedido.pesquisador_id = pedido.pesquisador.id
     pedido.linhagem_id = pedido.linhagem.id
-    delete pedido.vinculo_institucional;
-    delete pedido.projeto;
-    delete pedido.especie;
-    delete pedido.linha_pesquisa;
-    delete pedido.nivel_projeto;
-    delete pedido.laboratorio;
-    delete pedido.finalidade;
-    delete pedido.pesquisador;
-    delete pedido.linhagem;
+    delete pedido.vinculo_institucional
+    delete pedido.projeto
+    delete pedido.especie
+    delete pedido.linha_pesquisa
+    delete pedido.nivel_projeto
+    delete pedido.laboratorio
+    delete pedido.finalidade
+    delete pedido.pesquisador
+    delete pedido.linhagem
 
     pedido.data_solicitacao = Util.formatDate(new Date(pedido.data_solicitacao))
     pedido.vigencia_ceua = Util.formatDate(new Date(pedido.vigencia_ceua))
@@ -62,15 +106,15 @@ class Pedido {
     pedido.finalidade_id = pedido.finalidade.id
     pedido.pesquisador_id = pedido.pesquisador.id
     pedido.linhagem_id = pedido.linhagem.id
-    delete pedido.vinculo_institucional;
-    delete pedido.projeto;
-    delete pedido.especie;
-    delete pedido.linha_pesquisa;
-    delete pedido.nivel_projeto;
-    delete pedido.laboratorio;
-    delete pedido.finalidade;
-    delete pedido.pesquisador;
-    delete pedido.linhagem;
+    delete pedido.vinculo_institucional
+    delete pedido.projeto
+    delete pedido.especie
+    delete pedido.linha_pesquisa
+    delete pedido.nivel_projeto
+    delete pedido.laboratorio
+    delete pedido.finalidade
+    delete pedido.pesquisador
+    delete pedido.linhagem
 
     pedido.data_solicitacao = Util.formatDate(new Date(pedido.data_solicitacao))
     pedido.vigencia_ceua = Util.formatDate(new Date(pedido.vigencia_ceua))
@@ -191,6 +235,294 @@ class Pedido {
       .then((response) => onFetch(response.data))
   }
 
+  activeAndDisableLinhaPesquisa(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pedido/activeAndDisableLinhaPesquisa.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  activeAndDisableVinculoInstitucional(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pedido/activeAndDisableVinculoInstitucional.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  activeAndDisableProjeto(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pedido/activeAndDisableProjeto.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  activeAndDisableLaboratorio(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pedido/activeAndDisableLaboratorio.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  activeAndDisableNivelProjeto(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pedido/activeAndDisableNivelProjeto.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  activeAndDisableEspecie(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pedido/activeAndDisableEspecie.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  activeAndDisableFinalidade(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/pedido/activeAndDisableFinalidade.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
+  saveLinhaPesquisa(nome_linha_pesquisa, onSave, onError) {
+    var linha_pesquisa = {}
+    linha_pesquisa.nome_linha_pesquisa = nome_linha_pesquisa
+    axios
+      .post(
+        `${API_ENDPOINT}/pedido/addLinhaPesquisa.json`,
+        linha_pesquisa,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editLinhaPesquisa(linha_pesquisa, onSave, onError) {
+    linha_pesquisa = JSON.parse(JSON.stringify(linha_pesquisa))
+    var linha_pesquisas = {}
+    linha_pesquisas.nome_linha_pesquisa = linha_pesquisa.name
+    axios
+      .put(
+        `${API_ENDPOINT}/pedido/editLinhaPesquisa.json?id=${linha_pesquisa.id}`,
+        linha_pesquisas,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  saveVinculoInstitucional(nome_vinculo_institucional, onSave, onError) {
+    var vinculo_institucional = {}
+    vinculo_institucional.nome_vinculo_institucional =
+      nome_vinculo_institucional
+    axios
+      .post(
+        `${API_ENDPOINT}/pedido/addVinculoInstitucional.json`,
+        vinculo_institucional,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editVinculoInstitucional(vinculo_institucional, onSave, onError) {
+    vinculo_institucional = JSON.parse(JSON.stringify(vinculo_institucional))
+    var vinculo_institucionais = {}
+    vinculo_institucionais.nome_vinculo_institucional = vinculo_institucional.name
+    axios
+      .put(
+        `${API_ENDPOINT}/pedido/editVinculoInstitucional.json?id=${vinculo_institucional.id}`,
+        vinculo_institucionais,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  saveProjeto(nome_projeto, onSave, onError) {
+    var projeto = {}
+    projeto.nome_projeto = nome_projeto
+    axios
+      .post(
+        `${API_ENDPOINT}/pedido/addProjeto.json`,
+        projeto,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editProjeto(projeto, onSave, onError) {
+    projeto = JSON.parse(JSON.stringify(projeto))
+    var projetos = {}
+    projetos.nome_projeto = projeto.name
+    axios
+      .put(
+        `${API_ENDPOINT}/pedido/editProjeto.json?id=${projeto.id}`,
+        projetos,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  saveLaboratorio(nome_laboratorio, onSave, onError) {
+    var laboratorio = {}
+    laboratorio.nome_laboratorio = nome_laboratorio
+    axios
+      .post(
+        `${API_ENDPOINT}/pedido/addLaboratorio.json`,
+        laboratorio,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editLaboratorio(laboratorio, onSave, onError) {
+    laboratorio = JSON.parse(JSON.stringify(laboratorio))
+    var laboratorios = {}
+    laboratorios.nome_laboratorio = laboratorio.name
+    axios
+      .put(
+        `${API_ENDPOINT}/pedido/editLaboratorio.json?id=${laboratorio.id}`,
+        laboratorios,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  saveNivelProjeto(nome_nivel_projeto, onSave, onError) {
+    var nivel_projeto = {}
+    nivel_projeto.nome_nivel_projeto = nome_nivel_projeto
+    axios
+      .post(
+        `${API_ENDPOINT}/pedido/addNivelProjeto.json`,
+        nivel_projeto,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editNivelProjeto(nivel_projeto, onSave, onError) {
+    nivel_projeto = JSON.parse(JSON.stringify(nivel_projeto))
+    var nivel_projetos = {}
+    nivel_projetos.nome_nivel_projeto = nivel_projeto.name
+    axios
+      .put(
+        `${API_ENDPOINT}/pedido/editNivelProjeto.json?id=${nivel_projeto.id}`,
+        nivel_projetos,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  saveEspecie(nome_especie, onSave, onError) {
+    var especie = {}
+    especie.nome_especie = nome_especie
+    axios
+      .post(
+        `${API_ENDPOINT}/pedido/addEspecie.json`,
+        especie,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editEspecie(especie, onSave, onError) {
+    especie = JSON.parse(JSON.stringify(especie))
+    var especies = {}
+    especies.nome_especie = especie.name
+    axios
+      .put(
+        `${API_ENDPOINT}/pedido/editEspecie.json?id=${especie.id}`,
+        especies,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  saveFinalidade(nome_finalidade, onSave, onError) {
+    var finalidade = {}
+    finalidade.nome_finalidade = nome_finalidade
+    axios
+      .post(
+        `${API_ENDPOINT}/pedido/addFinalidade.json`,
+        finalidade,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editFinalidade(finalidade, onSave, onError) {
+    finalidade = JSON.parse(JSON.stringify(finalidade))
+    var finalidades = {}
+    finalidades.nome_finalidade = finalidade.name
+    axios
+      .put(
+        `${API_ENDPOINT}/pedido/editFinalidade.json?id=${finalidade.id}`,
+        finalidades,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
   #formatDate(data) {
     data.pedidos.map((pedido) => {
       ;(pedido.data_solicitacao = Util.formatDateTable(
@@ -225,4 +557,4 @@ class Pedido {
   }
 }
 
-export default new Pedido()
+export default new PedidoService()
