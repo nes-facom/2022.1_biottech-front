@@ -2,28 +2,13 @@
   <div class="col-12">
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
-        <label for="sala">Sala</label>
-        <Dropdown
+        <label for="sala">Sala Número</label>
+        <InputText
           id="sala"
+          ref="salaInput"
+          type="text"
           v-model="tempumi.sala"
-          :options="salas"
-          optionLabel="Salas"
-          :filter="true"
-          placeholder="Selecione uma sala"
-          emptyFilterMessage="Nenhuma opção corresponde a busca"
-          emptyMessage="Nenhuma opção disponível">
-          <template #value="slotProps">
-            <div v-if="slotProps.value">
-              <div>{{ slotProps.value.num_sala }}</div>
-            </div>
-            <span v-else>
-              {{ slotProps.placeholder }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <div>{{ slotProps.option.num_sala }}</div>
-          </template>
-        </Dropdown>
+          v-on:blur="checkSala" />
       </div>
       <div class="field col-12">
         <label for="data">Data</label>
@@ -38,6 +23,7 @@
         <InputNumber
           id="temp_matutino"
           mode="decimal"
+          :maxFractionDigits="2"
           :useGrouping="false"
           v-model="tempumi.temp_matutino" />
       </div>
@@ -46,13 +32,14 @@
         <InputText
           id="ur_matutino"
           v-model="tempumi.ur_matutino"
-          v-tooltip.top.focus="'Em %'" />
+          v-tooltip.top="'Em %'" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="temp_vespertino">Temp. Vespertino</label>
         <InputNumber
           id="temp_vespertino"
           mode="decimal"
+          :maxFractionDigits="2"
           :useGrouping="false"
           v-model="tempumi.temp_vespertino" />
       </div>
@@ -61,7 +48,7 @@
         <InputText
           id="ur_vespertino"
           v-model="tempumi.ur_vespertino"
-          v-tooltip.top.focus="'Em %'" />
+          v-tooltip.top="'Em %'" />
       </div>
       <div class="field col-12">
         <label for="observacoes">Observações</label>
@@ -84,6 +71,8 @@
 </template>
 
 <script>
+import TemperaturaUmidadeService from '../../service/TemperaturaUmidadeService'
+
 export default {
   data() {
     return {
@@ -99,11 +88,52 @@ export default {
     //TODO: Recuperar as salas possívei a serem selecionadas
   },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
+    checkSala() {
+      TemperaturaUmidadeService.getSala(
+        this.$refs.salaInput.modelValue,
+        (datas) => (this.tempumi.sala_id = datas.id),
+        (error) => {
+          if (error.response) {
+            this.saveButtonDisabled = false
+            console.log(error.response)
+          } else {
+            this.saveButtonDisabled = false
+            console.log(error)
+          }
+        }
+      )
+    },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
       if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
+        TemperaturaUmidadeService.savePedido(
+          this.tempumi,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Temperatura Umidade cadastrada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log(error.response)
+            } else {
+              this.saveButtonDisabled = false
+              console.log(error)
+            }
+          }
+        )
       } else if (checked_fields) {
         // TODO: Salvar o que foi editado
       }

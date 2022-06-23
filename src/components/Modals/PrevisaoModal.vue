@@ -44,31 +44,6 @@
           dateFormat="yy-mm-dd" />
       </div>
       <div class="field col-12">
-        <label for="pedido">Pedido</label>
-        <Dropdown
-          id="pedido"
-          v-model="previsao.pedido"
-          :options="pedidos"
-          optionLabel="Pedido"
-          :filter="true"
-          placeholder="Selecione um pedido"
-          emptyFilterMessage="Nenhuma opção corresponde a busca"
-          emptyMessage="Nenhuma opção disponível"
-          :class="{ 'p-invalid': required && !previsao.pedido }">
-          <template #value="slotProps">
-            <div v-if="slotProps.value">
-              <div>{{ slotProps.value.processo_sei }}</div>
-            </div>
-            <span v-else>
-              {{ slotProps.placeholder }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <div>{{ slotProps.option.processo_sei }}</div>
-          </template>
-        </Dropdown>
-      </div>
-      <div class="field col-12">
         <label for="status">Status</label>
         <Dropdown
           id="status"
@@ -78,14 +53,14 @@
           :class="{ 'p-invalid': required && !previsao.status }">
           <template #value="slotProps">
             <div v-if="slotProps.value">
-              <div>{{ slotProps.value.value }}</div>
+              <div>{{ slotProps.value }}</div>
             </div>
             <span v-else>
               {{ slotProps.placeholder }}
             </span>
           </template>
           <template #option="slotProps">
-            <div>{{ slotProps.option.label }}</div>
+            <div>{{ slotProps.option }}</div>
           </template>
         </Dropdown>
       </div>
@@ -101,14 +76,12 @@
 </template>
 
 <script>
+import PrevisaoService from '../../service/PrevisaoService'
+
 export default {
   data() {
     return {
-      pedidos: null,
-      statuses: [
-        { label: 'Aberto', value: 'Aberto' },
-        { label: 'Fechado', value: 'Fechado' }
-      ],
+      statuses: ['aberto', 'fechado'],
       required: false
     }
   },
@@ -120,13 +93,43 @@ export default {
     // TODO: Recuperar pedidos possíveis a serem selecionados para uma previsão
   },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
+    successfullySaved() {
+      this.$router.push('/previsao')
+      this.showToast(
+        'success',
+        'Cadastrado com Sucesso',
+        'Pedido cadastrado com sucesso'
+      )
+    },
     save() {
+      console.log(this.previsao)
       this.required = true
       const checked_fields = this.checkRequired()
+      PrevisaoService.savePrevisao(
+        this.previsao,
+        () => this.successfullySaved(),
+        (error) => {
+          if (error.response) {
+            this.saveButtonDisabled = false
+            console.log(error.response)
+          } else {
+            this.saveButtonDisabled = false
+            console.log(error)
+          }
+        }
+      )
+
       if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
       } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
       }
     },
     checkRequired() {
@@ -134,7 +137,6 @@ export default {
         this.previsao.num_previsao &&
         this.previsao.retirada_num &&
         this.previsao.qtd_retirar &&
-        this.previsao.pedido &&
         this.previsao.status
       ) {
         return true

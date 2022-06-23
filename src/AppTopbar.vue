@@ -93,14 +93,12 @@ export default {
     },
     showModal() {
       this.visible = true
-      console.log(this.visible)
     },
     logOut() {
-      sessionStorage.clear();
+      sessionStorage.clear()
       location.reload()
     },
     changePassword() {
-      console.log('Change password')
       //TODO: salvar alteração de senha
       this.visible = false
     }

@@ -98,7 +98,7 @@ export default {
         } else {
           alert('E-mail ou Senha incorreto.')
           this.buttonDisable = false
-        }    
+        }
       })
     }
   }

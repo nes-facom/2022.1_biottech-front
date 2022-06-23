@@ -3,7 +3,7 @@
   <div class="grid">
     <div class="col-12">
       <div class="card">
-        <h5 v-if="this.config">{{ this.title }}</h5>
+        <h5>{{ this.title }}</h5>
         <DataTable
           ref="dt"
           :rowHover="true"
@@ -21,7 +21,6 @@
           class="p-datatable-gridlines">
           <template #header>
             <div
-              v-if="this.config"
               class="flex justify-content-between align-items-center flex-column sm:flex-row">
               <span class="p-input-icon-left mb-2">
                 <i class="pi pi-search" />
@@ -35,24 +34,6 @@
                 icon="pi pi-plus"
                 class="p-button-success"
                 @click="openNew" />
-            </div>
-            <div
-              v-else
-              class="flex flex-column justify-content-between md:flex-row md:align-items-center">
-              <h5>{{ this.title }}</h5>
-              <span class="block mt-2 md:mt-0 p-input-icon-left">
-                <div class="formgroup-inline">
-                  <div class="field">
-                    <InputText
-                      placeholder="Buscar..."
-                      v-model="this.searchString" />
-                  </div>
-                  <Button
-                    icon="pi pi-search"
-                    class="p-button-help"
-                    @click="search()" />
-                </div>
-              </span>
             </div>
           </template>
           <template #empty> Sem registros na tabela </template>
@@ -87,7 +68,11 @@
             :modal="true"
             class="p-fluid"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
-            <ListsModal :listObj="value" :title="title" :newData="newData" />
+            <ListsModal
+              :listObj="value"
+              :title="title"
+              :newData="newData"
+              @close="closeModalSave" />
             <template #footer>
               <Button
                 label="Cancelar"
@@ -148,8 +133,11 @@
 
 <script>
 import { FilterMatchMode } from 'primevue/api'
-import Linhagem from '../service/LinhagemService'
+import LinhagemService from '../service/LinhagemService'
+import SalaService from '../service/SalaService'
 import ListsModal from './Modals/ListsModal.vue'
+import ActiveAndDisableService from '../service/ActiveAndDisableService'
+import PedidoService from '../service/PedidoService'
 
 export default {
   data() {
@@ -164,7 +152,6 @@ export default {
       title: null,
       filters: null,
       loading: true,
-      config: false,
       searchString: null,
       page: 1
     }
@@ -173,7 +160,6 @@ export default {
   created() {
     this.route = this.$route.path
     this.title = this.$route.name
-    this.getEntity()
     this.initFilters()
   },
   mounted() {
@@ -188,6 +174,10 @@ export default {
     next() {
       //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
       // renderizar botão apenas se n for a última pag
+    },
+    closeModalSave() {
+      this.hideDialog()
+      this.getMethod()
     },
     openNew() {
       this.value = {}
@@ -210,15 +200,30 @@ export default {
       this.dataDialog = true
     },
     deleteData() {
-      this.values = this.values.filter((val) => (val.id = this.value.id))
-      this.deleteDataDialog = false
-      this.value = {}
-      this.$toast.add({
-        severity: 'Sucesso',
-        summary: 'Sucesso',
-        detail: 'Registro deletado',
-        life: 3000
-      })
+      ActiveAndDisableService.activeAndDisable(
+        this.value.id,
+        false,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.deleteDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro deletado',
+              life: 3000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 3000
+            })
+          }
+        }
+      )
     },
     search() {
       //TODO: método de busca
@@ -234,39 +239,115 @@ export default {
       }
       return index
     },
-    getEntity() {
-      if (this.route == '/config/linhagem') {
-        this.entityService = new Linhagem()
-        this.config = true
-      } else if (this.route == '/config/sala') {
-        this.config = true
-      } else if (this.route == '/config/linhapesquisa') {
-        this.config = true
-      } else if (this.route == '/config/insti') {
-        this.config = true
-      } else if (this.route == '/config/proj') {
-        this.config = true
-      } else if (this.route == '/config/lab') {
-        this.config = true
-      } else if (this.route == '/config/nivelpesquisa') {
-        this.config = true
-      } else if (this.route == '/config/especie') {
-        this.config = true
-      } else if (this.route == '/config/finalidade') {
-        this.config = true
-      }
-    },
     getMethod() {
       if (this.route == '/config/linhagem') {
-        this.entityService.getLinhagem().then((data) => (this.values = data))
-        this.headers = this.entityService.getLinhagemHeaders()
+        LinhagemService.getLinhagem(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = LinhagemService.getLinhagemHeaders()
       } else if (this.route == '/config/sala') {
+        SalaService.getSalas(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = SalaService.getSalaHeaders()
       } else if (this.route == '/config/linhapesquisa') {
+        PedidoService.getLinhaPesquisas(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = PedidoService.getLinhaPesquisaHeaders()
       } else if (this.route == '/config/insti') {
+        PedidoService.getVinculoInstitucional(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = PedidoService.getVinculoInstitucionalHeaders()
       } else if (this.route == '/config/proj') {
+        PedidoService.getProjetos(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = PedidoService.getProjetosHeaders()
       } else if (this.route == '/config/lab') {
+        PedidoService.getLaboratorios(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = PedidoService.getLaboratoriosHeaders()
+      } else if (this.route == '/config/nivelpesquisa') {
+        PedidoService.getNivelProjetos(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = PedidoService.getNivelProjetoHeaders()
       } else if (this.route == '/config/especie') {
+        PedidoService.getEspecies(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = PedidoService.getEspeciesHeaders()
       } else if (this.route == '/config/finalidade') {
+        PedidoService.getFinalidades(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              console.log(error.response)
+            } else {
+              console.log(error)
+            }
+          }
+        )
+        this.headers = PedidoService.getFinalidadesHeaders()
       }
     },
     initFilters() {

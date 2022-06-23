@@ -34,6 +34,7 @@
       </div>
       <div class="col-12">
         <Button
+          :disabled="disabled"
           label="Salvar"
           icon="pi pi-check"
           class="p-button-success"
@@ -44,13 +45,17 @@
 </template>
 
 <script>
+import LinhagemService from '../../service/LinhagemService'
+import SaveConfigService from '../../service/SaveConfigService'
+
 export default {
   data() {
     return {
       linhagens: null,
       label: 'Nome',
       value: null,
-      required: false
+      required: false,
+      disabled: false
     }
   },
   props: {
@@ -62,11 +67,31 @@ export default {
     this.getNome()
     if (this.title == 'Sala') {
       this.label = 'Número da Sala'
+
+      LinhagemService.getLinhagem(
+        (datas) => (this.linhagens = datas),
+        (error) => {
+          if (error.response) {
+            console.log(error.response)
+          } else {
+            console.log(error)
+          }
+        }
+      )
       //TODO: recuperar as linhagens possíveis
       //de serem selecionadas se a lista sendo editada/cadastrada for 'Sala'
     }
   },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
     getNome() {
       if (this.title == 'Linhagem') {
         this.value = this.listObj.nome_linhagem
@@ -89,12 +114,70 @@ export default {
       }
     },
     save() {
+      this.disabled = true
       this.required = true
       const checked_fields = this.checkRequired()
       if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
+        if (this.title == 'Sala') {
+          var salaNum = this.value
+          var linhagens = []
+          this.value = {}
+          this.value.num_sala = salaNum
+          this.listObj.linhagens.forEach((element) => {
+            linhagens.push(element.id)
+          })
+          this.value.linhagens = linhagens
+        }
+
+        SaveConfigService.save(
+          this.value,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'cadastrado com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.disabled = false
+              console.log('erro')
+            } else {
+              this.disabled = false
+              console.log('Erro na requisição')
+            }
+          }
+        )
       } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+        if (this.title == 'Sala') {
+          var salaNum = this.value
+          var linhagens = []
+          this.value = {}
+          this.value.num_sala = salaNum
+          this.listObj.linhagens.forEach((element) => {
+            linhagens.push(element.id)
+          })
+          this.value.linhagens = linhagens
+        }
+        this.listObj.name = this.value
+
+        SaveConfigService.edit(
+          this.listObj,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'cadastrado com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.disabled = false
+              console.log('erro')
+            } else {
+              this.disabled = false
+              console.log('Erro na requisição')
+            }
+          }
+        )
       }
     },
     checkRequired() {
@@ -102,13 +185,15 @@ export default {
         if (this.value && this.listObj.linhagens) {
           return true
         } else {
-          return false
+          this.disabled = false
+          return false  
         }
       } else {
         if (this.value) {
           return true
         } else {
-          return false
+          this.disabled = false
+          return false         
         }
       }
     }

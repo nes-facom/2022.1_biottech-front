@@ -135,6 +135,11 @@ const routes = [
             component: () => import('./components/TableCrud.vue')
           },
           {
+            path: '/previsao/pedido',
+            name: 'Escolha qual pedido deseja adicionar uma previsão',
+            component: () => import('./components/PrevisaoPedido.vue')
+          },
+          {
             path: '/previsao/desativado',
             name: 'Previsões Arquivadas',
             component: () => import('./components/TableCrud.vue'),

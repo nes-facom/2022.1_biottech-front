@@ -32,9 +32,38 @@ class Previsao {
 
   #formatDate(data) {
     data.previsao.map((previsao) => {
-        previsao.retirada_data = Util.formatDateTable(previsao.retirada_data)
+      previsao.retirada_data = Util.formatDateTable(previsao.retirada_data)
     })
     return data
+  }
+
+  savePrevisao(previsao, onSave, onError) {
+    previsao = JSON.parse(JSON.stringify(previsao))
+    previsao.retirada_data = Util.formatDate(new Date(previsao.retirada_data))
+    previsao.status = previsao.status.value.toLowerCase()
+    console.log(previsao)
+    axios
+      .post(
+        `${API_ENDPOINT}/previsao/addPrevisao.json`,
+        previsao,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  activeAndDisablePrevisao(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/previsao/activeAndDisable.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
   }
 
   getPrevisaoHeaders() {
