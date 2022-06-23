@@ -148,7 +148,8 @@
               :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :virtualScrollerOptions="{ itemSize: 38, scrollWidth: '20' }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_linha_pesquisa }}</div>
@@ -199,7 +200,8 @@
               placeholder="Selecione um Laboratório"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :virtualScrollerOptions="{ itemSize: 38, scrollWidth: '20' }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_laboratorio }}</div>
