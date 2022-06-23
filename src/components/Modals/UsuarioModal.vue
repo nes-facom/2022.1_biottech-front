@@ -3,7 +3,7 @@
     <div class="p-fluid formgrid grid">
       <div v-if="!newData" class="field col-12">
         <div class="p-inputgroup">
-          <Button label="Gerar senha" @click="generateNewPassword" />
+          <Button label="Gerar senha" @click="passwordAlertDialog = true" />
           <InputText
             v-model="newPassword"
             id="nova senha"
@@ -81,6 +81,28 @@
       </div>
     </div>
   </div>
+  <Dialog
+    v-model:visible="passwordAlertDialog"
+    :style="{ width: '450px' }"
+    header="Alerta"
+    :modal="true">
+    <div class="flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
+      <span> Tem certeza que deseja gerar uma nova senha ? </span>
+    </div>
+    <template #footer>
+      <Button
+        label="Sim"
+        icon="pi pi-check"
+        class="p-button-text"
+        @click="generateNewPassword" />
+      <Button
+        label="Não"
+        icon="pi pi-times"
+        class="p-button-text"
+        @click="passwordAlertDialog = false" />
+    </template>
+  </Dialog>
 </template>
 
 <script>
@@ -89,7 +111,8 @@ export default {
     return {
       required: false,
       copyDisabled: true,
-      newPassword: ''
+      newPassword: '',
+      passwordAlertDialog: false
     }
   },
   props: {
@@ -119,6 +142,7 @@ export default {
       }
     },
     generateNewPassword() {
+      this.passwordAlertDialog = false
       this.copyDisabled = false
       this.newPassword = '123'
       //TODO: Método para gerar nova seja
