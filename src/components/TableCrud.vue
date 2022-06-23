@@ -87,6 +87,14 @@
                 disabled
                 style="color: black" />
             </template>
+            <!-- RENDERIZAÇÃO CONDICIONAL CASO A ENTIDADE SEJA USUÁRIOS E A COLUNA SEJA TYPE -->
+            <template
+              #body="slotProps"
+              v-else-if="title === 'Usuários' && col.field === 'type'">
+              <div>
+                {{ getType(slotProps.data.type) }}
+              </div>
+            </template>
           </Column>
           <!-- RENDERIZAÇÃO CONDICIONAL CASO A ROTA SEJA REFERENTE A PEDIDO -->
           <Column
@@ -566,11 +574,33 @@ export default {
             )
           )
         }
+      } else if (this.route.startsWith('/users')) {
+        if (!this.viewOnly) {
+          this.headers = [
+            { field: 'name', header: 'Nome' },
+            { field: 'username', header: 'Email' },
+            { field: 'type', header: 'Tipo' }
+          ]
+          this.values = [
+            {
+              name: 'fabio',
+              username: 'fabio@gmail.com',
+              type: 0
+            }
+          ]
+        }
       }
     },
     seeMore(value) {
       this.value = value
       this.seeMoreDialog = true
+    },
+    getType(type) {
+      if (type === 0) {
+        return 'Administrador'
+      } else {
+        return 'Comum'
+      }
     }
   },
   components: {
