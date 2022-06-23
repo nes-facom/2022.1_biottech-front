@@ -1,7 +1,7 @@
 
 # BiotTech - Front-end
 
-Esse repositório abriga o código reponsável pelo front-end da aplicação BiotTech.
+Esse repositório abriga o código responsável pelo front-end da aplicação BiotTech.
 
 
 
