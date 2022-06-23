@@ -82,8 +82,8 @@ export default {
   data() {
     return {
       statuses: [
-        { label: 'Aberto', value: 'Aberto' },
-        { label: 'Fechado', value: 'Fechado' }
+        { label: 'aberto', value: 'aberto' },
+        { label: 'fechado', value: 'fechado' }
       ],
       required: false
     }
@@ -114,6 +114,7 @@ export default {
       ) 
     },
     save() {
+      console.log(this.previsao)
       this.required = true
       const checked_fields = this.checkRequired()
       PrevisaoService.savePrevisao(
