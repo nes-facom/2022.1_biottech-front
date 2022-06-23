@@ -1,24 +1,46 @@
 <template>
   <div class="col-12">
     <div class="p-fluid formgrid grid">
+      <div v-if="!newData" class="field col-12">
+        <div class="p-inputgroup">
+          <Button label="Gerar senha" @click="generateNewPassword" />
+          <InputText
+            v-model="newPassword"
+            id="nova senha"
+            disabled
+            type="text"
+            style="border-right: none" />
+          <Button
+            icon="pi pi-copy"
+            @click="copy"
+            class="p-button-secondary"
+            :disabled="copyDisabled"
+            style="
+              background-color: white;
+              color: black;
+              border-color: #e0e0e0;
+              border-left: none;
+            " />
+        </div>
+      </div>
       <div class="field col-12">
         <label for="nome">Nome</label>
         <InputText
-          v-model="usuario.nome"
+          v-model="usuario.name"
           id="nome"
           type="text"
           autofocus
-          :class="{ 'p-invalid': required && !usuario.nome }" />
+          :class="{ 'p-invalid': required && !usuario.name }" />
       </div>
       <div class="field col-12">
         <label for="email">Email</label>
         <InputText
-          v-model="usuario.email"
+          v-model="usuario.username"
           id="email"
           type="text"
-          :class="{ 'p-invalid': required && !usuario.email }" />
+          :class="{ 'p-invalid': required && !usuario.username }" />
       </div>
-      <div class="field col-12">
+      <div v-if="newData" class="field col-12">
         <label for="senha">Senha</label>
         <Password
           v-model="usuario.senha"
@@ -34,7 +56,7 @@
             <RadioButton
               id="admin"
               name="type"
-              value="1"
+              :value="1"
               v-model="usuario.type"
               :class="{ 'p-invalid': required && !usuario.type }" />
             <label for="admin">Administrador</label>
@@ -43,7 +65,7 @@
             <RadioButton
               id="comum"
               name="type"
-              value="0"
+              :value="0"
               v-model="usuario.type"
               :class="{ 'p-invalid': required && !usuario.type }" />
             <label for="comum">Comum</label>
@@ -65,7 +87,9 @@
 export default {
   data() {
     return {
-      required: false
+      required: false,
+      copyDisabled: true,
+      newPassword: ''
     }
   },
   props: {
@@ -84,8 +108,8 @@ export default {
     },
     checkRequired() {
       if (
-        this.usuario.nome &&
-        this.usuario.email &&
+        this.usuario.name &&
+        this.usuario.username &&
         this.usuario.senha &&
         this.usuario.type
       ) {
@@ -93,6 +117,32 @@ export default {
       } else {
         return false
       }
+    },
+    generateNewPassword() {
+      this.copyDisabled = false
+      this.newPassword = '123'
+      //TODO: Método para gerar nova seja
+      // thie.newPassword recebe a nova senha gerada
+      // setar this.copyDisabled = false depois de gerar a nova senha
+    },
+    copy() {
+      let copyPassowrd = document.getElementById('nova senha').value
+      navigator.clipboard
+        .writeText(copyPassowrd)
+        .then(
+          this.showToast(
+            'success',
+            'Nova senha copiada para área de transferência'
+          )
+        )
+    },
+    showToast(severity, summary, detail) {
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
     }
   }
 }

@@ -13,7 +13,9 @@
                 class="p-button-success px-2"
                 @click="openNew" />
             </div>
-            <div class="col-12 md:col-2">
+            <div
+              v-if="this.title !== 'Pesquisador' && this.title !== 'Usuários'"
+              class="col-12 md:col-2">
               <Dropdown
                 id="year"
                 v-model="yearSelected"
@@ -352,26 +354,30 @@ export default {
   },
   methods: {
     activeData() {
-      ActiveAndDisableService.activeAndDisable(this.value.id, true, (success) => {
-        if (success) {
-          this.values = this.values.filter((val) => val.id != this.value.id)
-          this.activeDataDialog = false
-          this.value = {}
-          this.$toast.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Registro Ativado',
-            life: 3000
-          })
-        } else {
-          this.$toast.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-            life: 3000
-          })
+      ActiveAndDisableService.activeAndDisable(
+        this.value.id,
+        true,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.activeDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro Ativado',
+              life: 3000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 3000
+            })
+          }
         }
-      })
+      )
     },
     closeModalSave() {
       this.hideDialog()
@@ -427,26 +433,30 @@ export default {
       this.activeDataDialog = true
     },
     deleteData() {
-      ActiveAndDisableService.activeAndDisable(this.value.id, false, (success) => {
-        if (success) {
-          this.values = this.values.filter((val) => val.id != this.value.id)
-          this.deleteDataDialog = false
-          this.value = {}
-          this.$toast.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Registro deletado',
-            life: 3000
-          })
-        } else {
-          this.$toast.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-            life: 3000
-          })
+      ActiveAndDisableService.activeAndDisable(
+        this.value.id,
+        false,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.deleteDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro deletado',
+              life: 3000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 3000
+            })
+          }
         }
-      })
+      )
     },
     findIndexById(id) {
       let index = -1

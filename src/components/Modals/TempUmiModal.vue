@@ -23,6 +23,7 @@
         <InputNumber
           id="temp_matutino"
           mode="decimal"
+          :maxFractionDigits="2"
           :useGrouping="false"
           v-model="tempumi.temp_matutino" />
       </div>
@@ -31,13 +32,14 @@
         <InputText
           id="ur_matutino"
           v-model="tempumi.ur_matutino"
-          v-tooltip.top.focus="'Em %'" />
+          v-tooltip.top="'Em %'" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="temp_vespertino">Temp. Vespertino</label>
         <InputNumber
           id="temp_vespertino"
           mode="decimal"
+          :maxFractionDigits="2"
           :useGrouping="false"
           v-model="tempumi.temp_vespertino" />
       </div>
@@ -46,7 +48,7 @@
         <InputText
           id="ur_vespertino"
           v-model="tempumi.ur_vespertino"
-          v-tooltip.top.focus="'Em %'" />
+          v-tooltip.top="'Em %'" />
       </div>
       <div class="field col-12">
         <label for="observacoes">Observações</label>
@@ -115,23 +117,23 @@ export default {
       const checked_fields = this.checkRequired()
       if (this.newData && checked_fields) {
         TemperaturaUmidadeService.savePedido(
-            this.tempumi,
-            () =>
-              this.showToast(
-                'success',
-                'Cadastrado com Sucesso',
-                'Temperatura Umidade cadastrada com sucesso'
-              ),
-            (error) => {
-              if (error.response) {
-                this.saveButtonDisabled = false
-                console.log(error.response)
-              } else {
-                this.saveButtonDisabled = false
-                console.log(error)
-              }
+          this.tempumi,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Temperatura Umidade cadastrada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log(error.response)
+            } else {
+              this.saveButtonDisabled = false
+              console.log(error)
             }
-          )
+          }
+        )
       } else if (checked_fields) {
         // TODO: Salvar o que foi editado
       }
