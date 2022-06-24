@@ -241,8 +241,7 @@ export default {
         this.saida.saida &&
         this.saida.sexo &&
         this.saida.sobra &&
-        this.saida.caixa &&
-        this.saida.previsao
+        this.saida.caixa.caixa_numero
       ) {
         return true
       } else {
