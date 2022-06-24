@@ -2,6 +2,7 @@ import PesquisadorService from '../service/PesquisadorService'
 import LinhagemService from './LinhagemService'
 import PedidoService from './PedidoService'
 import PrevisaoService from './PrevisaoService'
+import SaidaService from './SaidaService'
 import SalaService from './SalaService'
 import TemperaturaUmidadeService from './TemperaturaUmidadeService'
 
@@ -14,6 +15,7 @@ class ActiveAndDisable {
     } else if (window.location.href.includes('/previsao')) {
       PrevisaoService.activeAndDisablePrevisao(id, onDelete, activeBool)
     } else if (window.location.href.includes('/saida')) {
+      SaidaService.activeAndDisableSaida(id, onDelete, activeBool)
     } else if (window.location.href.includes('/caixa')) {
     } else if (window.location.href.includes('/tempumi')) {
       TemperaturaUmidadeService.activeAndDisableTemperaturaUmidade(
@@ -30,7 +32,11 @@ class ActiveAndDisable {
     } else if (window.location.href.includes('/config/linhapesquisa')) {
       PedidoService.activeAndDisableLinhaPesquisa(id, onDelete, activeBool)
     } else if (window.location.href.includes('/config/insti')) {
-      PedidoService.activeAndDisableVinculoInstitucional(id, onDelete, activeBool)
+      PedidoService.activeAndDisableVinculoInstitucional(
+        id,
+        onDelete,
+        activeBool
+      )
     } else if (window.location.href.includes('/config/proj')) {
       PedidoService.activeAndDisableProjeto(id, onDelete, activeBool)
     } else if (window.location.href.includes('/config/lab')) {

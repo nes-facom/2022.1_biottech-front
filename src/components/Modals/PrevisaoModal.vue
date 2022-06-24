@@ -111,25 +111,41 @@ export default {
       )
     },
     save() {
-      console.log(this.previsao)
       this.required = true
       const checked_fields = this.checkRequired()
-      PrevisaoService.savePrevisao(
-        this.previsao,
-        () => this.successfullySaved(),
-        (error) => {
-          if (error.response) {
-            this.saveButtonDisabled = false
-            console.log(error.response)
-          } else {
-            this.saveButtonDisabled = false
-            console.log(error)
+      if (!this.previsao.id && checked_fields) {
+        PrevisaoService.savePrevisao(
+          this.previsao,
+          () => this.successfullySaved(),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log(error.response)
+            } else {
+              this.saveButtonDisabled = false
+              console.log(error)
+            }
           }
-        }
-      )
-
-      if (this.newData && checked_fields) {
+        )
       } else if (checked_fields) {
+        PrevisaoService.editPrevisao(
+          this.previsao,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Previsão editada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log(error.response)
+            } else {
+              this.saveButtonDisabled = false
+              console.log(error)
+            }
+          }
+        )
       }
     },
     checkRequired() {

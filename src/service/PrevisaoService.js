@@ -40,11 +40,30 @@ class Previsao {
   savePrevisao(previsao, onSave, onError) {
     previsao = JSON.parse(JSON.stringify(previsao))
     previsao.retirada_data = Util.formatDate(new Date(previsao.retirada_data))
-    previsao.status = previsao.status.value.toLowerCase()
-    console.log(previsao)
+
     axios
       .post(
         `${API_ENDPOINT}/previsao/addPrevisao.json`,
+        previsao,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editPrevisao(previsao, onSave, onError) {
+    previsao = JSON.parse(JSON.stringify(previsao))
+
+    if (previsao.retirada_data.includes('/')) {
+      var newdata = previsao.retirada_data.split('/')
+      previsao.retirada_data = newdata[2] + '-' + newdata[1] + '-' + newdata[0]
+    } else {
+      previsao.retirada_data = Util.formatDate(new Date(previsao.retirada_data))
+    }
+
+    axios
+      .put(
+        `${API_ENDPOINT}/previsao/editPrevisao.json?id=${previsao.id}`,
         previsao,
         this.buildAuthHeader()
       )

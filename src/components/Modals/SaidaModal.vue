@@ -3,25 +3,11 @@
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
         <label for="caixa">Caixa</label>
-        <Dropdown
-          id="caixa"
-          v-model="saida.caixa"
-          :options="caixas"
-          optionLabel="caixas"
-          :filter="true"
-          placeholder="Selecione uma caixa">
-          <template #value="slotProps">
-            <div v-if="slotProps.value">
-              <div>{{ slotProps.value.caixa_numero }}</div>
-            </div>
-            <span v-else>
-              {{ slotProps.placeholder }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <div>{{ slotProps.option.caixa_numero }}</div>
-          </template>
-        </Dropdown>
+        <InputText
+          id="model"
+          type="text"
+          v-model="saida.caixa.caixa_numero"
+          :class="{ 'p-invalid': required && !saida.caixa.caixa_numero }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="data_saida">Data da saída</label>
@@ -61,15 +47,27 @@
         </small>
       </div>
       <div class="field col-12">
-        <label for="saida">Saída</label>
-        <InputText
-          v-model="saida.saida"
-          id="saida"
-          type="text"
-          :class="{ 'p-invalid': required && !saida.saida }" />
-        <small class="p-invalid" v-if="required && !saida.saida">
-          Campo Obrigatório
-        </small>
+        <label class="mb-3">Saída</label>
+        <div class="formgrid grid">
+          <div class="field-radiobutton col-6">
+            <RadioButton
+              id="ultima"
+              name="saida"
+              value="ultima"
+              v-model="saida.saida"
+              :class="{ 'p-invalid': required && !saida.saida }" />
+            <label for="femea">Última</label>
+          </div>
+          <div class="field-radiobutton col-6">
+            <RadioButton
+              id="macho"
+              name="saida"
+              value="sobra"
+              v-model="saida.saida"
+              :class="{ 'p-invalid': required && !saida.saida }" />
+            <label for="macho">Sobra</label>
+          </div>
+        </div>
       </div>
       <div class="field col-12">
         <label for="tipo_saida">Tipo da saída</label>
@@ -94,32 +92,17 @@
       </div>
       <div class="field col-12">
         <label for="previsao_id">Previsão</label>
-        <Dropdown
-          id="previsao_id"
-          v-model="saida.previsao_id"
-          :options="previsoes"
-          optionLabel="previsoes"
-          :filter="true"
+        <InputText
+          id="previsao"
+          ref="previsaoInput"
+          type="text"
+          v-model="saida.previsao.num_previsao"
           :disabled="saida.tipo_saida !== 'fornecimento'"
           :placeholder="
             saida.tipo_saida !== 'fornecimento'
               ? 'Previsões são apenas do tipo \'fornecimento\' '
               : 'Selecione uma previsão'
-          "
-          emptyFilterMessage="Nenhuma opção corresponde a busca"
-          emptyMessage="Nenhuma opção disponível">
-          <template #value="slotProps">
-            <div v-if="slotProps.value">
-              <div>{{ slotProps.value.num_previsao }}</div>
-            </div>
-            <span v-else>
-              {{ slotProps.placeholder }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <div>{{ slotProps.option.num_previsao }}</div>
-          </template>
-        </Dropdown>
+          " />
       </div>
       <div class="field col-12">
         <label class="mb-3">Sexo</label>
@@ -165,6 +148,8 @@
 </template>
 
 <script>
+import SaidaService from '../../service/SaidaService'
+
 export default {
   data() {
     return {
@@ -184,17 +169,68 @@ export default {
     saida: Object,
     newData: Boolean
   },
-  mounted() {
-    // TODO:Trazer as caixas e previsões possíveis a serem selecionadas em uma saída
+  created() {
+    if (!this.saida.caixa) {
+      this.saida.caixa = {}
+      this.saida.caixa.caixa_numero = null
+    }
+
+    if (!this.saida.previsao) {
+      this.saida.previsao = {}
+      this.saida.previsao.num_previsao = null
+    }
   },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
       if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
+        SaidaService.saveSaida(
+          this.saida,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Saída cadastrada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log(error.response)
+            } else {
+              this.saveButtonDisabled = false
+              console.log(error)
+            }
+          }
+        )
       } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+        SaidaService.editSaida(
+          this.saida,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Saída editada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log(error.response)
+            } else {
+              this.saveButtonDisabled = false
+              console.log(error)
+            }
+          }
+        )
       }
     },
     checkRequired() {
@@ -204,7 +240,9 @@ export default {
         this.saida.num_animais &&
         this.saida.saida &&
         this.saida.sexo &&
-        this.saida.sobra
+        this.saida.sobra &&
+        this.saida.caixa &&
+        this.saida.previsao
       ) {
         return true
       } else {

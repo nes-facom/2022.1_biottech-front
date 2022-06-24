@@ -181,10 +181,13 @@
                 @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Previsão'">
-              <PrevisaoModal :previsao="value" :newData="newDataDialog" />
+              <PrevisaoModal :previsao="value" :newData="newDataDialog" @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Saída'">
-              <SaidaModal :saida="value" :newData="newDataDialog" />
+              <SaidaModal
+                :saida="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Caixa'">
               <CaixaModal :caixa="value" :newData="newDataDialog" />
@@ -316,6 +319,7 @@ import UsuarioModal from './Modals/UsuarioModal.vue'
 import PrevisaoService from '../service/PrevisaoService'
 import TemperaturaUmidade from '../service/TemperaturaUmidadeService'
 import Parto from '../service/PartoService'
+import SaidaService from '../service/SaidaService'
 
 export default {
   data() {
@@ -528,8 +532,22 @@ export default {
           )
         }
       } else if (this.route.startsWith('/saida')) {
+        if (!this.viewOnly || this.viewOnly) {
+          this.headers = SaidaService.getSaidaHeaders()
+          SaidaService.getSaidas(
+            this.route.startsWith('/desativado'),
+            this.page,
+            this.searchString,
+            this.yearSelected,
+            (datas) => (
+              (this.values = datas.saida),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
+        }
       } else if (this.route.startsWith('/caixa')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = CaixaService.getCaixaHeaders()
           CaixaService.getCaixas(
             this.route.startsWith('/desativado'),

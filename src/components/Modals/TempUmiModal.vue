@@ -5,10 +5,9 @@
         <label for="sala">Sala Número</label>
         <InputText
           id="sala"
-          ref="salaInput"
           type="text"
-          v-model="tempumi.sala"
-          v-on:blur="checkSala" />
+          v-model="tempumi.sala.num_sala"
+          :class="{ 'p-invalid': required && !tempumi.sala.num_sala }" />
       </div>
       <div class="field col-12">
         <label for="data">Data</label>
@@ -84,8 +83,11 @@ export default {
     tempumi: Object,
     newData: Boolean
   },
-  mounted() {
-    //TODO: Recuperar as salas possívei a serem selecionadas
+  created() {
+    if (!this.tempumi.sala) {
+      this.tempumi.sala = {}
+      this.tempumi.sala.num_sala = null
+    }
   },
   methods: {
     showToast(severity, summary, detail) {
@@ -97,26 +99,12 @@ export default {
         life: 3000
       })
     },
-    checkSala() {
-      TemperaturaUmidadeService.getSala(
-        this.$refs.salaInput.modelValue,
-        (datas) => (this.tempumi.sala_id = datas.id),
-        (error) => {
-          if (error.response) {
-            this.saveButtonDisabled = false
-            console.log(error.response)
-          } else {
-            this.saveButtonDisabled = false
-            console.log(error)
-          }
-        }
-      )
-    },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
+      console.log
       if (this.newData && checked_fields) {
-        TemperaturaUmidadeService.savePedido(
+        TemperaturaUmidadeService.saveTemperaturaUmidade(
           this.tempumi,
           () =>
             this.showToast(
@@ -135,11 +123,28 @@ export default {
           }
         )
       } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+        TemperaturaUmidadeService.editTemperaturaUmidade(
+          this.tempumi,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Temperatura Umidade editada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              console.log(error.response)
+            } else {
+              this.saveButtonDisabled = false
+              console.log(error)
+            }
+          }
+        )
       }
     },
     checkRequired() {
-      if (this.tempumi.data) {
+      if (this.tempumi.data && this.tempumi.sala.num_sala) {
         return true
       } else {
         return false

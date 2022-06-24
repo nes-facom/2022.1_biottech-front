@@ -115,9 +115,11 @@ class PedidoService {
     delete pedido.finalidade
     delete pedido.pesquisador
     delete pedido.linhagem
+    delete pedido.previsao
 
     pedido.data_solicitacao = Util.formatDate(new Date(pedido.data_solicitacao))
     pedido.vigencia_ceua = Util.formatDate(new Date(pedido.vigencia_ceua))
+
     axios
       .put(
         `${API_ENDPOINT}/pedido/editPedido.json?id=${pedido.id}`,
