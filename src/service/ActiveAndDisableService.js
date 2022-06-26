@@ -1,4 +1,5 @@
 import PesquisadorService from '../service/PesquisadorService'
+import CaixaService from './CaixaService'
 import LinhagemService from './LinhagemService'
 import PartoService from './PartoService'
 import PedidoService from './PedidoService'
@@ -18,6 +19,7 @@ class ActiveAndDisable {
     } else if (window.location.href.includes('/saida')) {
       SaidaService.activeAndDisableSaida(id, onDelete, activeBool)
     } else if (window.location.href.includes('/caixa')) {
+      CaixaService.activeAndDisableCaixa(id, onDelete, activeBool)
     } else if (window.location.href.includes('/tempumi')) {
       TemperaturaUmidadeService.activeAndDisableTemperaturaUmidade(
         id,

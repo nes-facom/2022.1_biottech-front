@@ -193,7 +193,10 @@
                 @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Caixa'">
-              <CaixaModal :caixa="value" :newData="newDataDialog" />
+              <CaixaModal
+                :caixa="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Temperatura e umidade'">
               <TempUmiModal
