@@ -181,7 +181,10 @@
                 @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Previsão'">
-              <PrevisaoModal :previsao="value" :newData="newDataDialog" @close="closeModalSave" />
+              <PrevisaoModal
+                :previsao="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Saída'">
               <SaidaModal
@@ -204,7 +207,10 @@
                 :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Parto'">
-              <PartoModal :parto="value" :newData="newDataDialog" />
+              <PartoModal
+                :parto="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else>
               <UsuarioModal :usuario="value" :newData="newDataDialog" />
@@ -378,14 +384,14 @@ export default {
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Registro Ativado',
-              life: 3000
+              life: 4000
             })
           } else {
             this.$toast.add({
               severity: 'error',
               summary: 'Erro',
               detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
+              life: 4000
             })
           }
         }
@@ -433,6 +439,7 @@ export default {
       this.dataDialog = false
     },
     edit(entityData) {
+      console.log(entityData)
       this.value = { ...entityData }
       this.dataDialog = true
     },
@@ -457,14 +464,14 @@ export default {
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Registro deletado',
-              life: 3000
+              life: 4000
             })
           } else {
             this.$toast.add({
               severity: 'error',
               summary: 'Erro',
               detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
+              life: 4000
             })
           }
         }
@@ -535,7 +542,7 @@ export default {
         if (!this.viewOnly || this.viewOnly) {
           this.headers = SaidaService.getSaidaHeaders()
           SaidaService.getSaidas(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,
@@ -550,7 +557,7 @@ export default {
         if (!this.viewOnly || this.viewOnly) {
           this.headers = CaixaService.getCaixaHeaders()
           CaixaService.getCaixas(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,
@@ -578,10 +585,10 @@ export default {
         }
       } else if (this.route.startsWith('/cxmatriz')) {
       } else if (this.route.startsWith('/parto')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = Parto.getPartoHeaders()
           Parto.getPartos(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,
@@ -593,7 +600,7 @@ export default {
           )
         }
       } else if (this.route.startsWith('/users')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = [
             { field: 'name', header: 'Nome' },
             { field: 'username', header: 'Email' },

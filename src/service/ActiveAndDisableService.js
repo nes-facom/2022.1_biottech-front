@@ -1,5 +1,6 @@
 import PesquisadorService from '../service/PesquisadorService'
 import LinhagemService from './LinhagemService'
+import PartoService from './PartoService'
 import PedidoService from './PedidoService'
 import PrevisaoService from './PrevisaoService'
 import SaidaService from './SaidaService'
@@ -25,6 +26,7 @@ class ActiveAndDisable {
       )
     } else if (window.location.href.includes('/cxmatriz')) {
     } else if (window.location.href.includes('/parto')) {
+      PartoService.activeAndDisableParto(id, onDelete, activeBool)
     } else if (window.location.href.includes('/config/linhagem')) {
       LinhagemService.activeAndDisableLinhagem(id, onDelete, activeBool)
     } else if (window.location.href.includes('/config/sala')) {

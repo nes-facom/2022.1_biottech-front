@@ -99,7 +99,7 @@ export default {
         severity: severity,
         summary: summary,
         detail: detail,
-        life: 3000
+        life: 4000
       })
     },
     successfullySaved() {
@@ -120,10 +120,18 @@ export default {
           (error) => {
             if (error.response) {
               this.saveButtonDisabled = false
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
               this.saveButtonDisabled = false
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -139,10 +147,18 @@ export default {
           (error) => {
             if (error.response) {
               this.saveButtonDisabled = false
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
               this.saveButtonDisabled = false
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )

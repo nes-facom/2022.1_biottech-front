@@ -87,7 +87,7 @@ export default {
         severity: 'error',
         summary: 'Error Message',
         detail: 'Message Content',
-        life: 3000
+        life: 4000
       })
     },
     login() {

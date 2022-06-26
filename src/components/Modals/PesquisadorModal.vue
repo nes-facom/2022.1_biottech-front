@@ -162,7 +162,7 @@ export default {
         severity: severity,
         summary: summary,
         detail: detail,
-        life: 3000
+        life: 4000
       })
     },
     getArr(obj) {
@@ -214,10 +214,18 @@ export default {
           (error) => {
             if (error.response) {
               this.saveButtonDisabled = false
-              console.log('erro')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
               this.saveButtonDisabled = false
-              console.log('Erro na requisição')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -233,10 +241,18 @@ export default {
           (error) => {
             if (error.response) {
               this.saveButtonDisabled = false
-              console.log('erro')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
               this.saveButtonDisabled = false
-              console.log('Erro na requisição')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )

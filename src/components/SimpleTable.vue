@@ -212,14 +212,14 @@ export default {
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Registro deletado',
-              life: 3000
+              life: 4000
             })
           } else {
             this.$toast.add({
               severity: 'error',
               summary: 'Erro',
               detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
+              life: 4000
             })
           }
         }
@@ -245,9 +245,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -257,9 +265,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -269,9 +285,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -281,9 +305,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -293,9 +325,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -305,9 +345,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -317,9 +365,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -329,9 +385,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -341,9 +405,17 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )

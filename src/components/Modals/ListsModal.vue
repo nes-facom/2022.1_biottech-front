@@ -72,9 +72,17 @@ export default {
         (datas) => (this.linhagens = datas),
         (error) => {
           if (error.response) {
-            console.log(error.response)
+            this.showToast(
+              'error',
+              'Tivemos um Problema',
+              error.response.data.message
+            )
           } else {
-            console.log(error)
+            this.showToast(
+              'error',
+              'Tivemos um Problema',
+              'Tente novamente mais tarde.'
+            )
           }
         }
       )
@@ -89,7 +97,7 @@ export default {
         severity: severity,
         summary: summary,
         detail: detail,
-        life: 3000
+        life: 4000
       })
     },
     getNome() {
@@ -140,10 +148,18 @@ export default {
           (error) => {
             if (error.response) {
               this.disabled = false
-              console.log('erro')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
               this.disabled = false
-              console.log('Erro na requisição')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -171,10 +187,18 @@ export default {
           (error) => {
             if (error.response) {
               this.disabled = false
-              console.log('erro')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
               this.disabled = false
-              console.log('Erro na requisição')
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
@@ -186,14 +210,14 @@ export default {
           return true
         } else {
           this.disabled = false
-          return false  
+          return false
         }
       } else {
         if (this.value) {
           return true
         } else {
           this.disabled = false
-          return false         
+          return false
         }
       }
     }
