@@ -1,6 +1,7 @@
 <template>
   <div
     class="surface-300 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <Toast />
     <div class="grid justify-content-center" style="min-width: 80%">
       <Card style="width: 40em">
         <template #header>
@@ -85,8 +86,7 @@ export default {
     showError() {
       this.$toast.add({
         severity: 'error',
-        summary: 'Error Message',
-        detail: 'Message Content',
+        summary: 'E-mail ou Senha incorreto.',
         life: 4000
       })
     },
@@ -96,7 +96,7 @@ export default {
         if (success) {
           window.location.href = '/'
         } else {
-          alert('E-mail ou Senha incorreto.')
+          this.showError()
           this.buttonDisable = false
         }
       })

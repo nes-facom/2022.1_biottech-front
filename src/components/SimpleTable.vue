@@ -3,6 +3,7 @@
   <div class="grid">
     <div class="col-12">
       <div class="card">
+        <Toast />
         <h5>{{ this.title }}</h5>
         <DataTable
           ref="dt"
