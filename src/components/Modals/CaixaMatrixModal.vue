@@ -37,12 +37,71 @@
           v-model="caixa_matriz.data_obito"
           dateFormat="yy-mm-dd" />
       </div>
-      <!-- <div class="field col-12">
-        TODO: dropdown para escolher caixa de origem do macho
+      <div class="col-12 mb-4">
+        <Divider align="center">
+          <p>Caixas de Origem</p>
+        </Divider>
       </div>
-      <div class="field col-12">
-        TODO: dropdown para escolher caixa de origem da fêmea
-      </div> -->
+      <div v-if="!newData" class="col-12 grid flex justify-content-center">
+        <div
+          v-for="caixa in caixa_matriz.caixas"
+          :key="caixa.caixa_numero"
+          class="field col-12 grid">
+          <div class="field col-6">
+            <span class="p-float-label">
+              <InputText id="caixa_numero" v-model="caixa.caixa_numero" />
+              <label for="caixa_numero"> N° Caixa </label>
+            </span>
+          </div>
+          <div class="field col-6">
+            <span class="p-float-label">
+              <InputText id="caixa_peso" v-model="caixa.peso" />
+              <label for="caixa_peso"> Peso </label>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div v-else class="col-12 grid flex justify-content-center">
+        <div
+          v-for="caixa in caixasOrigem"
+          :key="caixa.caixa_numero"
+          class="field col-12 grid">
+          <div class="field col-6">
+            <span class="p-float-label">
+              <InputText id="caixa_numero" v-model="caixa.caixa_numero" />
+              <label for="caixa_numero"> N° Caixa </label>
+            </span>
+          </div>
+          <div class="field col-6">
+            <span class="p-float-label">
+              <InputText id="caixa_peso" v-model="caixa.peso" />
+              <label for="caixa_peso"> Peso </label>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="field col-12 grid">
+        <div class="field col-6">
+          <span class="p-float-label">
+            <InputText
+              id="caixa_numero"
+              v-model="newCaixaOrigem.caixa_numero" />
+            <label for="caixa_numero"> N° Caixa </label>
+          </span>
+        </div>
+        <div class="field col-6">
+          <div class="p-inputgroup">
+            <span class="p-float-label">
+              <InputText id="caixa_peso" v-model="newCaixaOrigem.peso" />
+              <label for="caixa_peso"> Peso </label>
+            </span>
+            <Button
+              icon="pi pi-plus"
+              class="p-button-success"
+              @click="addCaixaOrigem" />
+          </div>
+        </div>
+      </div>
       <div class="col-12">
         <Button
           label="Salvar"
@@ -59,19 +118,28 @@ export default {
   data() {
     return {
       caixas: null,
-      required: false
+      required: false,
+      newCaixaOrigem: {},
+      caixasOrigem: []
     }
   },
   props: {
     caixa_matriz: Object,
     newData: Boolean
   },
-  mounted() {
-    // TODO: trazes as caixas possíveis a serem selecionadas em
-    // caixa de origem macho
-    // caixa de origem femea
-  },
+  mounted() {},
   methods: {
+    showToast(severity, summary, detail, close = True) {
+      if (close) {
+        this.$emit('close', false)
+      }
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
@@ -90,6 +158,30 @@ export default {
         return true
       } else {
         return false
+      }
+    },
+    addCaixaOrigem() {
+      if (Object.keys(this.newCaixaOrigem).length < 2) {
+        this.showToast(
+          'warn',
+          'Insira valores válidos',
+          'Número da Caixa e/ou Peso vazios',
+          false
+        )
+        return
+      }
+      if (!this.newData) {
+        this.caixa_matriz.caixas.push({
+          caixa_numero: this.newCaixaOrigem.caixa_numero,
+          peso: this.newCaixaOrigem.peso
+        })
+        this.newCaixaOrigem = {}
+      } else {
+        this.caixasOrigem.push({
+          caixa_numero: this.newCaixaOrigem.caixa_numero,
+          peso: this.newCaixaOrigem.peso
+        })
+        this.newCaixaOrigem = {}
       }
     }
   }
