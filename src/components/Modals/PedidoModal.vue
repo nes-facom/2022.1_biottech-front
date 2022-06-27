@@ -148,7 +148,8 @@
               :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :virtualScrollerOptions="{ itemSize: 38, scrollWidth: '20' }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_linha_pesquisa }}</div>
@@ -199,7 +200,8 @@
               placeholder="Selecione um Laboratório"
               :disabled="disabled"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível">
+              emptyMessage="Nenhuma opção disponível"
+              :virtualScrollerOptions="{ itemSize: 38, scrollWidth: '20' }">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_laboratorio }}</div>
@@ -529,7 +531,7 @@ export default {
         severity: severity,
         summary: summary,
         detail: detail,
-        life: 3000
+        life: 4000
       })
     },
     save() {
@@ -548,10 +550,18 @@ export default {
             (error) => {
               if (error.response) {
                 this.saveButtonDisabled = false
-                console.log(error.response)
+                this.showToast(
+                  'error',
+                  'Tivemos um Problema',
+                  error.response.data.message
+                )
               } else {
                 this.saveButtonDisabled = false
-                console.log(error)
+                this.showToast(
+                  'error',
+                  'Tivemos um Problema',
+                  'Tente novamente mais tarde.'
+                )
               }
             }
           )
@@ -567,10 +577,18 @@ export default {
             (error) => {
               if (error.response) {
                 this.saveButtonDisabled = false
-                console.log(error.response)
+                this.showToast(
+                  'error',
+                  'Tivemos um Problema',
+                  error.response.data.message
+                )
               } else {
                 this.saveButtonDisabled = false
-                console.log(error)
+                this.showToast(
+                  'error',
+                  'Tivemos um Problema',
+                  'Tente novamente mais tarde.'
+                )
               }
             }
           )

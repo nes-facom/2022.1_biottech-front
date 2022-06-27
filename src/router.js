@@ -136,7 +136,7 @@ const routes = [
           },
           {
             path: '/previsao/pedido',
-            name: 'Previsão Pedido',
+            name: 'Escolha qual pedido deseja adicionar uma previsão',
             component: () => import('./components/PrevisaoPedido.vue')
           },
           {

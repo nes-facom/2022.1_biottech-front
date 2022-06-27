@@ -1,28 +1,13 @@
 <template>
   <div class="col-12">
     <div class="p-fluid formgrid grid">
-      <!-- <div class="field col-12">
-        <label for="caixa_matriz">Caixa Matriz de origem</label>
-        <Dropdown
+      <div class="field col-12">
+        <label for="caixa_matriz">Caixa Matriz</label>
+        <InputText
           id="caixa_matriz"
-          v-model="caixa.caixa_matriz"
-          :options="caixas_matriz"
-          optionLabel="Caixa matriz"
-          :filter="true"
-          placeholder="Selecione um caixa matriz">
-          <template #value="slotProps">
-            <div v-if="slotProps.value">
-              <div>{{ slotProps.value.caixa_matriz_numero }}</div>
-            </div>
-            <span v-else>
-              {{ slotProps.placeholder }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <div>{{ slotProps.option.caixa_matriz_numero }}</div>
-          </template>
-        </Dropdown>
-      </div> -->
+          type="text"
+          v-model="caixa.caixa_matriz.caixa_matriz_numero" />
+      </div>
       <div class="field col-12">
         <label for="linhagem">Linhagem</label>
         <Dropdown
@@ -99,8 +84,7 @@
         <Calendar
           id="ultima_saida"
           v-model="caixa.ultima_saida"
-          dateFormat="yy-mm-dd"
-          :class="{ 'p-invalid': required && !caixa.ultima_saida }" />
+          dateFormat="yy-mm-dd" />
       </div>
       <div class="field col-12">
         <label for="qtd_saida">Quantidade de animais retirados</label>
@@ -108,8 +92,7 @@
           autocomplete="off"
           v-model="caixa.qtd_saida"
           id="qtd_saida"
-          :useGrouping="false"
-          :class="{ 'p-invalid': required && !caixa.qtd_saida }" />
+          :useGrouping="false" />
       </div>
       <div class="col-12">
         <Button
@@ -123,6 +106,9 @@
 </template>
 
 <script>
+import CaixaService from '../../service/CaixaService'
+import PedidoService from '../../service/PedidoService'
+
 export default {
   data() {
     return {
@@ -136,27 +122,86 @@ export default {
     newData: Boolean
   },
   mounted() {
-    // TODO: Recuperar caixas_matriz e linhagens possíveis a serem selecionados para uma previsão
+    PedidoService.getLinhagens((datas) => (this.linhagens = datas))
+  },
+  created() {
+    if (!this.caixa.caixa_matriz) {
+      this.caixa.caixa_matriz = {}
+      this.caixa.caixa_matriz.caixa_matriz_numero = null
+    }
   },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 4000
+      })
+    },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
-      if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
-      } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+      if (!this.caixa.id && checked_fields) {
+        CaixaService.saveCaixa(
+          this.caixa,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Caixa cadastrada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+      } else if (this.caixa.id && checked_fields) {
+        CaixaService.editCaixa(
+          this.caixa,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Caixa editada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
       }
     },
     checkRequired() {
       if (
-        this.caixa.nome &&
         this.caixa.caixa_numero &&
         this.caixa.nascimento &&
         this.caixa.sexo &&
         this.caixa.num_animais &&
-        this.caixa.ultima_saida &&
-        this.caixa.qtd_saida
+        this.caixa.linhagem
       ) {
         return true
       } else {

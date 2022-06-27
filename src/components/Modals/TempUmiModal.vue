@@ -5,10 +5,9 @@
         <label for="sala">Sala Número</label>
         <InputText
           id="sala"
-          ref="salaInput"
           type="text"
-          v-model="tempumi.sala"
-          v-on:blur="checkSala" />
+          v-model="tempumi.sala.num_sala"
+          :class="{ 'p-invalid': required && !tempumi.sala.num_sala }" />
       </div>
       <div class="field col-12">
         <label for="data">Data</label>
@@ -23,6 +22,7 @@
         <InputNumber
           id="temp_matutino"
           mode="decimal"
+          :maxFractionDigits="2"
           :useGrouping="false"
           v-model="tempumi.temp_matutino" />
       </div>
@@ -31,13 +31,14 @@
         <InputText
           id="ur_matutino"
           v-model="tempumi.ur_matutino"
-          v-tooltip.top.focus="'Em %'" />
+          v-tooltip.top="'Em %'" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="temp_vespertino">Temp. Vespertino</label>
         <InputNumber
           id="temp_vespertino"
           mode="decimal"
+          :maxFractionDigits="2"
           :useGrouping="false"
           v-model="tempumi.temp_vespertino" />
       </div>
@@ -46,7 +47,7 @@
         <InputText
           id="ur_vespertino"
           v-model="tempumi.ur_vespertino"
-          v-tooltip.top.focus="'Em %'" />
+          v-tooltip.top="'Em %'" />
       </div>
       <div class="field col-12">
         <label for="observacoes">Observações</label>
@@ -82,8 +83,11 @@ export default {
     tempumi: Object,
     newData: Boolean
   },
-  mounted() {
-    //TODO: Recuperar as salas possívei a serem selecionadas
+  created() {
+    if (!this.tempumi.sala) {
+      this.tempumi.sala = {}
+      this.tempumi.sala.num_sala = null
+    }
   },
   methods: {
     showToast(severity, summary, detail) {
@@ -92,52 +96,71 @@ export default {
         severity: severity,
         summary: summary,
         detail: detail,
-        life: 3000
+        life: 4000
       })
-    },
-    checkSala() {
-      TemperaturaUmidadeService.getSala(
-        this.$refs.salaInput.modelValue,
-        (datas) => (this.tempumi.sala_id = datas.id),
-        (error) => {
-          if (error.response) {
-            this.saveButtonDisabled = false
-            console.log(error.response)
-          } else {
-            this.saveButtonDisabled = false
-            console.log(error)
-          }
-        }
-      )
     },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
+      console.log
       if (this.newData && checked_fields) {
-        TemperaturaUmidadeService.savePedido(
-            this.tempumi,
-            () =>
+        TemperaturaUmidadeService.saveTemperaturaUmidade(
+          this.tempumi,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Temperatura Umidade cadastrada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
               this.showToast(
-                'success',
-                'Cadastrado com Sucesso',
-                'Temperatura Umidade cadastrada com sucesso'
-              ),
-            (error) => {
-              if (error.response) {
-                this.saveButtonDisabled = false
-                console.log(error.response)
-              } else {
-                this.saveButtonDisabled = false
-                console.log(error)
-              }
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.saveButtonDisabled = false
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
-          )
+          }
+        )
       } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+        TemperaturaUmidadeService.editTemperaturaUmidade(
+          this.tempumi,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Temperatura Umidade editada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.saveButtonDisabled = false
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
       }
     },
     checkRequired() {
-      if (this.tempumi.data) {
+      if (this.tempumi.data && this.tempumi.sala.num_sala) {
         return true
       } else {
         return false

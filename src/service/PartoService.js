@@ -19,6 +19,7 @@ class Parto {
   }
 
   getPartos(disable, page, search, year, onFetch) {
+    console.log(disable)
     if (disable) {
       this.#getPartoInactive(search, page, year).then((response) =>
         onFetch(this.#formatDate(response.data))
@@ -30,14 +31,68 @@ class Parto {
     }
   }
 
+  saveParto(parto, onSave, onError) {
+    parto = JSON.parse(JSON.stringify(parto))
+    parto.data_parto = Util.formatDate(new Date(parto.data_parto))
+    parto.caixa_matriz_numero = parto.caixa_matriz.caixa_matriz_numero
+    delete parto.caixa_matriz
+    axios
+      .post(
+        `${API_ENDPOINT}/parto/addParto.json`,
+        parto,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editParto(parto, onSave, onError) {
+    parto = JSON.parse(JSON.stringify(parto))
+    console.log(parto)
+    if (parto.data_parto.includes('/')) {
+      var newdata = parto.data_parto.split('/')
+      parto.data_parto = newdata[2] + '-' + newdata[1] + '-' + newdata[0]
+    } else {
+      parto.data_parto = Util.formatDate(new Date(parto.data_parto))
+    }
+
+    if (parto.caixa_matriz.caixa_matriz_numero) {
+      parto.caixa_matriz_numero = parto.caixa_matriz.caixa_matriz_numero
+      delete parto.caixa_matriz
+    }
+
+    axios
+      .put(
+        `${API_ENDPOINT}/parto/editParto.json?id=${parto.id}`,
+        parto,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  activeAndDisableParto(id, onDelete, activeBool) {
+    axios
+      .delete(
+        `${API_ENDPOINT}/parto/activeAndDisable.json?id=${id}&active=${activeBool}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => {
+        onDelete(true)
+      })
+      .catch((error) => {
+        onDelete(false)
+      })
+  }
+
   #formatDate(data) {
     data.partos.map((partos) => {
-        partos.data_parto = Util.formatDateTable(partos.data_parto)
+      partos.data_parto = Util.formatDateTable(partos.data_parto)
     })
     return data
   }
 
- getPartoHeaders() {
+  getPartoHeaders() {
     const columns = [
       { field: 'numero_parto', header: 'Número Parto' },
       { field: 'data_parto', header: 'Data Parto' },
@@ -47,7 +102,8 @@ class Parto {
       { field: 'des_femea', header: 'Desmame Fêmea' },
       { field: 'qtd_canib', header: 'Quantidade Canibalismo' },
       { field: 'qtd_gamba', header: 'Quantidade Gambá' },
-      { field: 'qtd_outros', header: 'Quantidade Outros' }
+      { field: 'qtd_outros', header: 'Quantidade Outros' },
+      { field: 'caixa_matriz.caixa_matriz_numero', header: 'Caixa Matriz' }
     ]
     return columns
   }

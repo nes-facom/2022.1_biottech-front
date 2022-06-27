@@ -53,14 +53,14 @@
           :class="{ 'p-invalid': required && !previsao.status }">
           <template #value="slotProps">
             <div v-if="slotProps.value">
-              <div>{{ slotProps.value.value }}</div>
+              <div>{{ slotProps.value }}</div>
             </div>
             <span v-else>
               {{ slotProps.placeholder }}
             </span>
           </template>
           <template #option="slotProps">
-            <div>{{ slotProps.option.label }}</div>
+            <div>{{ slotProps.option }}</div>
           </template>
         </Dropdown>
       </div>
@@ -81,10 +81,7 @@ import PrevisaoService from '../../service/PrevisaoService'
 export default {
   data() {
     return {
-      statuses: [
-        { label: 'Aberto', value: 'Aberto' },
-        { label: 'Fechado', value: 'Fechado' }
-      ],
+      statuses: ['aberto', 'fechado'],
       required: false
     }
   },
@@ -102,7 +99,7 @@ export default {
         severity: severity,
         summary: summary,
         detail: detail,
-        life: 3000
+        life: 4000
       })
     },
     successfullySaved() {
@@ -111,27 +108,60 @@ export default {
         'success',
         'Cadastrado com Sucesso',
         'Pedido cadastrado com sucesso'
-      ) 
+      )
     },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
-      PrevisaoService.savePrevisao(
-        this.previsao,
-        () => this.successfullySaved(),
-        (error) => {
-          if (error.response) {
-            this.saveButtonDisabled = false
-            console.log(error.response)
-          } else {
-            this.saveButtonDisabled = false
-            console.log(error)
+      if (!this.previsao.id && checked_fields) {
+        PrevisaoService.savePrevisao(
+          this.previsao,
+          () => this.successfullySaved(),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.saveButtonDisabled = false
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
           }
-        }
-      )
-
-      if (this.newData && checked_fields) {
+        )
       } else if (checked_fields) {
+        PrevisaoService.editPrevisao(
+          this.previsao,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Previsão editada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.saveButtonDisabled = false
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.saveButtonDisabled = false
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
       }
     },
     checkRequired() {

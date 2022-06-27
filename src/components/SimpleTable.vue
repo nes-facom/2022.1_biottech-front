@@ -3,6 +3,7 @@
   <div class="grid">
     <div class="col-12">
       <div class="card">
+        <Toast />
         <h5>{{ this.title }}</h5>
         <DataTable
           ref="dt"
@@ -68,7 +69,11 @@
             :modal="true"
             class="p-fluid"
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
-            <ListsModal :listObj="value" :title="title" :newData="newData" />
+            <ListsModal
+              :listObj="value"
+              :title="title"
+              :newData="newData"
+              @close="closeModalSave" />
             <template #footer>
               <Button
                 label="Cancelar"
@@ -112,8 +117,10 @@
 <script>
 import { FilterMatchMode } from 'primevue/api'
 import LinhagemService from '../service/LinhagemService'
+import SalaService from '../service/SalaService'
 import ListsModal from './Modals/ListsModal.vue'
 import ActiveAndDisableService from '../service/ActiveAndDisableService'
+import PedidoService from '../service/PedidoService'
 
 export default {
   data() {
@@ -127,7 +134,9 @@ export default {
       route: null,
       title: null,
       filters: null,
-      loading: true
+      loading: true,
+      searchString: null,
+      page: 1
     }
   },
   entityService: null,
@@ -141,6 +150,18 @@ export default {
     this.loading = false
   },
   methods: {
+    prev() {
+      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
+      // renderizar botão apenas se n for a primeira pag
+    },
+    next() {
+      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
+      // renderizar botão apenas se n for a última pag
+    },
+    closeModalSave() {
+      this.hideDialog()
+      this.getMethod()
+    },
     openNew() {
       this.value = {}
       this.newData = true
@@ -172,18 +193,22 @@ export default {
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Registro deletado',
-              life: 3000
+              life: 4000
             })
           } else {
             this.$toast.add({
               severity: 'error',
               summary: 'Erro',
               detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
+              life: 4000
             })
           }
         }
       )
+    },
+    search() {
+      //TODO: método de busca
+      this.searchString = ''
     },
     findIndexById(id) {
       let index = -1
@@ -201,20 +226,181 @@ export default {
           (datas) => (this.values = datas),
           (error) => {
             if (error.response) {
-              console.log(error.response)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
             } else {
-              console.log(error)
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
             }
           }
         )
         this.headers = LinhagemService.getLinhagemHeaders()
       } else if (this.route == '/config/sala') {
+        SalaService.getSalas(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = SalaService.getSalaHeaders()
       } else if (this.route == '/config/linhapesquisa') {
+        PedidoService.getLinhaPesquisas(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = PedidoService.getLinhaPesquisaHeaders()
       } else if (this.route == '/config/insti') {
+        PedidoService.getVinculoInstitucional(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = PedidoService.getVinculoInstitucionalHeaders()
       } else if (this.route == '/config/proj') {
+        PedidoService.getProjetos(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = PedidoService.getProjetosHeaders()
       } else if (this.route == '/config/lab') {
+        PedidoService.getLaboratorios(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = PedidoService.getLaboratoriosHeaders()
+      } else if (this.route == '/config/nivelpesquisa') {
+        PedidoService.getNivelProjetos(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = PedidoService.getNivelProjetoHeaders()
       } else if (this.route == '/config/especie') {
+        PedidoService.getEspecies(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = PedidoService.getEspeciesHeaders()
       } else if (this.route == '/config/finalidade') {
+        PedidoService.getFinalidades(
+          (datas) => (this.values = datas),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+        this.headers = PedidoService.getFinalidadesHeaders()
       }
     },
     initFilters() {

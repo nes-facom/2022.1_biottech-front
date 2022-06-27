@@ -14,7 +14,7 @@
                 @click="openNew" />
             </div>
             <div
-              v-if="
+               v-if="
                 this.title !== 'Pesquisador' &&
                 this.title !== 'Usuários' &&
                 this.title !== 'Pesquisadores Arquivados'
@@ -90,6 +90,14 @@
                 cols="15"
                 disabled
                 style="color: black" />
+            </template>
+            <!-- RENDERIZAÇÃO CONDICIONAL CASO A ENTIDADE SEJA USUÁRIOS E A COLUNA SEJA TYPE -->
+            <template
+              #body="slotProps"
+              v-else-if="title === 'Usuários' && col.field === 'type'">
+              <div>
+                {{ getType(slotProps.data.type) }}
+              </div>
             </template>
           </Column>
           <!-- RENDERIZAÇÃO CONDICIONAL CASO A ROTA SEJA REFERENTE A PEDIDO -->
@@ -177,13 +185,22 @@
                 @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Previsão'">
-              <PrevisaoModal :previsao="value" :newData="newDataDialog" />
+              <PrevisaoModal
+                :previsao="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Saída'">
-              <SaidaModal :saida="value" :newData="newDataDialog" />
+              <SaidaModal
+                :saida="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Caixa'">
-              <CaixaModal :caixa="value" :newData="newDataDialog" />
+              <CaixaModal
+                :caixa="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Temperatura e umidade'">
               <TempUmiModal
@@ -197,7 +214,10 @@
                 :newData="newDataDialog" />
             </div>
             <div v-else-if="title === 'Parto'">
-              <PartoModal :parto="value" :newData="newDataDialog" />
+              <PartoModal
+                :parto="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else>
               <UsuarioModal :usuario="value" :newData="newDataDialog" />
@@ -312,6 +332,7 @@ import UsuarioModal from './Modals/UsuarioModal.vue'
 import PrevisaoService from '../service/PrevisaoService'
 import TemperaturaUmidade from '../service/TemperaturaUmidadeService'
 import Parto from '../service/PartoService'
+import SaidaService from '../service/SaidaService'
 
 export default {
   data() {
@@ -370,14 +391,14 @@ export default {
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Registro Ativado',
-              life: 3000
+              life: 4000
             })
           } else {
             this.$toast.add({
               severity: 'error',
               summary: 'Erro',
               detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
+              life: 4000
             })
           }
         }
@@ -425,6 +446,7 @@ export default {
       this.dataDialog = false
     },
     edit(entityData) {
+      console.log(entityData)
       this.value = { ...entityData }
       this.dataDialog = true
     },
@@ -449,14 +471,14 @@ export default {
               severity: 'success',
               summary: 'Sucesso',
               detail: 'Registro deletado',
-              life: 3000
+              life: 4000
             })
           } else {
             this.$toast.add({
               severity: 'error',
               summary: 'Erro',
               detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-              life: 3000
+              life: 4000
             })
           }
         }
@@ -524,11 +546,25 @@ export default {
           )
         }
       } else if (this.route.startsWith('/saida')) {
+        if (!this.viewOnly || this.viewOnly) {
+          this.headers = SaidaService.getSaidaHeaders()
+          SaidaService.getSaidas(
+            window.location.href.includes('/desativado'),
+            this.page,
+            this.searchString,
+            this.yearSelected,
+            (datas) => (
+              (this.values = datas.saida),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
+        }
       } else if (this.route.startsWith('/caixa')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = CaixaService.getCaixaHeaders()
           CaixaService.getCaixas(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,
@@ -556,10 +592,10 @@ export default {
         }
       } else if (this.route.startsWith('/cxmatriz')) {
       } else if (this.route.startsWith('/parto')) {
-        if (!this.viewOnly) {
+        if (!this.viewOnly || this.viewOnly) {
           this.headers = Parto.getPartoHeaders()
           Parto.getPartos(
-            this.route.startsWith('/desativado'),
+            window.location.href.includes('/desativado'),
             this.page,
             this.searchString,
             this.yearSelected,
@@ -570,11 +606,33 @@ export default {
             )
           )
         }
+      } else if (this.route.startsWith('/users')) {
+        if (!this.viewOnly || this.viewOnly) {
+          this.headers = [
+            { field: 'name', header: 'Nome' },
+            { field: 'username', header: 'Email' },
+            { field: 'type', header: 'Tipo' }
+          ]
+          this.values = [
+            {
+              name: 'fabio',
+              username: 'fabio@gmail.com',
+              type: 0
+            }
+          ]
+        }
       }
     },
     seeMore(value) {
       this.value = value
       this.seeMoreDialog = true
+    },
+    getType(type) {
+      if (type === 0) {
+        return 'Administrador'
+      } else {
+        return 'Comum'
+      }
     }
   },
   components: {

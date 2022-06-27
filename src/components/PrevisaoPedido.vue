@@ -302,14 +302,14 @@ export default {
             severity: 'success',
             summary: 'Sucesso',
             detail: 'Registro Ativado',
-            life: 3000
+            life: 4000
           })
         } else {
           this.$toast.add({
             severity: 'error',
             summary: 'Erro',
             detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-            life: 3000
+            life: 4000
           })
         }
       })
@@ -364,14 +364,14 @@ export default {
             severity: 'success',
             summary: 'Sucesso',
             detail: 'Registro deletado',
-            life: 3000
+            life: 4000
           })
         } else {
           this.$toast.add({
             severity: 'error',
             summary: 'Erro',
             detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-            life: 3000
+            life: 4000
           })
         }
       })

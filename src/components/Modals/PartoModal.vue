@@ -3,28 +3,13 @@
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
         <label for="caixa_matriz">Caixa Matriz</label>
-        <Dropdown
+        <InputText
           id="caixa_matriz"
-          v-model="parto.caixa_matriz"
-          :options="caixas_matriz"
-          optionLabel="Caixas Matriz"
-          :filter="true"
-          placeholder="Selecione uma caixa matriz"
-          emptyFilterMessage="Nenhuma opção corresponde a busca"
-          emptyMessage="Nenhuma opção disponível"
-          :class="{ 'p-invalid': required && !parto.caixa_matriz }">
-          <template #value="slotProps">
-            <div v-if="slotProps.value">
-              <div>{{ slotProps.value.caixa_matriz_numero }}</div>
-            </div>
-            <span v-else>
-              {{ slotProps.placeholder }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <div>{{ slotProps.option.caixa_matriz_numero }}</div>
-          </template>
-        </Dropdown>
+          type="text"
+          v-model="parto.caixa_matriz.caixa_matriz_numero"
+          :class="{
+            'p-invalid': required && !parto.caixa_matriz.caixa_matriz_numero
+          }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="numero_parto">N° Parto</label>
@@ -118,6 +103,8 @@
 </template>
 
 <script>
+import PartoService from '../../service/PartoService'
+
 export default {
   data() {
     return {
@@ -132,21 +119,82 @@ export default {
   mounted() {
     // TODO: trazes as caixas_matriz possíveis a serem selecionadas
   },
+  created() {
+    if (!this.parto.caixa_matriz) {
+      this.parto.caixa_matriz = {}
+      this.parto.caixa_matriz.caixa_matriz_numero = null
+    }
+  },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 4000
+      })
+    },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
-      if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
-      } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+      if (!this.parto.id && checked_fields) {
+        PartoService.saveParto(
+          this.parto,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Parto cadastrado com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+      } else if (this.parto.id && checked_fields) {
+        PartoService.editParto(
+          this.parto,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Parto Editado com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
       }
     },
     checkRequired() {
       if (
-        this.parto.caixas_matriz &&
         this.parto.numero_parto &&
-        this.parto.data_parto
+        this.parto.data_parto &&
+        this.parto.caixa_matriz.caixa_matriz_numero
       ) {
         return true
       } else {

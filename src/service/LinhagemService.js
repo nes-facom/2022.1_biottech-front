@@ -33,6 +33,34 @@ class LinhagemService {
       })
   }
 
+  saveLinhagem(nome_linhagem, onSave, onError) {
+    var linhagem = {}
+    linhagem.nome_linhagem = nome_linhagem
+
+    console.log(nome_linhagem)
+    axios
+      .post(
+        `${API_ENDPOINT}/linhagem/addLinhagem.json`,
+        linhagem,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  editLinhagem(linhagem, onSave, onError) {
+    linhagem = JSON.parse(JSON.stringify(linhagem))
+    var linhagens = {}
+    linhagens.nome_linhagem = linhagem.name
+    axios
+      .put(
+        `${API_ENDPOINT}/linhagem/editLinhagem.json?id=${linhagem.id}`,
+        linhagens,
+        this.buildAuthHeader()
+      )
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
 
   buildAuthHeader() {
     return {
