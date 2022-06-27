@@ -1,4 +1,5 @@
 import PesquisadorService from '../service/PesquisadorService'
+import CaixaMatrizService from './CaixaMatrizService'
 import CaixaService from './CaixaService'
 import LinhagemService from './LinhagemService'
 import PartoService from './PartoService'
@@ -27,6 +28,7 @@ class ActiveAndDisable {
         activeBool
       )
     } else if (window.location.href.includes('/cxmatriz')) {
+      CaixaMatrizService.activeAndDisableCaixaMatriz(id, onDelete, activeBool)
     } else if (window.location.href.includes('/parto')) {
       PartoService.activeAndDisableParto(id, onDelete, activeBool)
     } else if (window.location.href.includes('/config/linhagem')) {

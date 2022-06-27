@@ -333,6 +333,7 @@ import PrevisaoService from '../service/PrevisaoService'
 import TemperaturaUmidade from '../service/TemperaturaUmidadeService'
 import Parto from '../service/PartoService'
 import SaidaService from '../service/SaidaService'
+import CaixaMatrizService from '../service/CaixaMatrizService'
 
 export default {
   data() {
@@ -591,6 +592,20 @@ export default {
           )
         }
       } else if (this.route.startsWith('/cxmatriz')) {
+        if (!this.viewOnly || this.viewOnly) {
+          this.headers = CaixaMatrizService.getCaixaMatrizHeaders()
+          CaixaMatrizService.getCaixaMatrizes(
+            window.location.href.includes('/desativado'),
+            this.page,
+            this.searchString,
+            this.yearSelected,
+            (datas) => (
+              (this.values = datas.matrizes),
+              (this.prevPage = datas.pagination.prevPage),
+              (this.nextPage = datas.pagination.nextPage)
+            )
+          )
+        }
       } else if (this.route.startsWith('/parto')) {
         if (!this.viewOnly || this.viewOnly) {
           this.headers = Parto.getPartoHeaders()
