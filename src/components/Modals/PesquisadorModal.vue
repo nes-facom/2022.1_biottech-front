@@ -156,8 +156,10 @@ export default {
     newData: Boolean
   },
   methods: {
-    showToast(severity, summary, detail) {
-      this.$emit('close', false)
+    showToast(severity, summary, detail, close = True) {
+      if (close) {
+        this.$emit('close', false)
+      }
       this.$toast.add({
         severity: severity,
         summary: summary,
@@ -172,7 +174,16 @@ export default {
       return arr
     },
     addTel(obj) {
-      if (newTel != '' && !this.newData) {
+      if (this.newTel == null) {
+        this.showToast(
+          'warn',
+          'Insira um número válido',
+          'Campo de Telefone vazio',
+          false
+        )
+        return
+      }
+      if (this.newTel != null && !this.newData) {
         obj.push({
           telefone: this.newTel
         })
