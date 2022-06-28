@@ -30,69 +30,44 @@ class CaixaMatrizService {
     }
   }
 
-  saveCaixa(caixa, onSave, onError) {
-    caixa = JSON.parse(JSON.stringify(caixa))
-    caixa.nascimento = Util.formatDate(new Date(caixa.nascimento))
-
-    if (caixa.ultima_saida) {
-      caixa.ultima_saida = Util.formatDate(new Date(caixa.ultima_saida))
-    }
-
-    if (caixa.linhagem.id) {
-      caixa.linhagem_id = caixa.linhagem.id
-      delete caixa.linhagem
-    }
-
-    if (caixa.caixa_matriz.caixa_matriz_numero) {
-      caixa.caixa_matriz_numero = caixa.caixa_matriz.caixa_matriz_numero
-      delete caixa.caixa_matriz
-    } else {
-      delete caixa.caixa_matriz
-    }
+  saveCaixaMatriz(caixa_matriz, caixas, onSave, onError) {
+    caixa_matriz = JSON.parse(JSON.stringify(caixa_matriz))
+    caixa_matriz.data_acasalamento = Util.formatDate(
+      new Date(caixa_matriz.data_acasalamento)
+    )
+    caixa_matriz.data_obito = Util.formatDate(new Date(caixa_matriz.data_obito))
+    caixa_matriz.saida_da_colonia = Util.formatDate(
+      new Date(caixa_matriz.saida_da_colonia)
+    )
+    caixas = JSON.parse(JSON.stringify(caixas))
+    caixa_matriz.caixas = caixas
 
     axios
       .post(
-        `${API_ENDPOINT}/caixa/addCaixa.json`,
-        caixa,
+        `${API_ENDPOINT}/caixaMatriz/addCaixaMatriz.json`,
+        caixa_matriz,
         this.buildAuthHeader()
       )
       .then(() => onSave())
       .catch((e) => onError(e))
   }
 
-  editCaixa(caixa, onSave, onError) {
-    caixa = JSON.parse(JSON.stringify(caixa))
-
-    if (caixa.nascimento.includes('/')) {
-      var newdata = caixa.nascimento.split('/')
-      caixa.nascimento = newdata[2] + '-' + newdata[1] + '-' + newdata[0]
-    } else {
-      caixa.nascimento = Util.formatDate(new Date(caixa.nascimento))
-    }
-
-    if (caixa.ultima_saida) {
-      if (caixa.ultima_saida.includes('/')) {
-        var newdata = caixa.ultima_saida.split('/')
-        caixa.ultima_saida = newdata[2] + '-' + newdata[1] + '-' + newdata[0]
-      } else {
-        caixa.ultima_saida = Util.formatDate(new Date(caixa.ultima_saida))
-      }
-    }
-
-    if (caixa.linhagem.id) {
-      caixa.linhagem_id = caixa.linhagem.id
-      delete caixa.linhagem
-    }
-
-    if (caixa.caixa_matriz.caixa_matriz_numero) {
-      caixa.caixa_matriz_numero = caixa.caixa_matriz.caixa_matriz_numero
-      delete caixa.caixa_matriz
-    }
+  editCaixaMatriz(caixa_matriz, caixas, onSave, onError) {
+    caixa_matriz = JSON.parse(JSON.stringify(caixa_matriz))
+    caixa_matriz.data_acasalamento = Util.formatDate(
+      new Date(caixa_matriz.data_acasalamento)
+    )
+    caixa_matriz.data_obito = Util.formatDate(new Date(caixa_matriz.data_obito))
+    caixa_matriz.saida_da_colonia = Util.formatDate(
+      new Date(caixa_matriz.saida_da_colonia)
+    )
+    caixas = JSON.parse(JSON.stringify(caixas))
+    caixa_matriz.caixas = caixas
 
     axios
       .put(
-        `${API_ENDPOINT}/caixa/editCaixa.json?id=${caixa.id}`,
-        caixa,
+        `${API_ENDPOINT}/caixaMatriz/editCaixaMatriz.json?id=${caixa_matriz.id}`,
+        caixa_matriz,
         this.buildAuthHeader()
       )
       .then(() => onSave())
@@ -114,10 +89,15 @@ class CaixaMatrizService {
   }
 
   #formatDate(data) {
+    console.log(data)
     data.matrizes.map((caixa) => {
       caixa.data_acasalamento = Util.formatDateTable(caixa.data_acasalamento)
-      caixa.saida_da_colonia = Util.formatDateTable(caixa.saida_da_colonia)
-      caixa.data_obito = Util.formatDateTable(caixa.data_obito)
+      if (caixa.saida_da_colonia) {
+        caixa.saida_da_colonia = Util.formatDateTable(caixa.saida_da_colonia)
+      }
+      if (caixa.saida_da_colonia) {
+        caixa.data_obito = Util.formatDateTable(caixa.data_obito)
+      }
     })
     console.log(data)
     return data

@@ -14,7 +14,7 @@
                 @click="openNew" />
             </div>
             <div
-               v-if="
+              v-if="
                 this.title !== 'Pesquisador' &&
                 this.title !== 'Usuários' &&
                 this.title !== 'Pesquisadores Arquivados'
@@ -211,7 +211,8 @@
             <div v-else-if="title === 'Caixa Matriz'">
               <CaixaMatrixModal
                 :caixa_matriz="value"
-                :newData="newDataDialog" />
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <div v-else-if="title === 'Parto'">
               <PartoModal

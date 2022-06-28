@@ -156,8 +156,8 @@ export default {
     newData: Boolean
   },
   methods: {
-    showToast(severity, summary, detail, close = True) {
-      if (close) {
+    showToast(severity, summary, detail, close) {
+      if (close && typeof close !== 'undefined') {
         this.$emit('close', false)
       }
       this.$toast.add({

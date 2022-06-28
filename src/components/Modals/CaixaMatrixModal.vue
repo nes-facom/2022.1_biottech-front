@@ -55,7 +55,12 @@
           </div>
           <div class="field col-6">
             <span class="p-float-label">
-              <InputText id="caixa_peso" v-model="caixa.peso" />
+              <InputNumber
+                id="caixa_peso"
+                mode="decimal"
+                :maxFractionDigits="2"
+                :useGrouping="false"
+                v-model="caixa.peso" />
               <label for="caixa_peso"> Peso </label>
             </span>
           </div>
@@ -74,7 +79,12 @@
           </div>
           <div class="field col-6">
             <span class="p-float-label">
-              <InputText id="caixa_peso" v-model="caixa.peso" />
+              <InputNumber
+                id="caixa_peso"
+                mode="decimal"
+                :maxFractionDigits="2"
+                :useGrouping="false"
+                v-model="caixa.peso" />
               <label for="caixa_peso"> Peso </label>
             </span>
           </div>
@@ -92,7 +102,12 @@
         <div class="field col-6">
           <div class="p-inputgroup">
             <span class="p-float-label">
-              <InputText id="caixa_peso" v-model="newCaixaOrigem.peso" />
+              <InputNumber
+                id="caixa_peso"
+                mode="decimal"
+                :maxFractionDigits="2"
+                :useGrouping="false"
+                v-model="newCaixaOrigem.peso" />
               <label for="caixa_peso"> Peso </label>
             </span>
             <Button
@@ -114,6 +129,8 @@
 </template>
 
 <script>
+import CaixaMatrizService from '../../service/CaixaMatrizService'
+
 export default {
   data() {
     return {
@@ -129,10 +146,11 @@ export default {
   },
   mounted() {},
   methods: {
-    showToast(severity, summary, detail, close = True) {
-      if (close) {
+    showToast(severity, summary, detail, close) {
+      if (close && typeof close !== 'undefined') {
         this.$emit('close', false)
       }
+
       this.$toast.add({
         severity: severity,
         summary: summary,
@@ -143,10 +161,58 @@ export default {
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
-      if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
-      } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+      if (!this.caixa_matriz.id && checked_fields) {
+        CaixaMatrizService.saveCaixaMatriz(
+          this.caixa_matriz,
+          this.caixasOrigem,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Caixa cadastrada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
+      } else if (this.caixa_matriz.id && checked_fields) {
+        CaixaMatrizService.editCaixaMatriz(
+          this.caixa_matriz,
+          this.caixasOrigem,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Caixa cadastrada com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
       }
     },
     checkRequired() {
@@ -170,19 +236,11 @@ export default {
         )
         return
       }
-      if (!this.newData) {
-        this.caixa_matriz.caixas.push({
-          caixa_numero: this.newCaixaOrigem.caixa_numero,
-          peso: this.newCaixaOrigem.peso
-        })
-        this.newCaixaOrigem = {}
-      } else {
-        this.caixasOrigem.push({
-          caixa_numero: this.newCaixaOrigem.caixa_numero,
-          peso: this.newCaixaOrigem.peso
-        })
-        this.newCaixaOrigem = {}
-      }
+      this.caixasOrigem.push({
+        caixa_numero: this.newCaixaOrigem.caixa_numero,
+        peso: this.newCaixaOrigem.peso
+      })
+      this.newCaixaOrigem = {}
     }
   }
 }
