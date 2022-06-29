@@ -8,6 +8,7 @@ import PrevisaoService from './PrevisaoService'
 import SaidaService from './SaidaService'
 import SalaService from './SalaService'
 import TemperaturaUmidadeService from './TemperaturaUmidadeService'
+import UserService from './UserService'
 
 class ActiveAndDisable {
   activeAndDisable(id, activeBool, onDelete) {
@@ -31,6 +32,8 @@ class ActiveAndDisable {
       CaixaMatrizService.activeAndDisableCaixaMatriz(id, onDelete, activeBool)
     } else if (window.location.href.includes('/parto')) {
       PartoService.activeAndDisableParto(id, onDelete, activeBool)
+    } else if (window.location.href.includes('/users')) {
+      UserService.activeAndDisableUser(id, onDelete, activeBool)
     } else if (window.location.href.includes('/config/linhagem')) {
       LinhagemService.activeAndDisableLinhagem(id, onDelete, activeBool)
     } else if (window.location.href.includes('/config/sala')) {

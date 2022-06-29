@@ -5,8 +5,7 @@
         <Toast />
         <div class="card col-12">
           <div class="p-fluid grid justify-content-between">
-            <div class="col-12 md:col-2">
-            </div>
+            <div class="col-12 md:col-2"></div>
             <div class="col-12 md:col-2">
               <Dropdown
                 id="year"
@@ -134,7 +133,10 @@
             :breakpoints="{ '960px': '75vw', '640px': '100vw' }">
             <!-- DEFINE O FORMULÁRIO QUE SERÁ RENDERIZADO BASEADO NA ROTA ATUAL -->
             <div>
-              <PrevisaoModal :previsao="value" :newData="newDataDialog" @close="closeModalSave" />
+              <PrevisaoModal
+                :previsao="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
 
             <template #footer>
@@ -293,26 +295,30 @@ export default {
   },
   methods: {
     activeData() {
-      ActiveAndDisableService.activeAndDisable(this.value.id, true, (success) => {
-        if (success) {
-          this.values = this.values.filter((val) => val.id != this.value.id)
-          this.activeDataDialog = false
-          this.value = {}
-          this.$toast.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Registro Ativado',
-            life: 4000
-          })
-        } else {
-          this.$toast.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-            life: 4000
-          })
+      ActiveAndDisableService.activeAndDisable(
+        this.value.id,
+        true,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.activeDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro Ativado',
+              life: 4000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 4000
+            })
+          }
         }
-      })
+      )
     },
     closeModalSave() {
       this.hideDialog()
@@ -355,26 +361,30 @@ export default {
       this.activeDataDialog = true
     },
     deleteData() {
-      ActiveAndDisableService.activeAndDisable(this.value.id, false, (success) => {
-        if (success) {
-          this.values = this.values.filter((val) => val.id != this.value.id)
-          this.deleteDataDialog = false
-          this.value = {}
-          this.$toast.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Registro deletado',
-            life: 4000
-          })
-        } else {
-          this.$toast.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
-            life: 4000
-          })
+      ActiveAndDisableService.activeAndDisable(
+        this.value.id,
+        false,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.deleteDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro deletado',
+              life: 4000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 4000
+            })
+          }
         }
-      })
+      )
     },
     findIndexById(id) {
       let index = -1
@@ -394,17 +404,17 @@ export default {
     },
     getMethod() {
       if (!this.viewOnly) {
-        this.headers = PedidoService.getPedidoHeaders()
         PedidoService.getPedidos(
           this.route.startsWith('/desativado'),
           this.page,
           this.searchString,
           this.yearSelected,
-          (datas) => (
-            (this.values = datas.pedidos),
-            (this.prevPage = datas.pagination.prevPage),
-            (this.nextPage = datas.pagination.nextPage)
-          )
+          (datas, pagination) => (
+            (this.values = datas),
+            (this.prevPage = pagination.prevPage),
+            (this.nextPage = pagination.nextPage)
+          ),
+          (headers) => (this.headers = headers)
         )
       }
     },

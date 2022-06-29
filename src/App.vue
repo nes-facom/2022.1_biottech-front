@@ -254,11 +254,6 @@ export default {
                   label: 'Programação Acasalamento',
                   icon: 'pi pi-fw pi-circle',
                   to: '/repro/progacasal'
-                },
-                {
-                  label: 'Controle Reprodutivo',
-                  icon: 'pi pi-fw pi-circle',
-                  to: '/repro/controlerepro'
                 }
               ]
             }
@@ -280,7 +275,18 @@ export default {
             {
               label: 'Usuários',
               icon: 'pi pi-fw pi-users',
-              to: '/users'
+              items: [
+                {
+                  label: 'Menu',
+                  icon: 'pi pi-fw pi-pencil',
+                  to: '/users'
+                },
+                {
+                  label: 'Arquivados',
+                  icon: 'pi pi-fw pi-folder',
+                  to: '/users/desativado'
+                }
+              ]
             }
           ]
         } : {}

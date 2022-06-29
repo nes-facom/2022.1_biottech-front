@@ -48,6 +48,13 @@ class PedidoService {
     return columns
   }
 
+  async #getPedidoTable(search, page, year) {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getPedidosTable.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
+      this.buildAuthHeader()
+    )
+  }
+
   async #getPedido(search, page, year) {
     return axios.get(
       `${API_ENDPOINT}/pedido/getPedidos.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
@@ -117,6 +124,22 @@ class PedidoService {
     delete pedido.linhagem
     delete pedido.previsao
 
+    if (pedido.data_solicitacao.includes('/')) {
+      var newdata = pedido.data_solicitacao.split('/')
+      pedido.data_solicitacao = newdata[2] + '-' + newdata[1] + '-' + newdata[0]
+    } else {
+      pedido.data_solicitacao = Util.formatDate(
+        new Date(pedido.data_solicitacao)
+      )
+    }
+
+    if (pedido.vigencia_ceua.includes('/')) {
+      var newdata = pedido.vigencia_ceua.split('/')
+      pedido.vigencia_ceua = newdata[2] + '-' + newdata[1] + '-' + newdata[0]
+    } else {
+      pedido.vigencia_ceua = Util.formatDate(new Date(pedido.vigencia_ceua))
+    }
+
     pedido.data_solicitacao = Util.formatDate(new Date(pedido.data_solicitacao))
     pedido.vigencia_ceua = Util.formatDate(new Date(pedido.vigencia_ceua))
 
@@ -144,16 +167,37 @@ class PedidoService {
       })
   }
 
-  getPedidos(disable, page, search, year, onFetch) {
+  getPedidos(disable, page, search, year, onFetch, onHeaders) {
     if (disable) {
-      this.#getPedidoInactive(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getPedidoInactive(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.pedidos),
+            response.data.pagination
+          ),
+        onHeaders(this.getPedidoHeaders())
       )
     } else {
-      this.#getPedido(search, page, year).then((response) =>
-        onFetch(response.data)
+      this.#getPedido(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.pedidos),
+            response.data.pagination
+          ),
+        onHeaders(this.getPedidoHeaders())
       )
     }
+  }
+
+  getPedidosTable(disable, page, search, year, onFetch, onHeaders) {
+    this.#getPedidoTable(search, page, year).then(
+      (response) =>
+        onFetch(
+          this.#formatDate(response.data.pedidos),
+          response.data.pagination
+        ),
+      onHeaders(this.getPedidoHeadersTable())
+    )
   }
 
   getVinculoInstitucional(onFetch) {
@@ -379,7 +423,8 @@ class PedidoService {
   editVinculoInstitucional(vinculo_institucional, onSave, onError) {
     vinculo_institucional = JSON.parse(JSON.stringify(vinculo_institucional))
     var vinculo_institucionais = {}
-    vinculo_institucionais.nome_vinculo_institucional = vinculo_institucional.name
+    vinculo_institucionais.nome_vinculo_institucional =
+      vinculo_institucional.name
     axios
       .put(
         `${API_ENDPOINT}/pedido/editVinculoInstitucional.json?id=${vinculo_institucional.id}`,
@@ -526,11 +571,9 @@ class PedidoService {
   }
 
   #formatDate(data) {
-    data.pedidos.map((pedido) => {
-      ;(pedido.data_solicitacao = Util.formatDateTable(
-        pedido.data_solicitacao
-      )),
-        (pedido.vigencia_ceua = Util.formatDateTable(pedido.vigencia_ceua))
+    data.map((pedido) => {
+      pedido.data_solicitacao = Util.formatDateTable(pedido.data_solicitacao)
+      pedido.vigencia_ceua = Util.formatDateTable(pedido.vigencia_ceua)
     })
     return data
   }
@@ -546,6 +589,46 @@ class PedidoService {
       { field: 'sexo', header: 'Sexo' },
       { field: 'idade', header: 'Idade' },
       { field: 'peso', header: 'Peso' }
+    ]
+    return columns
+  }
+
+  getPedidoHeadersTable() {
+    const columns = [
+      { field: 'processo_sei', header: 'Processo SEI' },
+      { field: 'equipe_executora', header: 'Equipe Executora' },
+      { field: 'data_solicitacao', header: 'Data Solicitação' },
+      { field: 'titulo', header: 'Título' },
+      { field: 'especificar', header: 'Especificar' },
+      { field: 'exper', header: 'Exper' },
+      { field: 'num_ceua', header: 'CEUA Nº' },
+      { field: 'vigencia_ceua', header: 'Vigência/CEUA' },
+      { field: 'num_aprovado', header: 'Nº Aprovado' },
+      { field: 'num_solicitado', header: 'Nº Solicitado' },
+      { field: 'adendo_1', header: 'Adendo1' },
+      { field: 'adendo_2', header: 'Adendo2' },
+      { field: 'sexo', header: 'Sexo' },
+      { field: 'idade', header: 'Idade' },
+      { field: 'peso', header: 'Peso' },
+      { field: 'observacoes', header: 'Observações' },
+      { field: 'saldoCEUA', header: 'Saldo CEUA' },
+      {
+        field: 'vinculo_institucional.nome_vinculo_institucional',
+        header: 'Vínculo Institucional'
+      },
+      { field: 'projeto.nome_projeto', header: 'Projeto' },
+      { field: 'especie.nome_especie', header: 'Espécie' },
+      {
+        field: 'linha_pesquisa.nome_linha_pesquisa',
+        header: 'Linha De Pesquisa'
+      },
+      { field: 'nivel_projeto.nome_nivel_projeto', header: 'Nível Projeto' },
+      { field: 'laboratorio.nome_laboratorio', header: 'Laboratório' },
+      { field: 'finalidade.nome_finalidade', header: 'Finalidade' },
+      { field: 'linhagem.nome_linhagem', header: 'Linhagem' },
+      { field: 'pesquisador.nome', header: 'Pesquisador' },
+      { field: 'pesquisador.setor', header: 'Setor' },
+      { field: 'pesquisador.instituicao', header: 'Instituição' }
     ]
     return columns
   }

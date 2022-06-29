@@ -129,7 +129,9 @@
             </template>
           </Column>
           <!-- ICONE PARA ATIVAR -->
-          <Column v-if="this.viewOnly" headerStyle="min-width:10rem;">
+          <Column
+            v-if="this.viewOnly && this.checkTables()"
+            headerStyle="min-width:10rem;">
             <template #body="slotProps">
               <div class="flex justify-content-center gap-2">
                 <Button
@@ -221,7 +223,7 @@
                 @close="closeModalSave" />
             </div>
             <div v-else>
-              <UsuarioModal :usuario="value" :newData="newDataDialog" />
+              <UsuarioModal :usuario="value" :newData="newDataDialog" @close="closeModalSave" />
             </div>
             <template #footer>
               <Button
@@ -335,6 +337,7 @@ import TemperaturaUmidade from '../service/TemperaturaUmidadeService'
 import Parto from '../service/PartoService'
 import SaidaService from '../service/SaidaService'
 import CaixaMatrizService from '../service/CaixaMatrizService'
+import GetTablesService from '../service/GetTablesService'
 
 export default {
   data() {
@@ -380,6 +383,17 @@ export default {
     this.getMethod()
   },
   methods: {
+    checkTables() {
+      if (
+        window.location.href.includes('/exp/') ||
+        window.location.href.includes('/criacao/') ||
+        window.location.href.includes('/repro/')
+      ) {
+        return false
+      } else {
+        return true
+      }
+    },
     activeData() {
       ActiveAndDisableService.activeAndDisable(
         this.value.id,
@@ -431,6 +445,8 @@ export default {
       }
     },
     clearSearch() {
+      console.log(this.values)
+      console.log(this.headers)
       this.searchString = ''
       this.getMethod()
     },
@@ -503,140 +519,18 @@ export default {
       this.getMethod()
     },
     getMethod() {
-      if (this.route.startsWith('/pesquisador')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = PesquisadorService.getPesquisadorHeaders()
-          PesquisadorService.getPesquisadores(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            (datas) => (
-              (this.values = datas.pesquisador),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/pedido')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = PedidoService.getPedidoHeaders()
-          PedidoService.getPedidos(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.pedidos),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/previsao')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = PrevisaoService.getPrevisaoHeaders()
-          PrevisaoService.getPrevisoes(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.previsao),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/saida')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = SaidaService.getSaidaHeaders()
-          SaidaService.getSaidas(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.saida),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/caixa')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = CaixaService.getCaixaHeaders()
-          CaixaService.getCaixas(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.caixas),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/tempumi')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = TemperaturaUmidade.getTemperaturaUmidadeHeaders()
-          TemperaturaUmidade.getTemperaturaUmidade(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.temperatura),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/cxmatriz')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = CaixaMatrizService.getCaixaMatrizHeaders()
-          CaixaMatrizService.getCaixaMatrizes(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.matrizes),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/parto')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = Parto.getPartoHeaders()
-          Parto.getPartos(
-            window.location.href.includes('/desativado'),
-            this.page,
-            this.searchString,
-            this.yearSelected,
-            (datas) => (
-              (this.values = datas.partos),
-              (this.prevPage = datas.pagination.prevPage),
-              (this.nextPage = datas.pagination.nextPage)
-            )
-          )
-        }
-      } else if (this.route.startsWith('/users')) {
-        if (!this.viewOnly || this.viewOnly) {
-          this.headers = [
-            { field: 'name', header: 'Nome' },
-            { field: 'username', header: 'Email' },
-            { field: 'type', header: 'Tipo' }
-          ]
-          this.values = [
-            {
-              name: 'fabio',
-              username: 'fabio@gmail.com',
-              type: 0
-            }
-          ]
-        }
+      if (!this.viewOnly || this.viewOnly) {
+        GetTablesService.getTables(
+          this.page,
+          this.searchString,
+          this.yearSelected,
+          (datas, pagination) => (
+            (this.values = datas),
+            (this.prevPage = pagination.prevPage),
+            (this.nextPage = pagination.nextPage)
+          ),
+          (headers) => (this.headers = headers)
+        )
       }
     },
     seeMore(value) {

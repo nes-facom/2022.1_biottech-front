@@ -17,14 +17,18 @@ class Pesquisador {
     )
   }
 
-  getPesquisadores(disable, page, search, onFetch) {
+  getPesquisadores(disable, page, search, year, onFetch, onHeaders) {
     if (disable) {
-      this.#getPesquisadorInactive(search, page).then((response) =>
-        onFetch(response.data)
+      this.#getPesquisadorInactive(search, page).then(
+        (response) =>
+          onFetch(response.data.pesquisador, response.data.pagination),
+        onHeaders(this.getPesquisadorHeaders())
       )
     } else {
-      this.#getPesquisador(search, page).then((response) =>
-        onFetch(response.data)
+      this.#getPesquisador(search, page).then(
+        (response) =>
+          onFetch(response.data.pesquisador, response.data.pagination),
+        onHeaders(this.getPesquisadorHeaders())
       )
     }
   }

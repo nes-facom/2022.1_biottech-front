@@ -4,6 +4,13 @@ import { API_ENDPOINT } from '../constants'
 import Util from '../util/Util'
 
 class Previsao {
+  async #getPrevisaoTable(search, page, year) {
+    return axios.get(
+      `${API_ENDPOINT}/previsao/getPrevisaoTable.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
+      this.buildAuthHeader()
+    )
+  }
+
   async #getPrevisao(search, page, year) {
     return axios.get(
       `${API_ENDPOINT}/previsao/getPrevisoes.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
@@ -18,20 +25,41 @@ class Previsao {
     )
   }
 
-  getPrevisoes(disable, page, search, year, onFetch) {
+  getPrevisoes(disable, page, search, year, onFetch, onHeaders) {
     if (disable) {
-      this.#getPrevisaoInactive(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getPrevisaoInactive(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.previsao),
+            response.data.pagination
+          ),
+        onHeaders(this.getPrevisaoHeaders())
       )
     } else {
-      this.#getPrevisao(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getPrevisao(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.previsao),
+            response.data.pagination
+          ),
+        onHeaders(this.getPrevisaoHeaders())
       )
     }
   }
 
+  getPrevisaoTable(disable, page, search, year, onFetch, onHeaders) {
+    this.#getPrevisaoTable(search, page, year).then(
+      (response) =>
+        onFetch(
+          this.#formatDate(response.data.previsao),
+          response.data.pagination
+        ),
+      onHeaders(this.getPrevisaoHeadersTable())
+    )
+  }
+
   #formatDate(data) {
-    data.previsao.map((previsao) => {
+    data.map((previsao) => {
       previsao.retirada_data = Util.formatDateTable(previsao.retirada_data)
     })
     return data
@@ -93,6 +121,34 @@ class Previsao {
       { field: 'retirada_data', header: 'Data da Retirada' },
       { field: 'status', header: 'Status' },
       { field: 'totalRetirado', header: 'Total Retirado' }
+    ]
+    return columns
+  }
+
+  getPrevisaoHeadersTable() {
+    const columns = [
+      { field: 'num_previsao', header: 'Previsão Nº' },
+      { field: 'retirada_num', header: 'Retirada Nº' },
+      { field: 'retirada', header: 'Retirada' },
+      { field: 'qtd_retirar', header: 'Qtd Retirar' },
+      { field: 'retirada_data', header: 'Retirada Data' },
+      { field: 'totalRetirado', header: ' Total Retirado' },
+      { field: 'retirada_semana', header: 'Retirada Semana' },
+      { field: 'ano', header: 'Ano' },
+      { field: 'semestre', header: 'Semestre' },
+      { field: 'mes', header: 'Mês' },
+      { field: 'status', header: 'Status' },
+      { field: 'pedido.pesquisador.nome', header: 'Pesquisador' },
+      { field: 'pedido.pesquisador.instituicao', header: 'Instituição' },
+      { field: 'pedido.pesquisador.setor', header: 'Setor' },
+      { field: 'pedido.pesquisador.pos', header: 'Pos' },
+      { field: 'pedido.sexo', header: 'Sexo' },
+      { field: 'pedido.idade', header: 'Idade' },
+      { field: 'pedido.peso', header: 'Peso' },
+      { field: 'pedido.linhagem.nome_linhagem', header: 'Linhagem' },
+      { field: 'pedido.projeto.nome_projeto', header: 'Projeto' },
+      { field: 'pedido.finalidade.nome_finalidade', header: 'Finalidade' },
+      { field: 'pedido.exper', header: 'Exper' }
     ]
     return columns
   }

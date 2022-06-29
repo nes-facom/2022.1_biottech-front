@@ -18,14 +18,24 @@ class TemperaturaUmidade {
     )
   }
 
-  getTemperaturaUmidade(disable, page, search, year, onFetch) {
+  getTemperaturaUmidade(disable, page, search, year, onFetch, onHeaders) {
     if (disable) {
-      this.#getTemperaturaUmidadeInactive(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getTemperaturaUmidadeInactive(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.temperatura),
+            response.data.pagination
+          ),
+        onHeaders(this.getTemperaturaUmidadeHeaders())
       )
     } else {
-      this.#getTemperaturaUmidade(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getTemperaturaUmidade(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.temperatura),
+            response.data.pagination
+          ),
+        onHeaders(this.getTemperaturaUmidadeHeaders())
       )
     }
   }
@@ -95,7 +105,7 @@ class TemperaturaUmidade {
   }
 
   #formatDate(data) {
-    data.temperatura.map((temperatura) => {
+    data.map((temperatura) => {
       temperatura.data = Util.formatDateTable(temperatura.data)
     })
     return data

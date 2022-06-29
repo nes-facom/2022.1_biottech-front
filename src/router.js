@@ -18,8 +18,24 @@ const routes = [
       AuthService.getJWTTokenData() == 0
         ? {
             path: '/users',
-            name: 'Usuários',
-            component: () => import('./components/TableCrud.vue')
+            component: {
+              render() {
+                return h(resolveComponent('router-view'))
+              }
+            },
+            children: [
+              {
+                path: '',
+                name: 'Usuários',
+                component: () => import('./components/TableCrud.vue')
+              },
+              {
+                path: '/users/desativado',
+                name: 'Usuários Arquivados',
+                component: () => import('./components/TableCrud.vue'),
+                props: { viewOnly: true }
+              }
+            ]
           }
         : {
             path: '/users',
@@ -336,12 +352,6 @@ const routes = [
           {
             path: '/repro/progacasal',
             name: 'Programação Acasalamento',
-            component: () => import('./components/TableCrud.vue'),
-            props: { viewOnly: true }
-          },
-          {
-            path: '/repro/controlerepro',
-            name: 'Controle Reprodutivo',
             component: () => import('./components/TableCrud.vue'),
             props: { viewOnly: true }
           }

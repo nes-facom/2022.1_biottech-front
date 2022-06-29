@@ -4,6 +4,14 @@ import { API_ENDPOINT } from '../constants'
 import Util from '../util/Util'
 
 class SaidaService {
+
+  async #getSaidaTable(search, page, year) {
+    return axios.get(
+      `${API_ENDPOINT}/saida/getSaidaTable.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
+      this.buildAuthHeader()
+    )
+  }
+
   async #getSaida(search, page, year) {
     return axios.get(
       `${API_ENDPOINT}/saida/getSaidas.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
@@ -18,16 +26,37 @@ class SaidaService {
     )
   }
 
-  getSaidas(disable, page, search, year, onFetch) {
+  getSaidas(disable, page, search, year, onFetch, onHeaders) {
     if (disable) {
-      this.#getSaidaInactive(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getSaidaInactive(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.saida),
+            response.data.pagination
+          ),
+        onHeaders(this.getSaidaHeaders())
       )
     } else {
-      this.#getSaida(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getSaida(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.saida),
+            response.data.pagination
+          ),
+        onHeaders(this.getSaidaHeaders())
       )
     }
+  }
+
+  getSaidasTable(disable, page, search, year, onFetch, onHeaders) {
+      this.#getSaidaTable(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.saida),
+            response.data.pagination
+          ),
+        onHeaders(this.getSaidaHeadersTable())
+      )
   }
 
   saveSaida(saida, onSave, onError) {
@@ -99,7 +128,7 @@ class SaidaService {
   }
 
   #formatDate(data) {
-    data.saida.map((saida) => {
+    data.map((saida) => {
       saida.data_saida = Util.formatDateTable(saida.data_saida)
     })
     return data
@@ -117,6 +146,21 @@ class SaidaService {
       { field: 'observacoes', header: 'Observações' },
       { field: 'previsao.num_previsao', header: 'Previsão' },
       { field: 'caixa.caixa_numero', header: 'Caixa' }
+    ]
+    return columns
+  }
+
+  getSaidaHeadersTable() {
+    const columns = [
+      { field: 'caixa.caixa_numero', header: 'CXN' },
+      { field: 'data_saida', header: 'Data Saída' },
+      { field: 'tipo_saida', header: 'Tipo Saída' },
+      { field: 'usuario', header: 'Usuário' },
+      { field: 'num_animais', header: 'N°' },
+      { field: 'saida', header: 'Saída' },
+      { field: 'sexo', header: 'Sexo' },
+      { field: 'sobra', header: 'Sobra' },
+      { field: 'observacoes', header: 'Observações' }
     ]
     return columns
   }

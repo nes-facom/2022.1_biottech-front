@@ -41,13 +41,13 @@
           :class="{ 'p-invalid': required && !usuario.username }" />
       </div>
       <div v-if="newData" class="field col-12">
-        <label for="senha">Senha</label>
+        <label for="password">Senha</label>
         <Password
-          v-model="usuario.senha"
-          id="senha"
+          v-model="usuario.password"
+          id="password"
           :feedback="false"
           toggleMask
-          :class="{ 'p-invalid': required && !usuario.senha }" />
+          :class="{ 'p-invalid': required && !usuario.password }" />
       </div>
       <div class="field col-12">
         <label class="mb-3">Permisssões</label>
@@ -56,18 +56,18 @@
             <RadioButton
               id="admin"
               name="type"
-              :value="1"
+              :value="0"
               v-model="usuario.type"
-              :class="{ 'p-invalid': required && !usuario.type }" />
+              :class="{ 'p-invalid': required && !(typeof this.usuario.type !== 'undefined') }" />
             <label for="admin">Administrador</label>
           </div>
           <div class="field-radiobutton col-6">
             <RadioButton
               id="comum"
               name="type"
-              :value="0"
+              :value="1"
               v-model="usuario.type"
-              :class="{ 'p-invalid': required && !usuario.type }" />
+              :class="{ 'p-invalid': required && !(typeof this.usuario.type !== 'undefined') }" />
             <label for="comum">Comum</label>
           </div>
         </div>
@@ -106,6 +106,8 @@
 </template>
 
 <script>
+import UserService from '../../service/UserService'
+
 export default {
   data() {
     return {
@@ -120,11 +122,43 @@ export default {
     newData: Boolean
   },
   methods: {
+    showToast(severity, summary, detail) {
+      this.$emit('close', false)
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 4000
+      })
+    },
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
       if (this.newData && checked_fields) {
-        //TODO: Salvar quando é um novo registro
+        UserService.saveUser(
+          this.usuario,
+          () =>
+            this.showToast(
+              'success',
+              'Cadastrado com Sucesso',
+              'Pesquisador cadastrado com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
       } else if (checked_fields) {
         // TODO: Salvar o que foi editado
       }
@@ -133,8 +167,8 @@ export default {
       if (
         this.usuario.name &&
         this.usuario.username &&
-        this.usuario.senha &&
-        this.usuario.type
+        this.usuario.password &&
+        typeof this.usuario.type !== 'undefined'
       ) {
         return true
       } else {

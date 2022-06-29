@@ -4,6 +4,14 @@ import { API_ENDPOINT } from '../constants'
 import Util from '../util/Util'
 
 class Caixa {
+
+  async #getEntradaDados(search, page, year) {
+    return axios.get(
+      `${API_ENDPOINT}/caixa/getEntradaDadosTable.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
+      this.buildAuthHeader()
+    )
+  }
+
   async #getCaixa(search, page, year) {
     return axios.get(
       `${API_ENDPOINT}/caixa/getCaixas.json?page=${page}&limit=8&active=true&year=${year}&search=${search}`,
@@ -101,21 +109,46 @@ class Caixa {
       })
   }
 
-  getCaixas(disable, page, search, year, onFetch) {
+  getCaixas(disable, page, search, year, onFetch, onHeaders) {
     if (disable) {
-      this.#getCaixaInactive(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getCaixaInactive(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.caixas),
+            response.data.pagination
+          ),
+        onHeaders(this.getCaixaHeaders())
       )
     } else {
-      this.#getCaixa(search, page, year).then((response) =>
-        onFetch(this.#formatDate(response.data))
+      this.#getCaixa(search, page, year).then(
+        (response) =>
+          onFetch(
+            this.#formatDate(response.data.caixas),
+            response.data.pagination
+          ),
+        onHeaders(this.getCaixaHeaders())
       )
     }
   }
 
+  getEntradaDados(disable, page, search, year, onFetch, onHeaders) {
+    this.#getEntradaDados(search, page, year).then(
+      (response) =>
+        onFetch(
+          this.#formatDate(response.data.entradaDados),
+          response.data.pagination
+        ),
+      onHeaders(this.getEntradaDadosHeadersTable())
+    )
+  }
+
   #formatDate(data) {
-    data.caixas.map((caixa) => {
+    data.map((caixa) => {
       caixa.nascimento = Util.formatDateTable(caixa.nascimento)
+
+      if (caixa.ultima_saida) {
+        caixa.ultima_saida = Util.formatDateTable(caixa.ultima_saida)
+      }
     })
     return data
   }
@@ -130,6 +163,25 @@ class Caixa {
       { field: 'qtd_saida', header: 'Quantidade Saída' },
       { field: 'ultima_saida', header: 'Última Saída' },
       { field: 'caixa_matriz.caixa_matriz_numero', header: 'Caixa Matriz' }
+    ]
+    return columns
+  }
+
+  getEntradaDadosHeadersTable() {
+    const columns = [
+      { field: 'caixa_numero', header: 'CXN' },
+      { field: 'linhagem.nome_linhagem', header: 'Grupo' },
+      { field: 'caixa_matriz.caixa_matriz_numero', header: 'CXOrigem' },
+      { field: 'nascimento', header: 'Nascimento' },
+      { field: 'sexo', header: 'Sexo' },
+      { field: 'num_animais', header: 'Nº' },
+      { field: 'qtd_saida', header: 'Saída' },
+      { field: 'sobra', header: 'Sobra' },
+      { field: 'idade_atual', header: 'Idade Atual' },
+      { field: 'ultima_saida', header: 'Última Saída Data' },
+      { field: 'ultima_saida_semana', header: 'Última Saída Semana' },
+      { field: 'dias_na_colonia', header: 'Dias Na Colônia' },
+      { field: 'semanas_na_colonia', header: 'Semanas Na Colônia' }
     ]
     return columns
   }

@@ -169,7 +169,8 @@ export default {
             this.showToast(
               'success',
               'Cadastrado com Sucesso',
-              'Caixa cadastrada com sucesso'
+              'Caixa Matriz cadastrada com sucesso',
+              true
             ),
           (error) => {
             if (error.response) {
@@ -194,8 +195,9 @@ export default {
           () =>
             this.showToast(
               'success',
-              'Cadastrado com Sucesso',
-              'Caixa cadastrada com sucesso'
+              'Editado com Sucesso',
+              'Caixa Matriz editada com sucesso',
+              true
             ),
           (error) => {
             if (error.response) {
