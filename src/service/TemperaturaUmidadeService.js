@@ -43,7 +43,8 @@ class TemperaturaUmidade {
   saveTemperaturaUmidade(tempumi, onSave, onError) {
     tempumi = JSON.parse(JSON.stringify(tempumi))
     tempumi.data = Util.formatDate(new Date(tempumi.data))
-    tempumi.num_sala = tempumi.sala.num_sala
+
+    tempumi.sala_id = tempumi.sala.id
     delete tempumi.sala
     axios
       .post(

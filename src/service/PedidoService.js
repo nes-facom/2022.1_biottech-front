@@ -71,21 +71,32 @@ class PedidoService {
 
   savePedido(pedido, onSave, onError) {
     pedido = JSON.parse(JSON.stringify(pedido))
-    pedido.vinculo_institucional_id = pedido.vinculo_institucional.id
+
+    if (pedido.vinculo_institucional) {
+      pedido.vinculo_institucional_id = pedido.vinculo_institucional.id
+      delete pedido.vinculo_institucional
+    }
+    if (pedido.linha_pesquisa) {
+      pedido.linha_pesquisa_id = pedido.linha_pesquisa.id
+      delete pedido.linha_pesquisa
+    }
+    if (pedido.nivel_projeto) {
+      pedido.nivel_projeto_id = pedido.nivel_projeto.id
+      delete pedido.nivel_projeto
+    }
+    if (pedido.laboratorio) {
+      pedido.laboratorio_id = pedido.laboratorio.id
+      delete pedido.laboratorio
+    }
+
     pedido.projeto_id = pedido.projeto.id
     pedido.especie_id = pedido.especie.id
-    pedido.linha_pesquisa_id = pedido.linha_pesquisa.id
-    pedido.nivel_projeto_id = pedido.nivel_projeto.id
-    pedido.laboratorio_id = pedido.laboratorio.id
     pedido.finalidade_id = pedido.finalidade.id
     pedido.pesquisador_id = pedido.pesquisador.id
     pedido.linhagem_id = pedido.linhagem.id
-    delete pedido.vinculo_institucional
+
     delete pedido.projeto
     delete pedido.especie
-    delete pedido.linha_pesquisa
-    delete pedido.nivel_projeto
-    delete pedido.laboratorio
     delete pedido.finalidade
     delete pedido.pesquisador
     delete pedido.linhagem
@@ -104,25 +115,34 @@ class PedidoService {
 
   editPedido(pedido, onSave, onError) {
     pedido = JSON.parse(JSON.stringify(pedido))
-    pedido.vinculo_institucional_id = pedido.vinculo_institucional.id
+    if (pedido.vinculo_institucional) {
+      pedido.vinculo_institucional_id = pedido.vinculo_institucional.id
+      delete pedido.vinculo_institucional
+    }
+    if (pedido.linha_pesquisa) {
+      pedido.linha_pesquisa_id = pedido.linha_pesquisa.id
+      delete pedido.linha_pesquisa
+    }
+    if (pedido.nivel_projeto) {
+      pedido.nivel_projeto_id = pedido.nivel_projeto.id
+      delete pedido.nivel_projeto
+    }
+    if (pedido.laboratorio) {
+      pedido.laboratorio_id = pedido.laboratorio.id
+      delete pedido.laboratorio
+    }
+
     pedido.projeto_id = pedido.projeto.id
     pedido.especie_id = pedido.especie.id
-    pedido.linha_pesquisa_id = pedido.linha_pesquisa.id
-    pedido.nivel_projeto_id = pedido.nivel_projeto.id
-    pedido.laboratorio_id = pedido.laboratorio.id
     pedido.finalidade_id = pedido.finalidade.id
     pedido.pesquisador_id = pedido.pesquisador.id
     pedido.linhagem_id = pedido.linhagem.id
-    delete pedido.vinculo_institucional
+
     delete pedido.projeto
     delete pedido.especie
-    delete pedido.linha_pesquisa
-    delete pedido.nivel_projeto
-    delete pedido.laboratorio
     delete pedido.finalidade
     delete pedido.pesquisador
     delete pedido.linhagem
-    delete pedido.previsao
 
     if (pedido.data_solicitacao.includes('/')) {
       var newdata = pedido.data_solicitacao.split('/')
@@ -139,9 +159,6 @@ class PedidoService {
     } else {
       pedido.vigencia_ceua = Util.formatDate(new Date(pedido.vigencia_ceua))
     }
-
-    pedido.data_solicitacao = Util.formatDate(new Date(pedido.data_solicitacao))
-    pedido.vigencia_ceua = Util.formatDate(new Date(pedido.vigencia_ceua))
 
     axios
       .put(

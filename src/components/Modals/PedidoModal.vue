@@ -90,10 +90,7 @@
               :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível"
-              :class="{
-                'p-invalid': required && !pedido.vinculo_institucional
-              }">
+              emptyMessage="Nenhuma opção disponível" >
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_vinculo_institucional }}</div>
@@ -538,6 +535,7 @@ export default {
       this.saveButtonDisabled = true
       this.required = true
       if (this.pedido.titulo && this.pedido.exper) {
+        console.log('entrou')
         if (this.newData) {
           PedidoService.savePedido(
             this.pedido,
@@ -566,6 +564,7 @@ export default {
             }
           )
         } else {
+          console.log('entrou')
           PedidoService.editPedido(
             this.pedido,
             () =>
@@ -625,7 +624,6 @@ export default {
 
         if (
           this.pedido.pesquisador &&
-          this.pedido.vinculo_institucional &&
           this.pedido.projeto &&
           this.pedido.finalidade
         ) {

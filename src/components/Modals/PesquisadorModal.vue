@@ -220,7 +220,8 @@ export default {
             this.showToast(
               'success',
               'Cadastrado com Sucesso',
-              'Pesquisador cadastrado com sucesso'
+              'Pesquisador cadastrado com sucesso',
+              true
             ),
           (error) => {
             if (error.response) {
@@ -228,14 +229,16 @@ export default {
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                error.response.data.message
+                error.response.data.message,
+                true
               )
             } else {
               this.saveButtonDisabled = false
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                'Tente novamente mais tarde.'
+                'Tente novamente mais tarde.',
+                true
               )
             }
           }
@@ -247,7 +250,8 @@ export default {
             this.showToast(
               'success',
               'Editado com Sucesso',
-              'Pesquisador editado com sucesso'
+              'Pesquisador editado com sucesso',
+              true
             ),
           (error) => {
             if (error.response) {
@@ -255,14 +259,16 @@ export default {
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                error.response.data.message
+                error.response.data.message,
+                true
               )
             } else {
               this.saveButtonDisabled = false
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                'Tente novamente mais tarde.'
+                'Tente novamente mais tarde.',
+                true
               )
             }
           }

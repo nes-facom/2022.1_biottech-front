@@ -25,10 +25,7 @@
         <Calendar
           id="saida_da_colonia"
           v-model="caixa_matriz.saida_da_colonia"
-          dateFormat="yy-mm-dd"
-          :class="{
-            'p-invalid': required && !caixa_matriz.saida_da_colonia
-          }" />
+          dateFormat="yy-mm-dd" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="data_obito">Data Óbito</label>
@@ -42,9 +39,11 @@
           <p>Caixas de Origem</p>
         </Divider>
       </div>
-      <div v-if="!newData" class="col-12 grid flex justify-content-center">
+      <div
+        v-if="!caixa_matriz.id"
+        class="col-12 grid flex justify-content-center">
         <div
-          v-for="caixa in caixa_matriz.caixas"
+          v-for="caixa in caixasOrigem"
           :key="caixa.caixa_numero"
           class="field col-12 grid">
           <div class="field col-6">
@@ -77,7 +76,7 @@
               <label for="caixa_numero"> N° Caixa </label>
             </span>
           </div>
-          <div class="field col-6">
+          <div class="field col-4">
             <span class="p-float-label">
               <InputNumber
                 id="caixa_peso"
@@ -87,6 +86,12 @@
                 v-model="caixa.peso" />
               <label for="caixa_peso"> Peso </label>
             </span>
+          </div>
+          <div class="field col-2">
+            <Button
+              @click="delCaixa(caixa)"
+              icon="pi pi-times"
+              class="p-button-danger mt-2" />
           </div>
         </div>
       </div>
@@ -141,10 +146,27 @@ export default {
     }
   },
   props: {
-    caixa_matriz: Object,
-    newData: Boolean
+    caixa_matriz: Object
   },
-  mounted() {},
+  mounted() {
+    if (this.caixa_matriz.id) {
+      this.caixasOrigem = []
+      if (
+        typeof this.caixa_matriz.caixa !== 'undefined' &&
+        this.caixa_matriz.caixa.length > 0
+      ) {
+        console.log('entrou')
+        var caixaEdit = {}
+        this.caixa_matriz.caixa.forEach((element) => {
+          caixaEdit.caixa_numero = element.caixa_numero
+          caixaEdit.peso = element._joinData.peso
+
+          this.caixasOrigem.push(caixaEdit)
+        })
+      }
+    }
+    console.log(this.caixasOrigem)
+  },
   methods: {
     showToast(severity, summary, detail, close) {
       if (close && typeof close !== 'undefined') {
@@ -189,6 +211,7 @@ export default {
           }
         )
       } else if (this.caixa_matriz.id && checked_fields) {
+        console.log(this.caixasOrigem)
         CaixaMatrizService.editCaixaMatriz(
           this.caixa_matriz,
           this.caixasOrigem,
@@ -220,8 +243,7 @@ export default {
     checkRequired() {
       if (
         this.caixa_matriz.caixa_matriz_numero &&
-        this.caixa_matriz.data_acasalamento &&
-        this.caixa_matriz.saida_da_colonia
+        this.caixa_matriz.data_acasalamento
       ) {
         return true
       } else {
@@ -238,11 +260,18 @@ export default {
         )
         return
       }
+
       this.caixasOrigem.push({
         caixa_numero: this.newCaixaOrigem.caixa_numero,
         peso: this.newCaixaOrigem.peso
       })
       this.newCaixaOrigem = {}
+    },
+    delCaixa(item) {
+      const index = this.caixasOrigem.indexOf(item)
+      if (index > -1) {
+        this.caixasOrigem.splice(index, 1)
+      }
     }
   }
 }

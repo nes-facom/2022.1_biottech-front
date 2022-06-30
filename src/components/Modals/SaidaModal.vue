@@ -41,8 +41,12 @@
           v-model="saida.sobra"
           id="sobra"
           :useGrouping="false"
-          :class="{ 'p-invalid': required && !saida.sobra }" />
-        <small class="p-invalid" v-if="required && !saida.sobra">
+          :class="{
+            'p-invalid': required && !(typeof this.saida.sobra !== 'undefined')
+          }" />
+        <small
+          class="p-invalid"
+          v-if="required && !(typeof this.saida.sobra !== 'undefined')">
           Campo Obrigatório
         </small>
       </div>
@@ -256,7 +260,7 @@ export default {
         this.saida.num_animais &&
         this.saida.saida &&
         this.saida.sexo &&
-        this.saida.sobra &&
+        typeof this.saida.sobra !== 'undefined' &&
         this.saida.caixa.caixa_numero
       ) {
         return true

@@ -62,13 +62,22 @@ class CaixaMatrizService {
 
   saveCaixaMatriz(caixa_matriz, caixas, onSave, onError) {
     caixa_matriz = JSON.parse(JSON.stringify(caixa_matriz))
+
     caixa_matriz.data_acasalamento = Util.formatDate(
       new Date(caixa_matriz.data_acasalamento)
     )
-    caixa_matriz.data_obito = Util.formatDate(new Date(caixa_matriz.data_obito))
-    caixa_matriz.saida_da_colonia = Util.formatDate(
-      new Date(caixa_matriz.saida_da_colonia)
-    )
+    if (caixa_matriz.data_obito) {
+      caixa_matriz.data_obito = Util.formatDate(
+        new Date(caixa_matriz.data_obito)
+      )
+    }
+
+    if (caixa_matriz.saida_da_colonia) {
+      caixa_matriz.saida_da_colonia = Util.formatDate(
+        new Date(caixa_matriz.saida_da_colonia)
+      )
+    }
+
     caixas = JSON.parse(JSON.stringify(caixas))
     caixa_matriz.caixas = caixas
 
@@ -84,13 +93,41 @@ class CaixaMatrizService {
 
   editCaixaMatriz(caixa_matriz, caixas, onSave, onError) {
     caixa_matriz = JSON.parse(JSON.stringify(caixa_matriz))
-    caixa_matriz.data_acasalamento = Util.formatDate(
-      new Date(caixa_matriz.data_acasalamento)
-    )
-    caixa_matriz.data_obito = Util.formatDate(new Date(caixa_matriz.data_obito))
-    caixa_matriz.saida_da_colonia = Util.formatDate(
-      new Date(caixa_matriz.saida_da_colonia)
-    )
+
+    if (caixa_matriz.data_acasalamento.includes('/')) {
+      var newdata = caixa_matriz.data_acasalamento.split('/')
+      caixa_matriz.data_acasalamento =
+        newdata[2] + '-' + newdata[1] + '-' + newdata[0]
+    } else {
+      caixa_matriz.data_acasalamento = Util.formatDate(
+        new Date(caixa_matriz.data_acasalamento)
+      )
+    }
+
+    if (caixa_matriz.data_obito) {
+      if (caixa_matriz.data_obito.includes('/')) {
+        var newdata = caixa_matriz.data_obito.split('/')
+        caixa_matriz.data_obito =
+          newdata[2] + '-' + newdata[1] + '-' + newdata[0]
+      } else {
+        caixa_matriz.data_obito = Util.formatDate(
+          new Date(caixa_matriz.data_obito)
+        )
+      }
+    }
+
+    if (caixa_matriz.saida_da_colonia) {
+      if (caixa_matriz.saida_da_colonia.includes('/')) {
+        var newdata = caixa_matriz.saida_da_colonia.split('/')
+        caixa_matriz.saida_da_colonia =
+          newdata[2] + '-' + newdata[1] + '-' + newdata[0]
+      } else {
+        caixa_matriz.saida_da_colonia = Util.formatDate(
+          new Date(caixa_matriz.saida_da_colonia)
+        )
+      }
+    }
+
     caixas = JSON.parse(JSON.stringify(caixas))
     caixa_matriz.caixas = caixas
 
@@ -180,7 +217,6 @@ class CaixaMatrizService {
       console.log(tableTest)
     })*/
 
-    
     console.log(data)
     return data
   }

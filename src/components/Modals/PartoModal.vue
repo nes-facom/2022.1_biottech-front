@@ -35,7 +35,8 @@
           mode="decimal"
           :useGrouping="false"
           v-model="parto.num_macho"
-          v-tooltip.top.focus="'Número de machos nascidos'" />
+          v-tooltip.top.focus="'Número de machos nascidos'"
+          :class="{ 'p-invalid': required && !parto.num_macho }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="num_femea">N° Fêmea</label>
@@ -44,7 +45,8 @@
           mode="decimal"
           :useGrouping="false"
           v-model="parto.num_femea"
-          v-tooltip.top.focus="'Número de fêmeas nascidas'" />
+          v-tooltip.top.focus="'Número de fêmeas nascidas'"
+          :class="{ 'p-invalid': required && !parto.num_femea }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="des_macho">N° Machos Desmamados</label>
@@ -52,7 +54,8 @@
           id="des_macho"
           mode="decimal"
           :useGrouping="false"
-          v-model="parto.des_macho" />
+          v-model="parto.des_macho"
+          :class="{ 'p-invalid': required && !parto.des_macho }" />
       </div>
       <div class="field col-12 md:col-6">
         <label for="des_femea">N° Fêmea Desmamadas</label>
@@ -60,7 +63,8 @@
           id="des_femea"
           mode="decimal"
           :useGrouping="false"
-          v-model="parto.des_femea" />
+          v-model="parto.des_femea"
+          :class="{ 'p-invalid': required && !parto.des_femea }" />
       </div>
       <div class="field col-12">
         <Divider align="center">
@@ -194,6 +198,10 @@ export default {
       if (
         this.parto.numero_parto &&
         this.parto.data_parto &&
+        this.parto.num_macho &&
+        this.parto.num_femea &&
+        this.parto.des_macho &&
+        this.parto.des_femea &&
         this.parto.caixa_matriz.caixa_matriz_numero
       ) {
         return true

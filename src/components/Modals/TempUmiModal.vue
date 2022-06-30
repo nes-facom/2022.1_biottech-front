@@ -3,11 +3,30 @@
     <div class="p-fluid formgrid grid">
       <div class="field col-12">
         <label for="sala">Sala Número</label>
-        <InputText
+        <Dropdown
           id="sala"
-          type="text"
-          v-model="tempumi.sala.num_sala"
-          :class="{ 'p-invalid': required && !tempumi.sala.num_sala }" />
+          v-model="tempumi.sala"
+          :options="salas"
+          optionLabel="num_sala"
+          :filter="true"
+          placeholder="Selecione uma Sala"
+          :disabled="disabled"
+          :showClear="true"
+          emptyFilterMessage="Nenhuma opção corresponde a busca"
+          emptyMessage="Nenhuma opção disponível"
+          :class="{ 'p-invalid': required && !tempumi.sala }">
+          <template #value="slotProps">
+            <div v-if="slotProps.value">
+              <div>{{ slotProps.value.num_sala }}</div>
+            </div>
+            <span v-else>
+              {{ slotProps.placeholder }}
+            </span>
+          </template>
+          <template #option="slotProps">
+            <div>{{ slotProps.option.num_sala }}</div>
+          </template>
+        </Dropdown>
       </div>
       <div class="field col-12">
         <label for="data">Data</label>
@@ -70,6 +89,7 @@
 </template>
 
 <script>
+import SalaService from '../../service/SalaService'
 import TemperaturaUmidadeService from '../../service/TemperaturaUmidadeService'
 
 export default {
@@ -83,11 +103,8 @@ export default {
     tempumi: Object,
     newData: Boolean
   },
-  created() {
-    if (!this.tempumi.sala) {
-      this.tempumi.sala = {}
-      this.tempumi.sala.num_sala = null
-    }
+  mounted() {
+    SalaService.getSalas((datas) => (this.salas = datas))
   },
   methods: {
     showToast(severity, summary, detail) {
