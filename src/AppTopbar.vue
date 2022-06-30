@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import UserService from './service/UserService'
+
 export default {
   data() {
     return {
@@ -82,6 +84,18 @@ export default {
     }
   },
   methods: {
+    showToast(severity, summary, detail, close) {
+      if (close && typeof close !== 'undefined') {
+        this.visible = false
+      }
+
+      this.$toast.add({
+        severity: severity,
+        summary: summary,
+        detail: detail,
+        life: 3000
+      })
+    },
     onMenuToggle(event) {
       this.$emit('menu-toggle', event)
     },
@@ -99,8 +113,55 @@ export default {
       location.reload()
     },
     changePassword() {
-      //TODO: salvar alteração de senha
-      this.visible = false
+      if (this.newPassword) {
+        if (this.cofirmPassword) {
+          if (
+            this.newPassword === this.cofirmPassword &&
+            this.newPassword &&
+            this.cofirmPassword
+          ) {
+            var user = {}
+            user.password = this.newPassword
+
+            UserService.changePasswordUser(
+              user,
+              () =>
+                this.showToast(
+                  'success',
+                  'Senha editada com sucesso',
+                  '',
+                  true
+                ),
+              (error) => {
+                if (error.response) {
+                  this.showToast(
+                    'error',
+                    'Tivemos um Problema',
+                    error.response.data.message,
+                    true
+                  )
+                } else {
+                  this.showToast(
+                    'error',
+                    'Tivemos um Problema',
+                    'Tente novamente mais tarde.',
+                    true
+                  )
+                }
+              }
+            )
+          } else {
+            this.showToast('warn', 'As senhas não correspondem', '', false)
+
+            this.newPassword = ''
+            this.cofirmPassword = ''
+          }
+        } else {
+          this.showToast('warn', 'Confirmação de senha não pode ser vazia', '', false)
+        }
+      } else {
+        this.showToast('warn', 'Nova senha não pode ser vazia', '', false)
+      }
     }
   },
   computed: {

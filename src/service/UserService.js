@@ -56,9 +56,20 @@ class UserService {
 
   saveUser(user, onSave, onError) {
     user = JSON.parse(JSON.stringify(user))
-    console.log(user)
     axios
       .post(`${API_ENDPOINT}/users/addUser.json`, user, this.buildAuthHeader())
+      .then(() => onSave())
+      .catch((e) => onError(e))
+  }
+
+  changePasswordUser(password, onSave, onError) {
+    password = JSON.parse(JSON.stringify(password))
+    axios
+      .put(
+        `${API_ENDPOINT}/users/editPassword.json`,
+        password,
+        this.buildAuthHeader()
+      )
       .then(() => onSave())
       .catch((e) => onError(e))
   }
