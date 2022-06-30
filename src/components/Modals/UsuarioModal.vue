@@ -58,7 +58,10 @@
               name="type"
               :value="0"
               v-model="usuario.type"
-              :class="{ 'p-invalid': required && !(typeof this.usuario.type !== 'undefined') }" />
+              :class="{
+                'p-invalid':
+                  required && !(typeof this.usuario.type !== 'undefined')
+              }" />
             <label for="admin">Administrador</label>
           </div>
           <div class="field-radiobutton col-6">
@@ -67,7 +70,10 @@
               name="type"
               :value="1"
               v-model="usuario.type"
-              :class="{ 'p-invalid': required && !(typeof this.usuario.type !== 'undefined') }" />
+              :class="{
+                'p-invalid':
+                  required && !(typeof this.usuario.type !== 'undefined')
+              }" />
             <label for="comum">Comum</label>
           </div>
         </div>
@@ -122,8 +128,10 @@ export default {
     newData: Boolean
   },
   methods: {
-    showToast(severity, summary, detail) {
-      this.$emit('close', false)
+    showToast(severity, summary, detail, close) {
+      if (close && typeof close !== 'undefined') {
+        this.$emit('close', false)
+      }
       this.$toast.add({
         severity: severity,
         summary: summary,
@@ -134,14 +142,15 @@ export default {
     save() {
       this.required = true
       const checked_fields = this.checkRequired()
-      if (this.newData && checked_fields) {
+      const checked_fieldsEdit = this.checkRequiredEdit()
+      if (!this.usuario.id && checked_fields) {
         UserService.saveUser(
           this.usuario,
           () =>
             this.showToast(
               'success',
               'Cadastrado com Sucesso',
-              'Pesquisador cadastrado com sucesso'
+              'Usuário cadastrado com sucesso'
             ),
           (error) => {
             if (error.response) {
@@ -159,8 +168,31 @@ export default {
             }
           }
         )
-      } else if (checked_fields) {
-        // TODO: Salvar o que foi editado
+      } else if (this.usuario.id && checked_fieldsEdit) {
+        UserService.editUser(
+          this.usuario,
+          () =>
+            this.showToast(
+              'success',
+              'Editado com Sucesso',
+              'Usuário edição com sucesso'
+            ),
+          (error) => {
+            if (error.response) {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                error.response.data.message
+              )
+            } else {
+              this.showToast(
+                'error',
+                'Tivemos um Problema',
+                'Tente novamente mais tarde.'
+              )
+            }
+          }
+        )
       }
     },
     checkRequired() {
@@ -175,13 +207,25 @@ export default {
         return false
       }
     },
+
+    checkRequiredEdit() {
+      if (
+        this.usuario.name &&
+        this.usuario.username &&
+        typeof this.usuario.type !== 'undefined'
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
     generateNewPassword() {
       this.passwordAlertDialog = false
       this.copyDisabled = false
-      this.newPassword = '123'
-      //TODO: Método para gerar nova seja
-      // thie.newPassword recebe a nova senha gerada
-      // setar this.copyDisabled = false depois de gerar a nova senha
+      UserService.generatePassword(
+        this.usuario.id,
+        (datas) => (this.newPassword = datas)
+      )
     },
     copy() {
       let copyPassowrd = document.getElementById('nova senha').value
@@ -190,17 +234,11 @@ export default {
         .then(
           this.showToast(
             'success',
-            'Nova senha copiada para área de transferência'
+            'Nova senha copiada para área de transferência',
+            '',
+            false
           )
         )
-    },
-    showToast(severity, summary, detail) {
-      this.$toast.add({
-        severity: severity,
-        summary: summary,
-        detail: detail,
-        life: 4000
-      })
     }
   }
 }

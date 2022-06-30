@@ -222,8 +222,11 @@
                 :newData="newDataDialog"
                 @close="closeModalSave" />
             </div>
-            <div v-else>
-              <UsuarioModal :usuario="value" :newData="newDataDialog" @close="closeModalSave" />
+            <div v-else-if="title === 'Usuários'">
+              <UsuarioModal
+                :usuario="value"
+                :newData="newDataDialog"
+                @close="closeModalSave" />
             </div>
             <template #footer>
               <Button

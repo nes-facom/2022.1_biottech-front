@@ -17,6 +17,15 @@ class UserService {
     )
   }
 
+  async generatePassword(id, onFetch) {
+    return axios
+      .get(
+        `${API_ENDPOINT}/users/newPassword.json?id=${id}`,
+        this.buildAuthHeader()
+      )
+      .then((response) => onFetch(response.data))
+  }
+
   getUsers(disable, page, search, year, onFetch, onHeaders) {
     if (disable) {
       this.#getUserInactive(search, page).then(
@@ -54,17 +63,12 @@ class UserService {
       .catch((e) => onError(e))
   }
 
-  editPesquisador(pesquisador, onSave, onError) {
-    var phones = []
-    JSON.parse(JSON.stringify(pesquisador.telefones)).forEach((phone) => {
-      phones.push(phone.telefone)
-    })
-    pesquisador.telefones = phones
-    pesquisador = JSON.parse(JSON.stringify(pesquisador))
+  editUser(user, onSave, onError) {
+    user = JSON.parse(JSON.stringify(user))
     axios
       .put(
-        `${API_ENDPOINT}/pesquisador/editPesquisador.json?id=${pesquisador.id}`,
-        pesquisador,
+        `${API_ENDPOINT}/users/editUser.json?id=${user.id}`,
+        user,
         this.buildAuthHeader()
       )
       .then(() => onSave())
