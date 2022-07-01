@@ -75,7 +75,10 @@
               name="orientador"
               :value="true"
               v-model="pesquisador.orientador"
-              :class="{ 'p-invalid': required && !pesquisador.orientador }" />
+              :class="{
+                'p-invalid':
+                  required && !(typeof pesquisador.orientador !== 'undefined')
+              }" />
             <label for="orientador1">Sim</label>
           </div>
           <div class="field-radiobutton col-6">
@@ -84,14 +87,17 @@
               name="orientador"
               :value="false"
               v-model="pesquisador.orientador"
-              :class="{ 'p-invalid': required && !pesquisador.orientador }" />
+              :class="{
+                'p-invalid':
+                  required && !(typeof pesquisador.orientador !== 'undefined')
+              }" />
             <label for="orientador2">Não</label>
           </div>
         </div>
         <small
           style="color: red"
           class="p-invalid"
-          v-if="required && !pesquisador.orientador">
+          v-if="required && !(typeof pesquisador.orientador !== 'undefined')">
           Campo Obrigatório
         </small>
       </div>
