@@ -76,7 +76,7 @@ class GetTablesService {
         onHeaders
       )
     } else if (window.location.href.includes('/repro/matrizes')) {
-      CaixaMatrizService.getCaixaMatrizes(
+      CaixaMatrizService.getCaixaMatrizesTable(
         false,
         page,
         searchString,

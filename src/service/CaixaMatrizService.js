@@ -47,6 +47,89 @@ class CaixaMatrizService {
     }
   }
 
+  getCaixaMatrizesTable(disable, page, search, year, onFetch, onHeaders) {
+    this.#getCaixaMatriz(search, page, year).then(
+      (response) =>
+        onFetch(
+          this.#formatMatrizes(this.#formatDate(response.data.matrizes)),
+          response.data.pagination
+        ),
+      onHeaders(this.getCaixaMatrizTableHeaders())
+    )
+  }
+
+  #formatMatrizes(data) {
+    data = JSON.parse(JSON.stringify(data))
+    var intervaloParto = []
+
+    for (let x = 0; x < data.length; x++) {
+      data[x].tipo_acasalamento = 0
+      data[x].num_femea = 0
+      data[x].qtdPartos = 0
+      data[x].obitos = 0
+      intervaloParto = []
+
+      for (let y = 0; y < data[x].caixa.length; y++) {
+        data[x].tipo_acasalamento++
+        if (data[x].caixa[y].sexo == 'macho') {
+          data[x].ccxOrigemMacho = data[x].caixa[y].caixa_numero
+        } else if (data[x].caixa[y].sexo == 'femea') {
+          data[x].num_femea++
+          data[x].ccxOrigemFemea = data[x].caixa[y].caixa_numero
+        }
+      }
+
+      for (let y = 0; y < data[x].parto.length; y++) {
+        intervaloParto.push(new Date(data[x].parto[y].data_parto.replace(/-/g, '\/')))
+        data[x].qtdPartos++
+
+        data[x].obitos =
+          data[x].parto[y].qtd_canib +
+          data[x].parto[y].qtd_gamba +
+          data[x].parto[y].qtd_outros +
+          data[x].obitos
+      }
+
+      intervaloParto.sort(function (a, b) {
+        return a.getTime() - b.getTime()
+      })
+
+      if (intervaloParto.length >= 2) {
+        data[x].intervaloParto = Math.floor(
+          (intervaloParto[intervaloParto.length - 1] -
+            intervaloParto[intervaloParto.length - 2]) /
+            86400000
+        ) + ' Dias'
+      }
+
+      if (intervaloParto.length >= 1) {
+        data[x].data_parto =
+          Util.formatDateTable(
+            Util.formatDate(intervaloParto[intervaloParto.length - 1])
+          )
+      }
+    }
+    console.log(data)
+    return data
+  }
+
+  getCaixaMatrizTableHeaders() {
+    const columns = [
+      { field: 'caixa_matriz_numero', header: 'Número da Caixa Matriz' },
+      { field: 'data_acasalamento', header: 'Data Acasalamento' },
+      { field: 'saida_da_colonia', header: 'Saída da colônia' },
+      { field: 'ccxOrigemMacho', header: 'CCX Origem Macho' },
+      { field: 'ccxOrigemFemea', header: 'CCX Origem Fêmea' },
+      { field: 'tipo_acasalamento', header: 'Tipo Acasalamento' },
+      { field: 'num_femea', header: 'Nº Fêmea' },
+      { field: 'data_parto', header: 'Data Parto' },
+      { field: 'obitos', header: 'Óbitos' },
+      { field: 'qtdPartos', header: 'Qtd de Partos' },
+      { field: 'intervaloParto', header: 'Intervalo Parto' }
+    ]
+    return columns
+  }
+
   getProgramacaoAcasalamento(disable, page, search, year, onFetch, onHeaders) {
     this.#getProgramacaoAcasalamento(search, page, year).then(
       (response) =>
@@ -174,7 +257,6 @@ class CaixaMatrizService {
       for (var y = 0; y < data[i].caixa.length; y++) {
         console.log(data[i].caixa[y])
         if (data[i].caixa[y].sexo == 'macho') {
-          console.log('teste')
           data[i].caixa_macho = data[i].caixa[y].caixa_numero
           data[i].peso_macho = data[i].caixa[y]._joinData.peso
           if (data[i].caixa[y].nascimento) {
@@ -193,31 +275,6 @@ class CaixaMatrizService {
         }
       }
     }
-    /*data.forEach((element) => {
-      element.caixa.forEach((elementCaixa) => {
-        if (elementCaixa.sexo == 'macho') {
-          tableTest.caixa_macho = elementCaixa.caixa_numero
-          tableTest.peso_macho = elementCaixa._joinData.peso
-          if (elementCaixa.nascimento) {
-            tableTest.dataNascMacho = Util.formatDateTable(
-              elementCaixa.nascimento
-            )
-          }
-        } else if (elementCaixa.sexo == 'femea') {
-          tableTest.caixa_femea = elementCaixa.caixa_numero
-          tableTest.peso_femea = elementCaixa._joinData.peso
-          if (elementCaixa.nascimento) {
-            tableTest.dataNascFemea = Util.formatDateTable(
-              elementCaixa.nascimento
-            )
-          }
-        }
-      })
-
-      console.log(tableTest)
-    })*/
-
-    console.log(data)
     return data
   }
 
