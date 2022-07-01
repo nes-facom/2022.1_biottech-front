@@ -9,7 +9,10 @@
           type="text"
           autofocus
           :class="{ 'p-invalid': required && !previsao.num_previsao }" />
-        <small class="p-invalid" v-if="required && !previsao.num_previsao">
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !previsao.num_previsao">
           Campo Obrigatório
         </small>
       </div>
@@ -21,7 +24,10 @@
           id="retirada_num"
           :useGrouping="false"
           :class="{ 'p-invalid': required && !previsao.retirada_num }" />
-        <small class="p-invalid" v-if="required && !previsao.retirada_num">
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !previsao.retirada_num">
           Campo Obrigatório
         </small>
       </div>
@@ -32,7 +38,10 @@
           id="qtd_retirar"
           :useGrouping="false"
           :class="{ 'p-invalid': required && !previsao.qtd_retirar }" />
-        <small class="p-invalid" v-if="required && !previsao.qtd_retirar">
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !previsao.qtd_retirar">
           Campo Obrigatório
         </small>
       </div>
@@ -41,8 +50,14 @@
         <Calendar
           id="retirada_data"
           v-model="previsao.retirada_data"
-          dateFormat="yy-mm-dd" 
-          :class="{ 'p-invalid': required && !previsao.retirada_data}" />
+          dateFormat="yy-mm-dd"
+          :class="{ 'p-invalid': required && !previsao.retirada_data }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !previsao.retirada_data">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="status">Status</label>
@@ -64,6 +79,12 @@
             <div>{{ slotProps.option }}</div>
           </template>
         </Dropdown>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !previsao.status">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="col-12">
         <Button

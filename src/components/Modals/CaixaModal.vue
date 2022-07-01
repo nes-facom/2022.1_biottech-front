@@ -30,6 +30,12 @@
             <div>{{ slotProps.option.nome_linhagem }}</div>
           </template>
         </Dropdown>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !caixa.linhagem">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="caixa_numero">N° da Caixa</label>
@@ -38,6 +44,12 @@
           id="caixa_numero"
           type="text"
           :class="{ 'p-invalid': required && !caixa.caixa_numero }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !caixa.caixa_numero">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="nascimento">Data de Nascimento</label>
@@ -46,6 +58,12 @@
           v-model="caixa.nascimento"
           dateFormat="yy-mm-dd"
           :class="{ 'p-invalid': required && !caixa.nascimento }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !caixa.nascimento">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label class="mb-3">Sexo</label>
@@ -69,6 +87,12 @@
             <label for="macho">Macho</label>
           </div>
         </div>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !caixa.sexo">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="num_animais">N° de Animais</label>
@@ -78,6 +102,12 @@
           id="num_animais"
           :useGrouping="false"
           :class="{ 'p-invalid': required && !caixa.num_animais }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !caixa.num_animais">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="ultima_saida">Última Saída</label>

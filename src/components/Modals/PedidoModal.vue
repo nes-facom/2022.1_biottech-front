@@ -11,6 +11,12 @@
               v-model="pedido.processo_sei"
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.processo_sei }" />
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.processo_sei">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12">
             <label for="num_ceua">N°CEUA</label>
@@ -20,6 +26,13 @@
               v-model="pedido.num_ceua"
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.num_ceua }" />
+
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.num_ceua">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12 md:col-6">
             <label for="vigencia_ceua">Vigência CEUA</label>
@@ -29,6 +42,12 @@
               dateFormat="yy-mm-dd"
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.vigencia_ceua }" />
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.vigencia_ceua">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12 md:col-6">
             <label for="data_solicitacao">Data da solicitação</label>
@@ -38,6 +57,12 @@
               dateFormat="yy-mm-dd"
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.data_solicitacao }" />
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.data_solicitacao">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="flex justify-content-end col-12">
             <div class="col-6">
@@ -77,6 +102,12 @@
                 <div>{{ slotProps.option.nome }}</div>
               </template>
             </Dropdown>
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.pesquisador">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12">
             <label for="vinculo_institucional">Vínculo Institucional</label>
@@ -90,7 +121,7 @@
               :disabled="disabled"
               :showClear="true"
               emptyFilterMessage="Nenhuma opção corresponde a busca"
-              emptyMessage="Nenhuma opção disponível" >
+              emptyMessage="Nenhuma opção disponível">
               <template #value="slotProps">
                 <div v-if="slotProps.value">
                   <div>{{ slotProps.value.nome_vinculo_institucional }}</div>
@@ -132,6 +163,12 @@
                 <div>{{ slotProps.option.nome_projeto }}</div>
               </template>
             </Dropdown>
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.projeto">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12">
             <label for="linha_pesquisa">Linha de Pesquisa</label>
@@ -238,6 +275,12 @@
                 <div>{{ slotProps.option.nome_finalidade }}</div>
               </template>
             </Dropdown>
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.finalidade">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="flex col-12 gap-4">
             <Button
@@ -264,6 +307,12 @@
               v-model="pedido.num_aprovado"
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.num_aprovado }" />
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.num_aprovado">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12 md:col-6">
             <label for="num_solicitado">Nº Solicitado</label>
@@ -274,6 +323,12 @@
               v-model="pedido.num_solicitado"
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.num_solicitado }" />
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.num_solicitado">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12 md:col-6">
             <label for="adendo_1">Adendo 1</label>
@@ -317,6 +372,12 @@
                 <label for="macho">Macho</label>
               </div>
             </div>
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.sexo">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12 md:col-6">
             <label for="idade">Idade</label>
@@ -357,6 +418,13 @@
                 <div>{{ slotProps.option.nome_especie }}</div>
               </template>
             </Dropdown>
+
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.especie">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12">
             <label for="linhagem">Linhagem</label>
@@ -384,6 +452,12 @@
                 <div>{{ slotProps.option.nome_linhagem }}</div>
               </template>
             </Dropdown>
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.linhagem">
+              Campo Obrigatório
+            </small>
           </div>
         </div>
       </div>
@@ -409,6 +483,12 @@
               rows="3"
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.titulo }" />
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.titulo">
+              Campo Obrigatório
+            </small>
           </div>
           <div class="field col-12">
             <label for="especificar">Especificar</label>
@@ -449,6 +529,12 @@
               "
               :disabled="disabled"
               :class="{ 'p-invalid': required && !pedido.exper }" />
+            <small
+              style="color: red"
+              class="p-invalid"
+              v-if="required && !pedido.exper">
+              Campo Obrigatório
+            </small>
           </div>
         </div>
       </div>

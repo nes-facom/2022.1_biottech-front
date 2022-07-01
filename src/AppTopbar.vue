@@ -1,5 +1,6 @@
 <template>
   <div class="layout-topbar">
+    <Toast />
     <button
       class="p-link layout-menu-button layout-topbar-button"
       @click="onMenuToggle">

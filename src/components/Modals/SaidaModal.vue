@@ -8,6 +8,12 @@
           type="text"
           v-model="saida.caixa.caixa_numero"
           :class="{ 'p-invalid': required && !saida.caixa.caixa_numero }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !saida.caixa.caixa_numero">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="data_saida">Data da saída</label>
@@ -16,7 +22,10 @@
           v-model="saida.data_saida"
           dateFormat="yy-mm-dd"
           :class="{ 'p-invalid': required && !saida.data_saida }" />
-        <small class="p-invalid" v-if="required && !saida.data_saida">
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !saida.data_saida">
           Campo Obrigatório
         </small>
       </div>
@@ -31,7 +40,10 @@
           id="num_animais"
           :useGrouping="false"
           :class="{ 'p-invalid': required && !saida.num_animais }" />
-        <small class="p-invalid" v-if="required && !saida.num_animais">
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !saida.num_animais">
           Campo Obrigatório
         </small>
       </div>
@@ -45,6 +57,7 @@
             'p-invalid': required && !(typeof this.saida.sobra !== 'undefined')
           }" />
         <small
+          style="color: red"
           class="p-invalid"
           v-if="required && !(typeof this.saida.sobra !== 'undefined')">
           Campo Obrigatório
@@ -72,6 +85,12 @@
             <label for="macho">Sobra</label>
           </div>
         </div>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !saida.saida">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="tipo_saida">Tipo da saída</label>
@@ -93,6 +112,12 @@
             <div>{{ slotProps.option }}</div>
           </template>
         </Dropdown>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !saida.tipo_saida">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="previsao_id">Previsão</label>
@@ -130,6 +155,12 @@
             <label for="macho">Macho</label>
           </div>
         </div>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !saida.sexo">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="observacoes">Observações</label>

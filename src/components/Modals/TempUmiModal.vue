@@ -27,6 +27,12 @@
             <div>{{ slotProps.option.num_sala }}</div>
           </template>
         </Dropdown>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !tempumi.sala">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="data">Data</label>
@@ -35,6 +41,12 @@
           v-model="tempumi.data"
           dateFormat="yy-mm-dd"
           :class="{ 'p-invalid': required && !tempumi.data }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !tempumi.data">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="temp_matutino">Temp. Matutino</label>

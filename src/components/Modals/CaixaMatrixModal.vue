@@ -9,6 +9,12 @@
           :class="{
             'p-invalid': required && !caixa_matriz.caixa_matriz_numero
           }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !caixa_matriz.caixa_matriz_numero">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="data_acasalamento">Data Acasalamento</label>
@@ -19,6 +25,12 @@
           :class="{
             'p-invalid': required && !caixa_matriz.data_acasalamento
           }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !caixa_matriz.data_acasalamento">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="saida_da_colonia">Saída da Colônia</label>

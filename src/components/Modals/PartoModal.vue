@@ -10,6 +10,12 @@
           :class="{
             'p-invalid': required && !parto.caixa_matriz.caixa_matriz_numero
           }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !parto.caixa_matriz.caixa_matriz_numero">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="numero_parto">N° Parto</label>
@@ -19,6 +25,12 @@
           :useGrouping="false"
           v-model="parto.numero_parto"
           :class="{ 'p-invalid': required && !parto.numero_parto }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !parto.numero_parto">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="data_parto">Data Parto</label>
@@ -27,6 +39,12 @@
           v-model="parto.data_parto"
           dateFormat="yy-mm-dd"
           :class="{ 'p-invalid': required && !parto.data_parto }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !parto.data_parto">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="num_macho">N° Macho</label>
@@ -37,6 +55,12 @@
           v-model="parto.num_macho"
           v-tooltip.top.focus="'Número de machos nascidos'"
           :class="{ 'p-invalid': required && !parto.num_macho }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !parto.num_macho">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="num_femea">N° Fêmea</label>
@@ -47,6 +71,12 @@
           v-model="parto.num_femea"
           v-tooltip.top.focus="'Número de fêmeas nascidas'"
           :class="{ 'p-invalid': required && !parto.num_femea }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !parto.num_femea">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="des_macho">N° Machos Desmamados</label>
@@ -56,6 +86,12 @@
           :useGrouping="false"
           v-model="parto.des_macho"
           :class="{ 'p-invalid': required && !parto.des_macho }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !parto.des_macho">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="des_femea">N° Fêmea Desmamadas</label>
@@ -65,6 +101,12 @@
           :useGrouping="false"
           v-model="parto.des_femea"
           :class="{ 'p-invalid': required && !parto.des_femea }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !parto.des_femea">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <Divider align="center">

@@ -9,6 +9,12 @@
           type="text"
           autofocus
           :class="{ 'p-invalid': required && !pesquisador.nome }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !pesquisador.nome">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="instituicao">Instituição</label>
@@ -17,6 +23,12 @@
           id="instituicao"
           type="text"
           :class="{ 'p-invalid': required && !pesquisador.instituicao }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !pesquisador.instituicao">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="setor">Setor</label>
@@ -25,6 +37,12 @@
           id="setor"
           type="text"
           :class="{ 'p-invalid': required && !pesquisador.setor }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !pesquisador.setor">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12 md:col-6">
         <label for="pos">Pos</label>
@@ -41,6 +59,12 @@
           id="email"
           type="text"
           :class="{ 'p-invalid': required && !pesquisador.email }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !pesquisador.email">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label class="mb-3">É orientador?</label>
@@ -50,7 +74,8 @@
               id="orientador1"
               name="orientador"
               :value="true"
-              v-model="pesquisador.orientador" />
+              v-model="pesquisador.orientador"
+              :class="{ 'p-invalid': required && !pesquisador.orientador }" />
             <label for="orientador1">Sim</label>
           </div>
           <div class="field-radiobutton col-6">
@@ -58,10 +83,17 @@
               id="orientador2"
               name="orientador"
               :value="false"
-              v-model="pesquisador.orientador" />
+              v-model="pesquisador.orientador"
+              :class="{ 'p-invalid': required && !pesquisador.orientador }" />
             <label for="orientador2">Não</label>
           </div>
         </div>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !pesquisador.orientador">
+          Campo Obrigatório
+        </small>
       </div>
 
       <div v-if="!newData" class="col-12 grid">

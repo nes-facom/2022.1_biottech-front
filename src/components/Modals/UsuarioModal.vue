@@ -31,6 +31,12 @@
           type="text"
           autofocus
           :class="{ 'p-invalid': required && !usuario.name }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !usuario.name">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label for="email">Email</label>
@@ -39,6 +45,12 @@
           id="email"
           type="text"
           :class="{ 'p-invalid': required && !usuario.username }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !usuario.username">
+          Campo Obrigatório
+        </small>
       </div>
       <div v-if="newData" class="field col-12">
         <label for="password">Senha</label>
@@ -48,6 +60,12 @@
           :feedback="false"
           toggleMask
           :class="{ 'p-invalid': required && !usuario.password }" />
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !usuario.password">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="field col-12">
         <label class="mb-3">Permisssões</label>
@@ -77,6 +95,12 @@
             <label for="comum">Comum</label>
           </div>
         </div>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !(typeof this.usuario.type !== 'undefined')">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="col-12">
         <Button
@@ -150,20 +174,23 @@ export default {
             this.showToast(
               'success',
               'Cadastrado com Sucesso',
-              'Usuário cadastrado com sucesso'
+              'Usuário cadastrado com sucesso',
+              true
             ),
           (error) => {
             if (error.response) {
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                error.response.data.message
+                error.response.data.message,
+                true
               )
             } else {
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                'Tente novamente mais tarde.'
+                'Tente novamente mais tarde.',
+                true
               )
             }
           }
@@ -175,20 +202,23 @@ export default {
             this.showToast(
               'success',
               'Editado com Sucesso',
-              'Usuário edição com sucesso'
+              'Usuário edição com sucesso',
+              true
             ),
           (error) => {
             if (error.response) {
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                error.response.data.message
+                error.response.data.message,
+                true
               )
             } else {
               this.showToast(
                 'error',
                 'Tivemos um Problema',
-                'Tente novamente mais tarde.'
+                'Tente novamente mais tarde.',
+                true
               )
             }
           }

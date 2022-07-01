@@ -8,6 +8,9 @@
           id="nome"
           type="text"
           :class="{ 'p-invalid': required && !value }" />
+        <small style="color: red" class="p-invalid" v-if="required && !value">
+          Campo Obrigatório
+        </small>
       </div>
       <div v-if="title == 'Sala'" class="field col-12">
         <label for="nome">Linhagens</label>
@@ -31,6 +34,12 @@
             <div>{{ slotProps.option.nome_linhagem }}</div>
           </template>
         </MultiSelect>
+        <small
+          style="color: red"
+          class="p-invalid"
+          v-if="required && !listObj.linhagens">
+          Campo Obrigatório
+        </small>
       </div>
       <div class="col-12">
         <Button
