@@ -148,19 +148,21 @@ export default {
           window.navigator.standalone === true
         ) {
         } else {
-          $(document).Toasts('create', {
-            class: 'bg-info',
-            title: 'ATENÇÃO',
-            position: 'bottomRight',
-            body: 'Instale este aplicativo no seu Iphone: Clique na guia <img style="width: 25px;" src="icon/icon-iphone.jpg" alt=""> e depois em "Adicionar à Tela Início".'
+          this.$toast.add({
+            severity: 'warn',
+            summary: 'ATENÇÃO',
+            detail:
+              'Instale este aplicativo no seu Iphone: Clique em "Adicionar à Tela Inícial".',
+            life: 3000
           })
         }
       } else {
-        $(document).Toasts('create', {
-          class: 'bg-info',
-          title: 'ATENÇÃO',
-          position: 'bottomRight',
-          body: 'Para instalar o APP no Android, Windows ou Mac OS é necessário entrar nesse site usando um navegador Google Chrome, para instalar no Iphone, use o navegador Safari.'
+        this.$toast.add({
+          severity: 'warn',
+          summary: 'ATENÇÃO',
+          detail:
+            'Para instalar o APP no Android, Windows ou Mac OS é necessário entrar nesse site usando um navegador Google Chrome, para instalar no Iphone, use o navegador Safari.',
+          life: 3000
         })
       }
     }
