@@ -137,6 +137,7 @@
 
 <script>
 import CaixaService from '../../service/CaixaService'
+import LinhagemService from '../../service/LinhagemService'
 import PedidoService from '../../service/PedidoService'
 
 export default {

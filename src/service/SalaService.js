@@ -9,6 +9,34 @@ class SalaService {
     return columns
   }
 
+  async #getSalas() {
+    return axios.get(
+      `${API_ENDPOINT}/sala/getSalas.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getSalasInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/sala/getSalas.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getSalasConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getSalasInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getSalaHeaders())
+      )
+    } else {
+      this.#getSalas().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getSalaHeaders())
+      )
+    }
+  }
+
   getSalas(onFetch, onError) {
     axios
       .get(
@@ -35,17 +63,13 @@ class SalaService {
 
   saveSala(sala, onSave, onError) {
     axios
-      .post(
-        `${API_ENDPOINT}/sala/addSala.json`,
-        sala,
-        this.buildAuthHeader()
-      )
+      .post(`${API_ENDPOINT}/sala/addSala.json`, sala, this.buildAuthHeader())
       .then(() => onSave())
       .catch((e) => onError(e))
   }
 
   editSala(sala, onSave, onError) {
-   axios
+    axios
       .put(
         `${API_ENDPOINT}/sala/editSala.json?id=${sala.id}`,
         sala.name,

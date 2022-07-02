@@ -51,47 +51,113 @@ const routes = [
           {
             path: '/config/linhagem',
             name: 'Linhagem',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+            children: [
+              {
+                path: '/config/linhagem/desativado',
+                name: 'Linhagem',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/sala',
             name: 'Sala',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+            children: [
+              {
+                path: '/config/sala/desativado',
+                name: 'Sala',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/linhapesquisa',
             name: 'Linha de Pesquisa',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+            children: [
+              {
+                path: '/config/linhapesquisa/desativado',
+                name: 'Linha de Pesquisa',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/insti',
             name: 'Vínculo Institucional',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+            children: [
+              {
+                path: '/config/insti/desativado',
+                name: 'Vínculo Institucional',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/proj',
             name: 'Projeto',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+            children: [
+              {
+                path: '/config/proj/desativado',
+                name: 'Projeto',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/lab',
             name: 'Laboratório',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+            children: [
+              {
+                path: '/config/lab/desativado',
+                name: 'Laboratório',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/nivelpesquisa',
             name: 'Nível de Pesquisa',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+
+            children: [
+              {
+                path: '/config/nivelpesquisa/desativado',
+                name: 'Nível de Pesquisa',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/especie',
             name: 'Espécie',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+
+            children: [
+              {
+                path: '/config/especie/desativado',
+                name: 'Espécie',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           },
           {
             path: '/config/finalidade',
             name: 'Finalidade',
-            component: () => import('./components/SimpleTable.vue')
+            component: () => import('./components/SimpleTable.vue'),
+
+            children: [
+              {
+                path: '/config/finalidade/desativado',
+                name: 'Finalidade',
+                component: () => import('./components/SimpleTable.vue')
+              }
+            ]
           }
         ]
       },

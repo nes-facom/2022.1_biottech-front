@@ -9,6 +9,34 @@ class LinhagemService {
     return columns
   }
 
+  async #getLinhagem() {
+    return axios.get(
+      `${API_ENDPOINT}/linhagem/getLinhagens.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getLinhagemInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/linhagem/getLinhagens.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getLinhagemConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getLinhagemInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getLinhagemHeaders())
+      )
+    } else {
+      this.#getLinhagem().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getLinhagemHeaders())
+      )
+    }
+  }
+
   getLinhagem(onFetch, onError) {
     axios
       .get(

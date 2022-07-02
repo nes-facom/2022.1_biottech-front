@@ -102,8 +102,8 @@ class GetTablesService {
         onFetch,
         onHeaders
       )
-    } else if (window.location.href.includes('/a')) {
-      PedidoService.getPedidos(
+    } else if (window.location.href.includes('/config/linhagem')) {
+      LinhagemService.getLinhagemConfig(
         window.location.href.includes('/desativado'),
         page,
         searchString,
@@ -111,8 +111,71 @@ class GetTablesService {
         onFetch,
         onHeaders
       )
-    } else if (window.location.href.includes('/a')) {
-      PedidoService.getPedidos(
+    } else if (window.location.href.includes('/config/sala')) {
+      SalaService.getSalasConfig(
+        window.location.href.includes('/desativado'),
+        page,
+        searchString,
+        yearSelected,
+        onFetch,
+        onHeaders
+      )
+    } else if (window.location.href.includes('/config/linhapesquisa')) {
+      PedidoService.getLinhaPesquisasConfig(
+        window.location.href.includes('/desativado'),
+        page,
+        searchString,
+        yearSelected,
+        onFetch,
+        onHeaders
+      )
+    } else if (window.location.href.includes('/config/insti')) {
+      PedidoService.getVinculoInstitucionalConfig(
+        window.location.href.includes('/desativado'),
+        page,
+        searchString,
+        yearSelected,
+        onFetch,
+        onHeaders
+      )
+    } else if (window.location.href.includes('/config/proj')) {
+      PedidoService.getProjetosConfig(
+        window.location.href.includes('/desativado'),
+        page,
+        searchString,
+        yearSelected,
+        onFetch,
+        onHeaders
+      )
+    } else if (window.location.href.includes('/config/lab')) {
+      PedidoService.getLaboratoriosConfig(
+        window.location.href.includes('/desativado'),
+        page,
+        searchString,
+        yearSelected,
+        onFetch,
+        onHeaders
+      )
+    } else if (window.location.href.includes('/config/nivelpesquisa')) {
+      PedidoService.getNivelProjetosConfig(
+        window.location.href.includes('/desativado'),
+        page,
+        searchString,
+        yearSelected,
+        onFetch,
+        onHeaders
+      )
+    } else if (window.location.href.includes('/config/especie')) {
+      PedidoService.getEspeciesConfig(
+        window.location.href.includes('/desativado'),
+        page,
+        searchString,
+        yearSelected,
+        onFetch,
+        onHeaders
+      )
+    } else if (window.location.href.includes('/config/finalidade')) {
+      PedidoService.getFinalidadesConfig(
         window.location.href.includes('/desativado'),
         page,
         searchString,

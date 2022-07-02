@@ -216,6 +216,201 @@ class PedidoService {
       onHeaders(this.getPedidoHeadersTable())
     )
   }
+  async #getVinculoInstitucional() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getVinculoInstitucionais.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getVinculoInstitucionalInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getVinculoInstitucionais.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getVinculoInstitucionalConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getVinculoInstitucionalInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getVinculoInstitucionalHeaders())
+      )
+    } else {
+      this.#getVinculoInstitucional().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getVinculoInstitucionalHeaders())
+      )
+    }
+  }
+
+  async #getProjetos() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getProjetos.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getProjetosInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getProjetos.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getProjetosConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getProjetosInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getProjetosHeaders())
+      )
+    } else {
+      this.#getProjetos().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getProjetosHeaders())
+      )
+    }
+  }
+
+  async #getEspecies() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getEspecies.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getEspeciesInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getEspecies.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getEspeciesConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getEspeciesInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getEspeciesHeaders())
+      )
+    } else {
+      this.#getEspecies().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getEspeciesHeaders())
+      )
+    }
+  }
+
+  async #getLinhaPesquisas() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getLinhaPesquisas.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getLinhaPesquisasInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getLinhaPesquisas.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getLinhaPesquisasConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getLinhaPesquisasInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getLinhaPesquisaHeaders())
+      )
+    } else {
+      this.#getLinhaPesquisas().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getLinhaPesquisaHeaders())
+      )
+    }
+  }
+
+  async #getNivelProjetos() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getNivelProjetos.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getNivelProjetosInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getNivelProjetos.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getNivelProjetosConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getNivelProjetosInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getNivelProjetoHeaders())
+      )
+    } else {
+      this.#getNivelProjetos().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getNivelProjetoHeaders())
+      )
+    }
+  }
+
+  async #getLaboratorios() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getLaboratorios.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getLaboratoriosInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getLaboratorios.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getLaboratoriosConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getLaboratoriosInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getLaboratoriosHeaders())
+      )
+    } else {
+      this.#getLaboratorios().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getLaboratoriosHeaders())
+      )
+    }
+  }
+
+  async #getFinalidades() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getFinalidades.json?active=true&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  async #getFinalidadesInactive() {
+    return axios.get(
+      `${API_ENDPOINT}/pedido/getFinalidades.json?active=false&search=`,
+      this.buildAuthHeader()
+    )
+  }
+
+  getFinalidadesConfig(disable, page, search, year, onFetch, onHeaders) {
+    if (disable) {
+      this.#getFinalidadesInactive().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getFinalidadesHeaders())
+      )
+    } else {
+      this.#getFinalidades().then(
+        (response) => onFetch(response.data),
+        onHeaders(this.getFinalidadesHeaders())
+      )
+    }
+  }
 
   getVinculoInstitucional(onFetch) {
     axios

@@ -40,13 +40,14 @@
           <template #empty> Sem registros na tabela </template>
           <template #loading> Carregando... </template>
           <Column
+            style="white-space: normal"
             v-for="col of this.headers"
             :key="col.field"
             :field="col.field"
             :header="col.header"
-            headerStyle="min-width:30rem">
+            headerStyle="min-width:30rem;">
           </Column>
-          <Column>
+          <Column v-if="!this.viewOnly">
             <template #body="slotProps">
               <div class="flex justify-content-center gap-2">
                 <Button
@@ -57,6 +58,18 @@
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-danger"
                   @click="confirmDeleteRecord(slotProps.data)" />
+              </div>
+            </template>
+          </Column>
+
+          <!-- ICONE PARA ATIVAR -->
+          <Column v-if="this.viewOnly" headerStyle="min-width:10rem;">
+            <template #body="slotProps">
+              <div class="flex justify-content-center gap-2">
+                <Button
+                  icon="pi pi-plus"
+                  class="p-button-rounded p-button-success"
+                  @click="confirmActiveRecord(slotProps.data)" />
               </div>
             </template>
           </Column>
@@ -97,15 +110,44 @@
             </div>
             <template #footer>
               <Button
-                label="Não"
-                icon="pi pi-times"
-                class="p-button-text"
-                @click="deleteDataDialog = false" />
-              <Button
                 label="Sim"
                 icon="pi pi-check"
                 class="p-button-text"
                 @click="deleteData" />
+              <Button
+                label="Não"
+                icon="pi pi-times"
+                class="p-button-text"
+                @click="deleteDataDialog = false" />
+            </template>
+          </Dialog>
+
+          <!-- MODAL DE ALERTA DE ATIVAÇÃO -->
+          <Dialog
+            v-model:visible="activeDataDialog"
+            :style="{ width: '450px' }"
+            header="Alerta"
+            :modal="true">
+            <div class="flex align-items-center justify-content-center">
+              <i
+                class="pi pi-exclamation-triangle mr-3"
+                style="font-size: 2rem" />
+              <span v-if="value"
+                >Tem certeza que deseja ativar <b>{{ value.nome }}</b
+                >?</span
+              >
+            </div>
+            <template #footer>
+              <Button
+                label="Sim"
+                icon="pi pi-check"
+                class="p-button-text"
+                @click="activeData" />
+              <Button
+                label="Não"
+                icon="pi pi-times"
+                class="p-button-text"
+                @click="activeDataDialog = false" />
             </template>
           </Dialog>
         </DataTable>
@@ -121,6 +163,7 @@ import SalaService from '../service/SalaService'
 import ListsModal from './Modals/ListsModal.vue'
 import ActiveAndDisableService from '../service/ActiveAndDisableService'
 import PedidoService from '../service/PedidoService'
+import GetTablesService from '../service/GetTablesService'
 
 export default {
   data() {
@@ -129,6 +172,7 @@ export default {
       value: {},
       dataDialog: false,
       deleteDataDialog: false,
+      activeDataDialog: false,
       newData: false,
       headers: null,
       route: null,
@@ -136,10 +180,10 @@ export default {
       filters: null,
       loading: true,
       searchString: null,
+      viewOnly: window.location.href.includes('/desativado'),
       page: 1
     }
   },
-  entityService: null,
   created() {
     this.route = this.$route.path
     this.title = this.$route.name
@@ -150,14 +194,6 @@ export default {
     this.loading = false
   },
   methods: {
-    prev() {
-      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
-      // renderizar botão apenas se n for a primeira pag
-    },
-    next() {
-      //TODO: ADICIONAR MÉTODO PARA PAG ANTERIOR
-      // renderizar botão apenas se n for a última pag
-    },
     closeModalSave() {
       this.hideDialog()
       this.getMethod()
@@ -174,6 +210,10 @@ export default {
     confirmDeleteRecord(value) {
       this.value = value
       this.deleteDataDialog = true
+    },
+    confirmActiveRecord(value) {
+      this.value = value
+      this.activeDataDialog = true
     },
     edit(entityData) {
       this.value = { ...entityData }
@@ -206,9 +246,31 @@ export default {
         }
       )
     },
-    search() {
-      //TODO: método de busca
-      this.searchString = ''
+    activeData() {
+      ActiveAndDisableService.activeAndDisable(
+        this.value.id,
+        true,
+        (success) => {
+          if (success) {
+            this.values = this.values.filter((val) => val.id != this.value.id)
+            this.activeDataDialog = false
+            this.value = {}
+            this.$toast.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Registro Ativado',
+              life: 4000
+            })
+          } else {
+            this.$toast.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Ocorreu um erro. Por favor, tente novamente mais tarde.',
+              life: 4000
+            })
+          }
+        }
+      )
     },
     findIndexById(id) {
       let index = -1
@@ -221,7 +283,17 @@ export default {
       return index
     },
     getMethod() {
-      if (this.route == '/config/linhagem') {
+      if (!this.viewOnly || this.viewOnly) {
+        GetTablesService.getTables(
+          null,
+          null,
+          null,
+          (datas) => (this.values = datas),
+          (headers) => (this.headers = headers)
+        )
+      }
+
+      /*if (this.route == '/config/linhagem') {
         LinhagemService.getLinhagem(
           (datas) => (this.values = datas),
           (error) => {
@@ -401,7 +473,7 @@ export default {
           }
         )
         this.headers = PedidoService.getFinalidadesHeaders()
-      }
+      }*/
     },
     initFilters() {
       this.filters = {

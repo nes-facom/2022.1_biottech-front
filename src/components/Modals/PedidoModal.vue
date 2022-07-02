@@ -554,6 +554,7 @@
 </template>
 
 <script>
+import LinhagemService from '../../service/LinhagemService'
 import PedidoService from '../../service/PedidoService'
 
 export default {
@@ -600,8 +601,6 @@ export default {
     PedidoService.getLaboratorios((datas) => (this.laboratorios = datas))
 
     PedidoService.getFinalidades((datas) => (this.finalidades = datas))
-
-    PedidoService.getLinhagens((datas) => (this.linhagens = datas))
 
     PedidoService.getLinhagens((datas) => (this.linhagens = datas))
 
