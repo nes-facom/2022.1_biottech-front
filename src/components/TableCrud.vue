@@ -76,6 +76,7 @@
           <template #loading> Carregando... </template>
 
           <Column
+            style="white-space: normal"
             v-for="col of this.headers"
             :key="col.field"
             :field="col.field"
