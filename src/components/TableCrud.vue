@@ -448,8 +448,6 @@ export default {
       }
     },
     clearSearch() {
-      console.log(this.values)
-      console.log(this.headers)
       this.searchString = ''
       this.getMethod()
     },
@@ -467,7 +465,6 @@ export default {
       this.dataDialog = false
     },
     edit(entityData) {
-      console.log(entityData)
       this.value = { ...entityData }
       this.dataDialog = true
     },

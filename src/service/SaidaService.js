@@ -101,8 +101,6 @@ class SaidaService {
       delete saida.previsao
     }
 
-    console.log(saida)
-
     axios
       .put(
         `${API_ENDPOINT}/saida/editSaida.json?id=${saida.id}`,

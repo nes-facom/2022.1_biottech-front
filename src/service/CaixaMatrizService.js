@@ -109,7 +109,6 @@ class CaixaMatrizService {
           )
       }
     }
-    console.log(data)
     return data
   }
 
@@ -255,7 +254,6 @@ class CaixaMatrizService {
     data = JSON.parse(JSON.stringify(data))
     for (var i = 0; i < data.length; i++) {
       for (var y = 0; y < data[i].caixa.length; y++) {
-        console.log(data[i].caixa[y])
         if (data[i].caixa[y].sexo == 'macho') {
           data[i].caixa_macho = data[i].caixa[y].caixa_numero
           data[i].peso_macho = data[i].caixa[y]._joinData.peso

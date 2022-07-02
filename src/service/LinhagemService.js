@@ -64,8 +64,6 @@ class LinhagemService {
   saveLinhagem(nome_linhagem, onSave, onError) {
     var linhagem = {}
     linhagem.nome_linhagem = nome_linhagem
-
-    console.log(nome_linhagem)
     axios
       .post(
         `${API_ENDPOINT}/linhagem/addLinhagem.json`,

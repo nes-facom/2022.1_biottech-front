@@ -620,7 +620,6 @@ export default {
       this.saveButtonDisabled = true
       this.required = true
       if (this.pedido.titulo && this.pedido.exper) {
-        console.log('entrou')
         if (this.newData) {
           PedidoService.savePedido(
             this.pedido,
@@ -649,7 +648,6 @@ export default {
             }
           )
         } else {
-          console.log('entrou')
           PedidoService.editPedido(
             this.pedido,
             () =>

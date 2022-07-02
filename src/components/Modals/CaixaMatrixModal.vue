@@ -167,7 +167,6 @@ export default {
         typeof this.caixa_matriz.caixa !== 'undefined' &&
         this.caixa_matriz.caixa.length > 0
       ) {
-        console.log('entrou')
         var caixaEdit = {}
         this.caixa_matriz.caixa.forEach((element) => {
           caixaEdit.caixa_numero = element.caixa_numero
@@ -177,7 +176,6 @@ export default {
         })
       }
     }
-    console.log(this.caixasOrigem)
   },
   methods: {
     showToast(severity, summary, detail, close) {
@@ -223,7 +221,6 @@ export default {
           }
         )
       } else if (this.caixa_matriz.id && checked_fields) {
-        console.log(this.caixasOrigem)
         CaixaMatrizService.editCaixaMatriz(
           this.caixa_matriz,
           this.caixasOrigem,

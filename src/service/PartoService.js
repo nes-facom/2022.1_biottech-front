@@ -26,7 +26,6 @@ class Parto {
   }
 
   getPartos(disable, page, search, year, onFetch, onHeaders) {
-    console.log(disable)
     if (disable) {
       this.#getPartoInactive(search, page, year).then(
         (response) =>
@@ -76,7 +75,6 @@ class Parto {
 
   editParto(parto, onSave, onError) {
     parto = JSON.parse(JSON.stringify(parto))
-    console.log(parto)
     if (parto.data_parto.includes('/')) {
       var newdata = parto.data_parto.split('/')
       parto.data_parto = newdata[2] + '-' + newdata[1] + '-' + newdata[0]
