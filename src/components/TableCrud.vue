@@ -83,13 +83,14 @@
             headerStyle="width:20%; min-width:8rem;">
             <!-- RENDERIZAÇÃO CONDICIONAL CASO A ENTIDADE POSSUA ATRIBUTO TELEFONE -->
             <template #body="slotProps" v-if="col.field === 'telefones'">
-              <Textarea
-                :value="getTel(slotProps.data.telefones)"
-                :autoResize="true"
-                rows="2"
-                cols="15"
-                disabled
-                style="color: black" />
+              <div>
+                <InputText
+                  v-for="telefones in slotProps.data.telefones"
+                  id="tel"
+                  type="text"
+                  :value="telefones.telefone"
+                  disabled />
+              </div>
             </template>
             <!-- RENDERIZAÇÃO CONDICIONAL CASO A ENTIDADE SEJA USUÁRIOS E A COLUNA SEJA TYPE -->
             <template
@@ -511,9 +512,6 @@ export default {
         }
       }
       return index
-    },
-    getTel(obj) {
-      return Util.formatPhones(obj)
     },
     search() {
       this.getMethod()
