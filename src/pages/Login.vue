@@ -152,8 +152,8 @@ export default {
             severity: 'warn',
             summary: 'ATENÇÃO',
             detail:
-              'Instale este aplicativo no seu Iphone: Clique em "Adicionar à Tela Inícial".',
-            life: 3000
+              'Para instalar o aplicativo no seu Iphone: Clique em "Adicionar à Tela Inícial".',
+            life: 8000
           })
         }
       } else {
@@ -162,7 +162,7 @@ export default {
           summary: 'ATENÇÃO',
           detail:
             'Para instalar o APP no Android, Windows ou Mac OS é necessário entrar nesse site usando um navegador Google Chrome, para instalar no Iphone, use o navegador Safari.',
-          life: 3000
+          life: 8000
         })
       }
     }
