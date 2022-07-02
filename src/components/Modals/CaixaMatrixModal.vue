@@ -167,8 +167,8 @@ export default {
         typeof this.caixa_matriz.caixa !== 'undefined' &&
         this.caixa_matriz.caixa.length > 0
       ) {
-        var caixaEdit = {}
         this.caixa_matriz.caixa.forEach((element) => {
+          var caixaEdit = {}
           caixaEdit.caixa_numero = element.caixa_numero
           caixaEdit.peso = element._joinData.peso
 
