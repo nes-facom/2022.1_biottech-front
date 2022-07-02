@@ -64,7 +64,7 @@
               <label for="caixa_numero"> N° Caixa </label>
             </span>
           </div>
-          <div class="field col-6">
+          <div class="field col-4">
             <span class="p-float-label">
               <InputNumber
                 id="caixa_peso"
@@ -74,6 +74,12 @@
                 v-model="caixa.peso" />
               <label for="caixa_peso"> Peso </label>
             </span>
+          </div>
+          <div class="field col-2">
+            <Button
+              @click="delCaixa(caixa)"
+              icon="pi pi-times"
+              class="p-button-danger mt-2" />
           </div>
         </div>
       </div>
